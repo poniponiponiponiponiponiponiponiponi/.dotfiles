@@ -1,7 +1,12 @@
+# aliases
 alias pwninit="pwninit --template-path=/home/tabun-dareka/.config/pwninit_template.py"
+alias pyc="ipython --profile=ctf"
+alias py="ipython"
+
 source "$HOME/.cargo/env"
 # If you come from bash you might have to change your $PATH.
 export PATH=:$PATH:$HOME/bin:/usr/local/bin:$HOME/.local/bin:$HOME/.local/share/gem/ruby/3.0.0/bin
+export IPYTHONDIR=~/.config/ipython
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
