@@ -4,10 +4,11 @@ DOTFILES_PATH="$HOME/.dotfiles"
 
 mkdir -p ~/.config
 mkdir -p ~/.config/mpv
+mkdir -p ~/.config/tmux
 
 ln -sf "$DOTFILES_PATH/mpv.conf" ~/.config/mpv/mpv.conf
 ln -sf "$DOTFILES_PATH/pwninit_template.py" ~/.config/pwninit_template.py
-ln -sf "$DOTFILES_PATH/tmux.conf" ~/.config/tmux.conf
+ln -sf "$DOTFILES_PATH/tmux.conf" ~/.config/tmux/tmux.conf
 ln -sf "$DOTFILES_PATH/alacritty.yml" ~/.config/alacritty.yml
 ln -sf "$DOTFILES_PATH/zshrc" ~/.zshrc
 ln -sf "$DOTFILES_PATH/nvim-config" ~/.config/nvim
