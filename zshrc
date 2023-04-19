@@ -1,5 +1,8 @@
 # aliases
-alias pwninit="pwninit --template-path=/home/tabun-dareka/.config/pwninit_template.py"
+alias pwninit="pwninit --template-path=$HOME/.config/pwninit_template.py"
+alias v="nvim"
+alias vi="nvim"
+alias vim="nvim"
 alias pyc="ipython --profile=ctf"
 alias py="ipython"
 
