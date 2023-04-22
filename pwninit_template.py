@@ -16,7 +16,7 @@ def conn():
             io = gdb.debug({proc_args})
         else:
             io = process({proc_args})
-            #gdb.attach(r)
+            #gdb.attach(io)
     return io
 
 
