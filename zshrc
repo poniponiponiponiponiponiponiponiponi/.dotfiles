@@ -3,8 +3,14 @@ alias pwninit="pwninit --template-path=$HOME/.config/pwninit_template.py"
 alias v="nvim"
 alias vi="nvim"
 alias vim="nvim"
-alias pyc="ipython --profile=ctf"
-alias py="ipython"
+alias ipyc="ipython --profile=ctf"
+alias ipy="ipython"
+
+export QT_QPA_PLATFORMTHEME=qt5ct
+export QT_QPA_PLATFORM=wayland
+export GDK_BACKEND=wayland
+export MOZ_ENABLE_WAYLAND=1
+export _JAVA_AWT_WM_NONREPARENTING=1
 
 source "$HOME/.cargo/env"
 # If you come from bash you might have to change your $PATH.
