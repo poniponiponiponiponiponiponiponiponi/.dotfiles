@@ -12,6 +12,7 @@ ln -sf "$DOTFILES_PATH/tmux.conf" ~/.config/tmux/tmux.conf
 ln -sf "$DOTFILES_PATH/alacritty.yml" ~/.config/alacritty.yml
 ln -sf "$DOTFILES_PATH/zshrc" ~/.zshrc
 ln -sf "$DOTFILES_PATH/nvim-config" ~/.config/nvim
+ln -sf "$DOTFILES_PATH/sway_config" ~/.config/i3/config
 
 if command -v ipython &> /dev/null
 then
