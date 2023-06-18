@@ -1,0 +1,22 @@
+theme = "gruvbox"
+
+[editor]
+line-number = "relative"
+cursorline = true
+cursorcolumn = true
+indent-guides.render = true
+idle-timeout = 150
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[keys.insert]
+"C-f" = ["move_char_right"]
+"C-b" = ["move_char_left"]
+"A-f" = ["move_next_word_start"]
+"A-b" = ["move_prev_word_start"]
+"C-n" = ["move_line_down"]
+"C-p" = ["move_line_up"]
+
