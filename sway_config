@@ -6,13 +6,14 @@ font pango:DejaVuSansM Nerd Font 10
 # https://wiki.archlinux.org/index.php/XDG_Autostart
 exec --no-startup-id dex --autostart --environment i3
 
+exec --no-startup-id setxkbmap -option ctrl:nocaps
+exec --no-startup-id dunst
+exec --no-startup-id feh --bg-fill ~/Pictures/pepper1.jpg
+
 exec export _JAVA_AWT_WM_NONREPARENTING=1
 exec systemctl --user import-environment
 
-exec --no-startup-id /usr/lib/clipmon
-
-bindsym Alt+Tab workspace next
-bindsym $mod+Tab workspace prev
+bindsym $mod+Tab workspace back_and_forth
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
@@ -49,7 +50,8 @@ bindsym $mod+Return exec $term
 
 bindsym $mod+q kill
 
-bindsym $mod+d exec --no-startup-id  fuzzel -b 282828ff -t ffffffff -s 689d68ff -S 1d2021ff -m b16286ff -M b16286ff -B 0 -r 0
+#bindsym $mod+d exec --no-startup-id  fuzzel -b 282828ff -t ffffffff -s 689d68ff -S 1d2021ff -m b16286ff -M b16286ff -B 0 -r 0
+bindsym $mod+d exec --no-startup-id  dmenu_run
 
 bindsym $mod+h focus left
 bindsym $mod+j focus down
@@ -115,7 +117,10 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
-bindsym Print exec grim -g "$(slurp)" - -t png | swappy -f -
+#bindsym Print exec grim -g "$(slurp)" - -t png | swappy -f -
+bindsym Ctrl+Print exec --no-startup-id maim | xclip -selection clipboard -t image/png
+bindsym Ctrl+$mod+Print exec --no-startup-id maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
+bindsym Ctrl+Shift+Print exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
 
 mode "resize" {
         bindsym h resize shrink width 10 px or 10 ppt
@@ -179,19 +184,19 @@ client.urgent           $red $red $white $red $red
 #end of window title bars & borders section
 
 # or input <identifier>
-input "type:keyboard" {
-    xkb_options ctrl:nocaps
-}
-
-input type:mouse {
-	accel_profile "flat"
-	pointer_accel 0
-	natural_scroll disabled
-}
-
-input type:touchpad {
-	tap disable
-	natural_scroll disabled
-	dwt enabled
-	middle_emulation enabled
-}
+#input "type:keyboard" {
+#    xkb_options ctrl:nocaps
+#}
+#
+#input type:mouse {
+#	accel_profile "flat"
+#	pointer_accel 0
+#	natural_scroll disabled
+#}
+#
+#input type:touchpad {
+#	tap disable
+#	natural_scroll disabled
+#	dwt enabled
+#	middle_emulation enabled
+#}
