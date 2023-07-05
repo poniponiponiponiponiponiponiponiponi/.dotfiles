@@ -53,6 +53,8 @@ fi
 if command -v git &> /dev/null
 then
     git config --global pager.branch false
+    git config --global user.name "tabun-dareka"
+    git config --global user.email "tabun.dareka@protonmail.com"
 else
     echo "NO GIT DETECTED"
 fi
