@@ -1,10 +1,10 @@
 dpi:
-  x: 96.0
-  y: 96.0
+  x: 192.0
+  y: 192.0
 
 font:
   normal:
-    family: DejaVuSansM Nerd Font
+    family: DejaVu Sans Mono
   size: 10.0
   offset:
     x: 0

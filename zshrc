@@ -1,11 +1,3 @@
-# aliases
-alias pwninit="pwninit --template-path=$HOME/.config/pwninit_template.py"
-alias v="nvim"
-alias vi="nvim"
-alias vim="nvim"
-alias ipyc="ipython --profile=ctf"
-alias ipy="ipython"
-
 #export QT_QPA_PLATFORMTHEME=qt5ct
 #export QT_QPA_PLATFORM=wayland
 #export GDK_BACKEND=wayland
@@ -115,3 +107,14 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+unalias l
+
+alias l='exa -lah'
+# aliases
+alias pwninit="pwninit --template-path=$HOME/.config/pwninit_template.py"
+alias v="nvim"
+alias vi="nvim"
+alias vim="nvim"
+alias ipyc="ipython --profile=ctf"
+alias ipy="ipython"
+
