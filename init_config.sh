@@ -1,6 +1,29 @@
-#!/bin/sh
+#!/bin/bash
 
 DOTFILES_PATH="$HOME/.dotfiles"
+
+if [[ "`uname -a`" == *"fedora"* ]]; then
+    sudo dnf copr enable gourlaysama/dust
+    sudo dnf install \
+        https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+        https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+    sudo dnf update -y
+    sudo dnf install rofi neovim wine xclip gcc exa ripgrep dust fd-find zsh \
+        alacritty tmux mpv ipython python3 gdb make cmake g++ dejavu-fonts-all \
+        ruby gem java-17-openjdk-devel java-17-openjdk clang-tools-extra \
+        xz-devel openssl-devel fontawesome-fonts acpi i3blocks feh dunst
+
+    # codecs
+    sudo dnf install gstreamer1-plugins-{bad-\*,good-\*,base} \
+        gstreamer1-plugin-openh264 gstreamer1-libav \
+        --exclude=gstreamer1-plugins-bad-free-devel
+    sudo dnf install lame\* --exclude=lame-devel
+    sudo dnf group upgrade --with-optional Multimedia --allowerasing
+fi
+
+pip install --upgrade pip
+pip install --upgrade pwntools
+gem install one_gadget
 
 mkdir -p ~/.config
 mkdir -p ~/.config/mpv
