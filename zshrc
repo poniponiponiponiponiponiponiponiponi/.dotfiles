@@ -108,14 +108,14 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-unalias l
 
-alias l='exa -lah'
 # aliases
+alias l='exa -lah'
 alias pwninit="pwninit --template-path=$HOME/.config/pwninit_template.py"
 alias v="nvim"
 alias vi="nvim"
 alias vim="nvim"
 alias ipyc="ipython --profile=ctf"
 alias ipy="ipython"
+alias ls="exa"
 
