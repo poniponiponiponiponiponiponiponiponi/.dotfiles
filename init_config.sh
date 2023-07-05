@@ -11,7 +11,8 @@ if [[ "`uname -a`" == *"fedora"* ]]; then
     sudo dnf install rofi neovim wine xclip gcc exa ripgrep dust fd-find zsh \
         alacritty tmux mpv ipython python3 gdb make cmake g++ dejavu-fonts-all \
         ruby gem java-17-openjdk-devel java-17-openjdk clang-tools-extra \
-        xz-devel openssl-devel fontawesome-fonts acpi i3blocks feh dunst
+        xz-devel openssl-devel fontawesome-fonts acpi i3blocks feh dunst \
+        deluge-gtk rust-analyzer lxappearance htop curl wget
 
     # codecs
     sudo dnf install gstreamer1-plugins-{bad-\*,good-\*,base} \
@@ -38,6 +39,11 @@ ln -sf "$DOTFILES_PATH/alacritty.yml" ~/.config/alacritty.yml
 ln -sf "$DOTFILES_PATH/zshrc" ~/.zshrc
 ln -sf "$DOTFILES_PATH/nvim-config" ~/.config/nvim
 ln -sf "$DOTFILES_PATH/sway_config" ~/.config/i3/config
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source "$HOME/.cargo/env"
+rustup component add rustfmt
+rustup component add clippy
 
 if command -v ipython &> /dev/null
 then
