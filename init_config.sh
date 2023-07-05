@@ -55,6 +55,7 @@ then
     git config --global pager.branch false
     git config --global user.name "tabun-dareka"
     git config --global user.email "tabun.dareka@protonmail.com"
+    git config --global credential.helper store
 else
     echo "NO GIT DETECTED"
 fi
