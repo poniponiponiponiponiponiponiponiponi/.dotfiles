@@ -38,8 +38,6 @@ ln -sf "$DOTFILES_PATH/alacritty.yml" ~/.config/alacritty.yml
 ln -sf "$DOTFILES_PATH/zshrc" ~/.zshrc
 ln -sf "$DOTFILES_PATH/nvim-config" ~/.config/nvim
 ln -sf "$DOTFILES_PATH/sway_config" ~/.config/i3/config
-ln -sf "$DOTFILES_PATH/language.toml" ~/.config/helix/language.toml
-ln -sf "$DOTFILES_PATH/config.toml" ~/.config/helix/config.toml
 
 if command -v ipython &> /dev/null
 then
