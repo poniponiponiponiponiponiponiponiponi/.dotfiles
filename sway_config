@@ -6,10 +6,10 @@ font pango:DejaVu Sans Mono 10
 # https://wiki.archlinux.org/index.php/XDG_Autostart
 exec --no-startup-id dex --autostart --environment i3
 
-exec --no-startup-id setxkbmap -option ctrl:nocaps
 exec --no-startup-id dunst
 exec --no-startup-id feh --bg-fill ~/Pictures/pepper1.jpg
 exec --no-startup-id setxkbmap pl
+exec --no-startup-id setxkbmap -option ctrl:nocaps
 
 exec export _JAVA_AWT_WM_NONREPARENTING=1
 exec systemctl --user import-environment
@@ -41,6 +41,10 @@ bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioPause exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
+
+# brightness
+bindsym XF86MonBrightnessDown exec light -U 10
+bindsym XF86MonBrightnessUp exec light -A 10
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
