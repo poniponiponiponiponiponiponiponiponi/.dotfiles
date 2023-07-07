@@ -12,7 +12,7 @@ if [[ "`uname -a`" == *"fedora"* ]]; then
         alacritty tmux mpv ipython python3 gdb make cmake g++ dejavu-fonts-all \
         ruby gem java-17-openjdk-devel java-17-openjdk clang-tools-extra \
         xz-devel openssl-devel fontawesome-fonts acpi i3blocks feh dunst \
-        deluge-gtk rust-analyzer lxappearance htop curl wget
+        deluge-gtk rust-analyzer lxappearance htop curl wget bat pip 
 
     # codecs
     sudo dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} \
@@ -22,15 +22,32 @@ if [[ "`uname -a`" == *"fedora"* ]]; then
     sudo dnf group upgrade -y --with-optional Multimedia --allowerasing
 fi
 
-pip install --upgrade pip
-pip install --upgrade pwntools
-gem install one_gadget
+declare -a commands=("ipython" "git" "gem" "pip" "python" "curl")
+for command in "${commands[@]}"
+do
+    if ! command -v "$command" &> /dev/null
+    then
+        echo "NO ${command} DETECTED. Please make sure you have everything" \
+            "installed before proceeding."
+        exit 1
+    fi
+done
 
 mkdir -p ~/.config
 mkdir -p ~/.config/mpv
 mkdir -p ~/.config/tmux
 mkdir -p ~/.config/i3
 mkdir -p ~/.config/helix
+mkdir -p ~/Projects
+mkdir -p ~/FOSS
+
+pip install --upgrade pip
+pip install --upgrade pwntools
+gem install one_gadget
+
+mkdir -p ~/FOSS/pwndbg
+git clone https://github.com/pwndbg/pwndbg ~/FOSS/pwndbg
+~/FOSS/pwndbg/setup.sh
 
 ln -sf "$DOTFILES_PATH/mpv.conf" ~/.config/mpv/mpv.conf
 ln -sf "$DOTFILES_PATH/pwninit_template.py" ~/.config/pwninit_template.py
@@ -45,21 +62,11 @@ source "$HOME/.cargo/env"
 rustup component add rustfmt
 rustup component add clippy
 
-if command -v ipython &> /dev/null
-then
-    ipython profile create ctf
-    mkdir -p ~/.config/ipython
-    ln -sf $DOTFILES_PATH/ctf_ipython_config.py ~/.config/ipython/profile_ctf/ipython_config.py
-else
-    echo "NO IPYTHON DETECTED"
-fi
+ipython profile create ctf
+mkdir -p ~/.config/ipython
+ln -sf $DOTFILES_PATH/ctf_ipython_config.py ~/.config/ipython/profile_ctf/ipython_config.py
 
-if command -v git &> /dev/null
-then
-    git config --global pager.branch false
-    git config --global user.name "tabun-dareka"
-    git config --global user.email "tabun.dareka@protonmail.com"
-    git config --global credential.helper store
-else
-    echo "NO GIT DETECTED"
-fi
+git config --global pager.branch false
+git config --global user.name "tabun-dareka"
+git config --global user.email "tabun.dareka@protonmail.com"
+git config --global credential.helper store
