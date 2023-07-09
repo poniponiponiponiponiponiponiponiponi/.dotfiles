@@ -15,7 +15,8 @@ if [[ "`uname -a`" == *"fedora"* ]]; then
         deluge-gtk rust-analyzer lxappearance htop curl wget bat pip patchelf \
         qemu-user qemu-user-static gcc-riscv64-linux-gnu \
         binutils-riscv64-linux-gnu gcc-aarch64-linux-gnu \
-        binutils-aarch64-linux-gnu
+        binutils-aarch64-linux-gnu \
+        texinfo readline-devel sqlite3 arc-theme
 
     # codecs
     sudo dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} \
@@ -45,12 +46,17 @@ mkdir -p ~/Projects
 mkdir -p ~/FOSS
 
 pip install --upgrade pip
-pip install --upgrade pwntools
+pip install pwntools
+pip install pyright
+pip install ropper
 gem install one_gadget
 
 mkdir -p ~/FOSS/pwndbg
 git clone https://github.com/pwndbg/pwndbg ~/FOSS/pwndbg
 ~/FOSS/pwndbg/setup.sh
+
+chsh -s $(which zsh)
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 ln -sf "$DOTFILES_PATH/mpv.conf" ~/.config/mpv/mpv.conf
 ln -sf "$DOTFILES_PATH/pwninit_template.py" ~/.config/pwninit_template.py
@@ -59,6 +65,13 @@ ln -sf "$DOTFILES_PATH/alacritty.yml" ~/.config/alacritty.yml
 ln -sf "$DOTFILES_PATH/zshrc" ~/.zshrc
 ln -sf "$DOTFILES_PATH/nvim-config" ~/.config/nvim
 ln -sf "$DOTFILES_PATH/sway_config" ~/.config/i3/config
+
+source ~/.zshrc
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+mkdir -p ~/FOSS/sig-database
+git clone https://github.com/push0ebp/sig-database ~/FOSS/sig-database
 
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source "$HOME/.cargo/env"
