@@ -12,7 +12,10 @@ if [[ "`uname -a`" == *"fedora"* ]]; then
         alacritty tmux mpv ipython python3 gdb make cmake g++ dejavu-fonts-all \
         ruby gem java-17-openjdk-devel java-17-openjdk clang-tools-extra \
         xz-devel openssl-devel fontawesome-fonts acpi i3blocks feh dunst \
-        deluge-gtk rust-analyzer lxappearance htop curl wget bat pip 
+        deluge-gtk rust-analyzer lxappearance htop curl wget bat pip patchelf \
+        qemu-user qemu-user-static gcc-riscv64-linux-gnu \
+        binutils-riscv64-linux-gnu gcc-aarch64-linux-gnu \
+        binutils-aarch64-linux-gnu
 
     # codecs
     sudo dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} \
