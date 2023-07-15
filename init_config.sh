@@ -16,7 +16,8 @@ if [[ "`uname -a`" == *"fedora"* ]]; then
         qemu-user qemu-user-static gcc-riscv64-linux-gnu \
         binutils-riscv64-linux-gnu gcc-aarch64-linux-gnu \
         binutils-aarch64-linux-gnu \
-        texinfo readline-devel sqlite3 arc-theme
+        texinfo readline-devel sqlite3 arc-theme unrar gimp blender light \
+        p7zip p7zip-plugins
 
     # codecs
     sudo dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} \
