@@ -17,7 +17,8 @@ if [[ "`uname -a`" == *"fedora"* ]]; then
         binutils-riscv64-linux-gnu gcc-aarch64-linux-gnu \
         binutils-aarch64-linux-gnu \
         texinfo readline-devel sqlite3 arc-theme unrar gimp blender light \
-        p7zip p7zip-plugins strace ltrace ruby-devel
+        p7zip p7zip-plugins strace ltrace ruby-devel binwalk \
+        java-runtime-decompiler nasm perf
 
     # codecs
     sudo dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} \
