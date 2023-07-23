@@ -51,6 +51,7 @@ pip install --upgrade pip
 pip install pwntools
 pip install pyright
 pip install ropper
+pip install ipdb
 gem install one_gadget
 gem install seccomp-tools
 
