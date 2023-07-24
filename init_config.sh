@@ -52,8 +52,8 @@ pip install pwntools
 pip install pyright
 pip install ropper
 pip install ipdb
-gem install one_gadget
-gem install seccomp-tools
+sudo gem install one_gadget
+sudo gem install seccomp-tools
 
 mkdir -p ~/FOSS/pwndbg
 git clone https://github.com/pwndbg/pwndbg ~/FOSS/pwndbg
