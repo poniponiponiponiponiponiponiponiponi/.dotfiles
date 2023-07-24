@@ -13,7 +13,9 @@ def conn():
         io = remote("addr", 1337)
     else:
         if args.GDB:
-            io = gdb.debug({proc_args})
+            io = gdb.debug({proc_args}, aslr=False, gdbscript="""
+                    set follow-fork-mode parent
+               """)
         else:
             io = process({proc_args})
             #gdb.attach(io)
