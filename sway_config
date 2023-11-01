@@ -7,7 +7,7 @@ font pango:DejaVu Sans Mono 10
 exec --no-startup-id dex --autostart --environment i3
 
 exec --no-startup-id dunst
-exec --no-startup-id feh --bg-fill ~/Pictures/pepper1.jpg
+exec_always --no-startup-id feh --bg-fill ~/Pictures/pepper2.png
 exec --no-startup-id setxkbmap pl
 exec --no-startup-id setxkbmap -option ctrl:nocaps
 
@@ -126,8 +126,8 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 #bindsym Print exec grim -g "$(slurp)" - -t png | swappy -f -
-bindsym Ctrl+Print exec --no-startup-id maim | xclip -selection clipboard -t image/png
-bindsym Ctrl+$mod+Print exec --no-startup-id maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
+bindsym Print exec --no-startup-id maim | xclip -selection clipboard -t image/png
+bindsym Ctrl+Print exec --no-startup-id maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
 bindsym Ctrl+Shift+Print exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
 
 mode "resize" {

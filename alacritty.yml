@@ -4,7 +4,7 @@ dpi:
 
 font:
   normal:
-    family: DejaVu Sans Mono
+    family: DejaVuSansM Nerd Font
   size: 10.0
   offset:
     x: 0
@@ -13,9 +13,5 @@ font:
 env:
   TERM: xterm-256color
 
-shell:
-  program: /bin/zsh
-  args:
-    - -l
-    - -c
-    - "tmux attach || tmux"
+import:
+  - ~/.config/dark_gruvbox.yaml

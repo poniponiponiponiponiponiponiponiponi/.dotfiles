@@ -5,7 +5,7 @@ from pwn import *
 {bindings}
 
 context.binary = {bin_name}
-context.terminal = ['tmux', 'splitw', '-h']
+context.terminal = ['alacritty', '-e']
 
 
 def conn():

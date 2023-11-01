@@ -8,6 +8,7 @@ source "$HOME/.cargo/env"
 # If you come from bash you might have to change your $PATH.
 export PATH=:$PATH:$HOME/bin:/usr/local/bin:$HOME/.local/bin:$HOME/.local/share/gem/ruby/3.0.0/bin
 export IPYTHONDIR=~/.config/ipython
+export EDITOR="emacsclient"
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -112,10 +113,44 @@ source $ZSH/oh-my-zsh.sh
 # aliases
 alias l='exa -lah'
 alias pwninit="pwninit --template-path=$HOME/.config/pwninit_template.py"
-alias v="nvim"
-alias vi="nvim"
-alias vim="nvim"
+alias v="emacsclient"
+alias vi="emacsclient"
+alias vim="emacsclient"
 alias ipyc="ipython --profile=ctf"
 alias ipy="ipython"
 alias ls="exa"
 
+ZSH_HIGHLIGHT_STYLES[comment]='none'
+
+vterm_printf() {
+    if [ -n "$TMUX" ] && ([ "${TERM%%-*}" = "tmux" ] || [ "${TERM%%-*}" = "screen" ]); then
+        # Tell tmux to pass the escape sequences through
+        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+    elif [ "${TERM%%-*}" = "screen" ]; then
+        # GNU screen (screen, screen-256color, screen-256color-bce)
+        printf "\eP\e]%s\007\e\\" "$1"
+    else
+        printf "\e]%s\e\\" "$1"
+    fi
+}
+
+vterm_cmd() {
+    local vterm_elisp
+    vterm_elisp=""
+    while [ $# -gt 0 ]; do
+        vterm_elisp="$vterm_elisp""$(printf '"%s" ' "$(printf "%s" "$1" | sed -e 's|\\|\\\\|g' -e 's|"|\\"|g')")"
+        shift
+    done
+    vterm_printf "51;E$vterm_elisp"
+}
+
+e() {
+    vterm_cmd find-file "$(realpath "${@:-.}")"
+}
+
+say() {
+    vterm_cmd message "%s" "$*"
+}
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
