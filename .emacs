@@ -7,8 +7,8 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-(add-to-list 'default-frame-alist '(font . "DejaVuSansM Nerd Font 9"))
-(defvar default-font "DejaVuSansM Nerd Font 9")
+;(add-to-list 'default-frame-alist '(font . "DejaVuSansM Nerd Font 9"))
+;(defvar default-font "DejaVuSansM Nerd Font 9")
 
 
 (defalias 'yes-or-no-p 'y-or-n-p)

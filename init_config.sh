@@ -43,15 +43,15 @@ mkdir -p ~/.config
 mkdir -p ~/.config/mpv
 mkdir -p ~/.config/tmux
 mkdir -p ~/.config/i3
-mkdir -p ~/.config/helix
+mkdir -p ~/.config/fish
 mkdir -p ~/Projects
 mkdir -p ~/FOSS
 
-pip install --upgrade pip
-pip install pwntools
-pip install pyright
-pip install ropper
-pip install ipdb
+#pip install --upgrade pip
+#pip install pwntools
+#pip install pyright
+#pip install ropper
+#pip install ipdb
 sudo gem install one_gadget
 sudo gem install seccomp-tools
 
@@ -59,20 +59,15 @@ mkdir -p ~/FOSS/pwndbg
 git clone https://github.com/pwndbg/pwndbg ~/FOSS/pwndbg
 ~/FOSS/pwndbg/setup.sh
 
-chsh -s $(which zsh)
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+chsh -s $(which fish)
 
 ln -sf "$DOTFILES_PATH/mpv.conf" ~/.config/mpv/mpv.conf
 ln -sf "$DOTFILES_PATH/pwninit_template.py" ~/.config/pwninit_template.py
 ln -sf "$DOTFILES_PATH/tmux.conf" ~/.config/tmux/tmux.conf
 ln -sf "$DOTFILES_PATH/alacritty.yml" ~/.config/alacritty.yml
-ln -sf "$DOTFILES_PATH/zshrc" ~/.zshrc
-ln -sf "$DOTFILES_PATH/nvim-config" ~/.config/nvim
+ln -sf "$DOTFILES_PATH/.emacs" ~/.emacs
+ln -sf "$DOTFILES_PATH/config.fish" ~/.config/fish/config.fish 
 ln -sf "$DOTFILES_PATH/sway_config" ~/.config/i3/config
-
-source ~/.zshrc
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
 mkdir -p ~/FOSS/sig-database
 git clone https://github.com/push0ebp/sig-database ~/FOSS/sig-database
@@ -81,10 +76,6 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source "$HOME/.cargo/env"
 rustup component add rustfmt
 rustup component add clippy
-
-ipython profile create ctf
-mkdir -p ~/.config/ipython
-ln -sf $DOTFILES_PATH/ctf_ipython_config.py ~/.config/ipython/profile_ctf/ipython_config.py
 
 git config --global pager.branch false
 git config --global user.name "tabun-dareka"
