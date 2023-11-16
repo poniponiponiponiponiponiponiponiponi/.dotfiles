@@ -49,7 +49,7 @@
 
 (use-package projectile
   :config
-  (projectile-mode +1)
+  ;;(projectile-mode +1)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 (use-package gruvbox-theme
@@ -147,6 +147,16 @@
      (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
      (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
      (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+
+
+(defun pwn-info-variable (str)
+  "Insert a string into the current buffer."
+  (interactive "sVariable: ") 
+  (insert "info(f\"" str ": {hex(" str ")}\")"))
+
+
+(global-set-key (kbd "M-p") 'pwn-info-variable)
+
 
 
 ;; enable this if you want `swiper' to use it
