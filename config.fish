@@ -2,6 +2,8 @@ fish_add_path /home/tabun-dareka/.cargo/bin
 fish_add_path /home/tabun-dareka/.local/share/gem/ruby/3.0.0/bin
 alias pwninit='pwninit --template-path=/home/tabun-dareka/.dotfiles/pwninit_template.py'
 alias l='ls -a'
+alias ipy='ipython'
+alias m='math'
 set -x DEBUGINFOD_URLS "https://debuginfod.elfutils.org/"
 
 if status is-interactive
