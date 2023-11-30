@@ -23,6 +23,7 @@
 (setq shift-select-mode nil)
 (setq make-backup-files nil)
 (setq auto-save-default nil)
+(setq kill-buffer-query-functions nil)
 (scroll-bar-mode 0)
 (blink-cursor-mode 0)
 (electric-pair-mode 1)
@@ -127,6 +128,7 @@
 (use-package geiser-guile)
 (use-package geiser)
 (use-package sly)
+(use-package multi-vterm :ensure t)
 (use-package dired
   :ensure nil
   :bind (("C-x C-j" . dired-jump))
@@ -154,6 +156,18 @@
   (interactive "sVariable: ") 
   (insert "info(f\"" str ": {hex(" str ")}\")"))
 
+(defun split-term (str)
+  "split terminal"
+  (interactive "sExecute: ")
+  (require 'vterm)
+  (split-window-right)
+  (other-window 1)
+  (multi-vterm)
+  (vterm-send-string str)
+  (vterm-send-return)
+  (text-scale-decrease 2))
+(add-to-list 'vterm-eval-cmds '("split-term" split-term))
+
 
 (global-set-key (kbd "M-p") 'pwn-info-variable)
 
@@ -165,6 +179,9 @@
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 (global-set-key (kbd "<f6>") 'ivy-resume)
 
+(use-package snow)
+
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -172,7 +189,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
+   '(multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
  '(warning-suppress-log-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
