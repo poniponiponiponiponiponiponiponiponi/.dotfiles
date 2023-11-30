@@ -36,17 +36,7 @@
 (tab-bar-history-mode 1)
 (global-set-key (kbd "M-[") 'tab-bar-history-back)
 (global-set-key (kbd "M-]") 'tab-bar-history-forward)
-
-;; (defun split-and-follow-below ()
-  ;; (interactive)
-  ;; (split-window-below)
-  ;; (other-window 1))
-;; (global-set-key (kbd "C-x 2") 'split-and-follow-below)
-;; (defun split-and-follow-right ()
-  ;; (interactive)
-  ;; (split-window-right)
-  ;; (other-window 1))
-;; (global-set-key (kbd "C-x 3") 'split-and-follow-right)
+(global-set-key (kbd "C-c C-c") 'kill-buffer-and-window)
 
 (use-package projectile
   :config
@@ -96,7 +86,6 @@
    '((python . t)
      (C . t)
      (shell . t))))
-(use-package highlight-indentation)
 (use-package vterm
   :bind
   ("M-<return>" . 'vterm)
@@ -118,13 +107,14 @@
   :config
   (elcord-mode))
 (use-package org-download)
-;; (use-package highlight-indent-guides
-  ;; :custom
-  ;; (highlight-indent-guides-method 'character)
-  ;; :init
-  ;; (setq highlight-indent-guides-character ?⇢)
-  ;; :hook
-  ;; (prog-mode . highlight-indent-guides-mode))
+(use-package highlight-indent-guides
+  :custom
+  (highlight-indent-guides-method 'character)
+  :init
+  (setq highlight-indent-guides-character ?·)
+  (set-face-foreground 'highlight-indent-guides-character-face "dimgray")
+  :hook
+  (prog-mode . highlight-indent-guides-mode))
 (use-package geiser-guile)
 (use-package geiser)
 (use-package sly)
