@@ -5,7 +5,7 @@ from pwn import *
 {bindings}
 
 context.binary = {bin_name}
-context.terminal = ['alacritty', '-e']
+context.terminal = ['split_emacsclient.fish']
 
 
 def conn():
@@ -13,9 +13,9 @@ def conn():
         io = remote("addr", 1337)
     else:
         if args.GDB:
-            io = gdb.debug({proc_args}, aslr=False, gdbscript="""
-                    set follow-fork-mode parent
-               """)
+            io = gdb.debug({proc_args}, aslr=False, api=False, gdbscript="""
+            set follow-fork-mode parent
+            """)
         else:
             io = process({proc_args})
             #gdb.attach(io)
