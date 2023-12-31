@@ -1,5 +1,7 @@
 fish_add_path /home/tabun-dareka/.cargo/bin
 fish_add_path /home/tabun-dareka/.local/share/gem/ruby/3.0.0/bin
+fish_add_path /home/tabun-dareka/.scripts
+fish_add_path /home/tabun-dareka/.local/bin
 alias pwninit='pwninit --template-path=/home/tabun-dareka/.dotfiles/pwninit_template.py'
 alias l='ls -a'
 alias ipy='ipython'
@@ -39,9 +41,14 @@ function fish_title
     prompt_pwd
 end
 
+function emacsclient_launch
+	 emacsclient -e (string join '' '(vterm_cmd split-term ' $argv[1] ')')
+end
+
 function vterm_prompt_end;
     vterm_printf '51;A'(whoami)'@'(hostname)':'(pwd)
 end
+
 functions --copy fish_prompt vterm_old_fish_prompt
 function fish_prompt --description 'Write out the prompt; do not replace this. Instead, put this at end of your file.'
     # Remove the trailing newline from the original prompt. This is done
