@@ -7,9 +7,12 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-;(add-to-list 'default-frame-alist '(font . "DejaVuSansM Nerd Font 9"))
-;(defvar default-font "DejaVuSansM Nerd Font 9")
+(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 11"))
+(defvar default-font "DejaVu Sans Mono 11")
 
+(add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
+(add-hook 'gud-mode-hook 'ansi-color-for-comint-mode-on)
+;;(add-hook 'gdb-mode-hook 'ansi-color-for-comint-mode-on)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (column-number-mode 1)
@@ -28,6 +31,7 @@
 (blink-cursor-mode 0)
 (electric-pair-mode 1)
 (setq scroll-margin 2)
+(setq max-mini-window-height 4)
 ;;(setq scroll-step 3)
 ;;(setq scroll-conservatively 1000)
 (global-set-key [remap list-buffers] 'ibuffer)
@@ -36,16 +40,19 @@
 (tab-bar-history-mode 1)
 (global-set-key (kbd "M-[") 'tab-bar-history-back)
 (global-set-key (kbd "M-]") 'tab-bar-history-forward)
-(global-set-key (kbd "C-c C-c") 'kill-buffer-and-window)
+(global-set-key (kbd "C-c c") 'kill-buffer-and-window)
 
+
+(use-package hungry-delete
+  :config
+  (global-hungry-delete-mode))
 (use-package projectile
   :config
   ;;(projectile-mode +1)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
-
 (use-package gruvbox-theme
   :config
-  (load-theme 'gruvbox-dark-medium t))
+  (load-theme 'gruvbox-dark-hard t))
 (use-package eglot
   :hook
   (prog-mode . eglot-ensure)
@@ -89,6 +96,9 @@
 (use-package vterm
   :bind
   ("M-<return>" . 'vterm)
+  (:map 
+  vterm-mode-map
+      	("C-y" . vterm-yank))
   :config
   (setq vterm-timer-delay 0.04)
   (add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
@@ -107,14 +117,14 @@
   :config
   (elcord-mode))
 (use-package org-download)
-(use-package highlight-indent-guides
-  :custom
-  (highlight-indent-guides-method 'character)
-  :init
-  (setq highlight-indent-guides-character ?·)
-  (set-face-foreground 'highlight-indent-guides-character-face "dimgray")
-  :hook
-  (prog-mode . highlight-indent-guides-mode))
+;; (use-package highlight-indent-guides
+;;   :custom
+;;   (highlight-indent-guides-method 'character)
+;;   :init
+;;   (setq highlight-indent-guides-character ?.)
+;;   :hook
+;;   (prog-mode . highlight-indent-guides-mode))
+
 (use-package geiser-guile)
 (use-package geiser)
 (use-package sly)
@@ -172,14 +182,14 @@
 (use-package snow)
 
 
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(highlight-indent-guides-auto-character-face-perc 100)
  '(package-selected-packages
-   '(multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
+   '(hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
  '(warning-suppress-log-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
