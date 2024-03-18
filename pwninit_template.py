@@ -5,8 +5,7 @@ from pwn import *
 {bindings}
 
 context.binary = {bin_name}
-context.terminal = ['split_emacsclient.fish']
-
+context.terminal = "alacritty -e".split()
 
 def conn():
     if args.REMOTE:
