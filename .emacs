@@ -7,17 +7,22 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 11"))
-(defvar default-font "DejaVu Sans Mono 11")
+(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 12"))
+(defvar default-font "DejaVu Sans Mono 12")
 
 (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
 (add-hook 'gud-mode-hook 'ansi-color-for-comint-mode-on)
-;;(add-hook 'gdb-mode-hook 'ansi-color-for-comint-mode-on)
+
+; make eglot more responsive
+(setq company-minimum-prefix-length 1)
+(setq company-idle-delay 0)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (column-number-mode 1)
 (global-subword-mode 1)
 (global-hl-line-mode 1)
+;(global-whitespace-mode 0)
+(setq whitespace-line-column 999999)
 (menu-bar-mode 0)
 (tool-bar-mode 0)
 (setq display-line-numbers-type 'relative)
@@ -27,6 +32,8 @@
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 (setq kill-buffer-query-functions nil)
+(setq indent-tabs-mode nil)
+(setq-default indent-tabs-mode nil)
 (scroll-bar-mode 0)
 (blink-cursor-mode 0)
 (electric-pair-mode 1)
@@ -41,6 +48,7 @@
 (global-set-key (kbd "M-[") 'tab-bar-history-back)
 (global-set-key (kbd "M-]") 'tab-bar-history-forward)
 (global-set-key (kbd "C-c c") 'kill-buffer-and-window)
+
 
 
 (use-package hungry-delete
@@ -100,7 +108,7 @@
   vterm-mode-map
       	("C-y" . vterm-yank))
   :config
-  (setq vterm-timer-delay 0.04)
+  (setq vterm-timer-delay 0.02)
   (add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
   (add-hook 'vterm-mode-hook (lambda () (display-line-numbers-mode 0))))
 (use-package which-key
@@ -140,9 +148,10 @@
      (elisp "https://github.com/Wilfred/tree-sitter-elisp")
      (go "https://github.com/tree-sitter/tree-sitter-go")
      (html "https://github.com/tree-sitter/tree-sitter-html")
-     (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+     (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src") 
      (json "https://github.com/tree-sitter/tree-sitter-json")
      (make "https://github.com/alemuller/tree-sitter-make")
+     (rust "https://github.com/tree-sitter/tree-sitter-rust")
      (markdown "https://github.com/ikatyang/tree-sitter-markdown")
      (python "https://github.com/tree-sitter/tree-sitter-python")
      (toml "https://github.com/tree-sitter/tree-sitter-toml")
@@ -188,6 +197,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(highlight-indent-guides-auto-character-face-perc 100)
+ '(org-agenda-files '("/home/poni/org/youtubers.org"))
  '(package-selected-packages
    '(hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
  '(warning-suppress-log-types '((comp))))
