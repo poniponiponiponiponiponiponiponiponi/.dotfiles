@@ -7,6 +7,7 @@ from pwn import *
 context.binary = {bin_name}
 context.terminal = "alacritty -e".split()
 
+
 def conn():
     if args.REMOTE:
         io = remote("addr", 1337)
