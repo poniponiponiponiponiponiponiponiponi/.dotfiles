@@ -50,10 +50,9 @@
 (global-set-key (kbd "C-c c") 'kill-buffer-and-window)
 
 
-
-(use-package hungry-delete
-  :config
-  (global-hungry-delete-mode))
+;(use-package hungry-delete
+;  :config
+;  (global-hungry-delete-mode))
 (use-package projectile
   :config
   ;;(projectile-mode +1)
@@ -63,15 +62,16 @@
   (load-theme 'gruvbox-dark-hard t))
 (use-package eglot
   :hook
-  (prog-mode . eglot-ensure)
+  (prog-mode . (lambda () (unless (eq major-mode 'emacs-lisp-mode)
+                 (eglot-ensure))))
   :config
-  (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1))))
+  (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 1))))
 (use-package company
   :config
   (add-hook 'after-init-hook 'global-company-mode))
 (use-package avy
   :bind
-  ("M-s" . avy-goto-char-2))
+  ("M-s" . avy-goto-char))
 (use-package ivy
   :config
   (ivy-mode)
@@ -133,9 +133,9 @@
 ;;   :hook
 ;;   (prog-mode . highlight-indent-guides-mode))
 
-(use-package geiser-guile)
-(use-package geiser)
-(use-package sly)
+;(use-package geiser-guile)
+;(use-package geiser)
+;(use-package sly)
 (use-package multi-vterm :ensure t)
 (use-package dired
   :ensure nil
@@ -164,6 +164,7 @@
   "Insert a string into the current buffer."
   (interactive "sVariable: ") 
   (insert "info(f\"" str ": {hex(" str ")}\")"))
+(global-set-key (kbd "M-p") 'pwn-info-variable)
 
 (defun split-term (str)
   "split terminal"
@@ -177,19 +178,11 @@
   (text-scale-decrease 2))
 (add-to-list 'vterm-eval-cmds '("split-term" split-term))
 
-
-(global-set-key (kbd "M-p") 'pwn-info-variable)
-
-
-
 ;; enable this if you want `swiper' to use it
 ;; (setq search-default-mode #'char-fold-to-regexp)
 (global-set-key "\C-s" 'swiper)
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 (global-set-key (kbd "<f6>") 'ivy-resume)
-
-(use-package snow)
-
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
