@@ -30,11 +30,11 @@ exec --no-startup-id nm-applet
 set $refresh_i3status killall -SIGUSR1 i3status
 
 # Pipewire-pulse
-bindsym XF86AudioMute exec "pactl set-sink-mute 0 toggle && pactl set-sink-mute 1 toggle"
+bindsym XF86AudioMute exec "pactl set-sink-mute 0 toggle ; pactl set-sink-mute 1 toggle"
 bindsym XF86AudioMute --release exec pkill -RTMIN+1 i3blocks
-bindsym XF86AudioLowerVolume exec "pactl set-sink-volume 0 -5% && pactl set-sink-volume 1 -5%"
+bindsym XF86AudioLowerVolume exec "pactl set-sink-volume 0 -5% ; pactl set-sink-volume 1 -5%"
 bindsym XF86AudioLowerVolume --release exec pkill -RTMIN+1 i3blocks
-bindsym XF86AudioRaiseVolume exec "pactl set-sink-volume 0 +5% && pactl set-sink-volume 1 +5%"
+bindsym XF86AudioRaiseVolume exec "pactl set-sink-volume 0 +5% ; pactl set-sink-volume 1 +5%"
 bindsym XF86AudioRaiseVolume --release exec pkill -RTMIN+1 i3blocks
 
 # Media player controls
