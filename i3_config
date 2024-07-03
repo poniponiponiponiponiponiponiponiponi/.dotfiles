@@ -8,12 +8,11 @@ exec --no-startup-id dex --autostart --environment i3
 
 exec --no-startup-id dunst
 exec --no-startup-id parcellite
-exec_always --no-startup-id feh --bg-fill ~/Pictures/pepper2.png
-exec --no-startup-id setxkbmap pl
-exec --no-startup-id setxkbmap -option ctrl:nocaps
+exec_always --no-startup-id feh --bg-fill ~/Pictures/pepper2.jpg
 
-exec export _JAVA_AWT_WM_NONREPARENTING=1
-exec systemctl --user import-environment
+
+exec --no-startup-id export _JAVA_AWT_WM_NONREPARENTING=1
+exec --no-startup-id systemctl --user import-environment
 
 bindsym $mod+Tab workspace back_and_forth
 
@@ -25,6 +24,8 @@ bindsym $mod+Tab workspace back_and_forth
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 exec --no-startup-id nm-applet
+
+exec --no-startup-id picom -cfF -t 0  -l 0 -r 3 -D2 -m 0.88  -o 0.38 --no-fading-openclose --fade-in-step=1 --fade-out-step=1 --fade-delta=0
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -55,7 +56,7 @@ floating_modifier $mod
 #tiling_drag modifier titlebar
 
 set $term alacritty
-bindsym $mod+Return exec $term
+bindsym $mod+Return exec --no-startup-id $term
 
 bindsym $mod+q kill
 
@@ -144,15 +145,16 @@ bindsym $mod+r mode "resize"
 set $white #ffffff
 # colors from https://github.com/a-schaefers/i3-wm-gruvbox-theme
 # set primary gruvbox colorscheme colors
-set $bg #282828
-set $red #cc241d
-set $green #98971a
-set $yellow #d79921
-set $blue #458588
-set $purple #b16286
-set $aqua #689d68
-set $gray #a89984
-set $darkgray #1d2021
+set $bg #073642
+set $red #dc322f
+set $green #859900
+set $yellow #b58900
+set $blue #268bd2
+set $purple #d33682
+set $aqua #2aa198
+set $gray #839496
+set $darkgray #002b36
+
 
 bar {
     strip_workspace_numbers yes
@@ -164,7 +166,7 @@ bar {
         statusline $yellow
         # workspaces section            
         #                    border  backgr. text
-        focused_workspace    $aqua $aqua $darkgray
+        focused_workspace    $purple $purple $darkgray
         inactive_workspace   $darkgray $darkgray $yellow
         active_workspace     $darkgray $darkgray $yellow
         urgent_workspace     $red $red $bg
@@ -175,17 +177,17 @@ bar {
 
 # green gruvbox
 # class                 border|backgr|text|indicator|child_border
-#client.focused          $green $green $darkgray $purple $darkgray
-#client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
-#client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
-#client.urgent           $red $red $white $red $red
-
-# blue gruvbox
-# class                 border|backgr|text|indicator|child_border
-client.focused          $blue $blue $darkgray $purple $darkgray
+client.focused          $gray $gray $darkgray $purple $darkgray
 client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
 client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
 client.urgent           $red $red $white $red $red
+
+# blue gruvbox
+# class                 border|backgr|text|indicator|child_border
+#client.focused          $blue $blue $darkgray $purple $darkgray
+#client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
+#client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
+#client.urgent           $red $red $white $red $red
 
 #end of window title bars & borders section
 

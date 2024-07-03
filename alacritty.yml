@@ -14,4 +14,4 @@ env:
   TERM: xterm-256color
 
 import:
-  - ~/.config/dark_gruvbox.yaml
+  - ~/.config/solarized_dark.toml
