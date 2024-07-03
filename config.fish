@@ -6,6 +6,8 @@ fish_add_path /home/poni/.cargo/bin
 fish_add_path /home/poni/.local/share/gem/ruby/3.0.0/bin
 fish_add_path /home/poni/.scripts
 fish_add_path /home/poni/.local/bin
+fish_add_path /usr/lib/rustup/bin
+
 alias pwninit='pwninit --template-path=/home/poni/.dotfiles/pwninit_template.py'
 alias l='ls -a'
 alias ipy='ipython'
