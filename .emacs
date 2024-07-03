@@ -7,15 +7,16 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 12"))
-(defvar default-font "DejaVu Sans Mono 12")
+(add-to-list 'default-frame-alist '(font . "DejaVuSansM Nerd Font Mono 13"))
+(defvar default-font "DejaVuSansM Nerd Font Mono 13")
+(set-frame-font "DejaVuSansM Nerd Font Mono 13" nil t)
 
 (add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
 (add-hook 'gud-mode-hook 'ansi-color-for-comint-mode-on)
 
 ; make eglot more responsive
 (setq company-minimum-prefix-length 1)
-(setq company-idle-delay 0)
+(setq company-idle-delay 0.2)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (column-number-mode 1)
@@ -57,15 +58,24 @@
   :config
   ;;(projectile-mode +1)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
-(use-package gruvbox-theme
+;; (use-package gruvbox-theme
+;;   :config
+;;   (load-theme 'gruvbox-dark-hard t))
+(setq solarized-distinct-fringe-background t)
+(setq solarized-scale-org-headlines nil)
+(setq solarized-use-variable-pitch nil)
+(setq solarized-high-contrast-mode-line t)
+(use-package solarized-theme
   :config
-  (load-theme 'gruvbox-dark-hard t))
+  (load-theme 'solarized-dark t))
+
+(use-package rg)
 (use-package eglot
   :hook
   (prog-mode . (lambda () (unless (eq major-mode 'emacs-lisp-mode)
                  (eglot-ensure))))
   :config
-  (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 1))))
+  (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 0))))
 (use-package company
   :config
   (add-hook 'after-init-hook 'global-company-mode))
@@ -121,9 +131,9 @@
 (use-package dashboard
   :config
   (dashboard-setup-startup-hook))
-(use-package elcord
-  :config
-  (elcord-mode))
+;; (use-package elcord
+;;   :config
+;;   (elcord-mode))
 (use-package org-download)
 ;; (use-package highlight-indent-guides
 ;;   :custom
@@ -164,7 +174,16 @@
   "Insert a string into the current buffer."
   (interactive "sVariable: ") 
   (insert "info(f\"" str ": {hex(" str ")}\")"))
-(global-set-key (kbd "M-p") 'pwn-info-variable)
+(defun kpwn-info-variable (str)
+  "Insert a string into the current buffer."
+  (interactive "sVariable: ") 
+  (insert "printf(\"" str ": 0x%lx\", " str ");"))
+
+(add-hook 'python-mode
+          (lambda () (global-set-key (kbd "M-p") 'pwn-info-variable)))
+(add-hook 'c-mode
+          (lambda () (local-set-key (kbd "M-p") 'kpwn-info-variable)))
+
 
 (defun split-term (str)
   "split terminal"
@@ -189,10 +208,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   '("833ddce3314a4e28411edf3c6efde468f6f2616fc31e17a62587d6a9255f4633" "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "d89e15a34261019eec9072575d8a924185c27d3da64899905f8548cbd9491a36" default))
  '(highlight-indent-guides-auto-character-face-perc 100)
  '(org-agenda-files '("/home/poni/org/youtubers.org"))
  '(package-selected-packages
-   '(hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
+   '(solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
  '(warning-suppress-log-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
