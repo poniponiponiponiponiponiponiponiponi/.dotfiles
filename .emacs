@@ -28,7 +28,7 @@
 (tool-bar-mode 0)
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
-(global-visual-line-mode 1)
+(global-visual-line-mode 0)
 (setq shift-select-mode nil)
 (setq make-backup-files nil)
 (setq auto-save-default nil)
@@ -79,6 +79,11 @@
 (use-package company
   :config
   (add-hook 'after-init-hook 'global-company-mode))
+(use-package yasnippet
+  :config
+  (yas-global-mode 1))
+(use-package yasnippet-snippets)
+
 (use-package avy
   :bind
   ("M-s" . avy-goto-char))
@@ -101,6 +106,8 @@
   :config
   (gcmh-mode 1))
 (use-package magit)
+
+
 (use-package org
   :config
   (setq org-src-window-setup 'current-window)
@@ -111,6 +118,13 @@
    '((python . t)
      (C . t)
      (shell . t))))
+(use-package ox-reveal
+  :config
+  (setq org-reveal-mathjax t)
+  (setq org-reveal-root "/home/poni/node_modules/reveal.js"))
+(use-package htmlize)
+
+
 (use-package vterm
   :bind
   ("M-<return>" . 'vterm)
@@ -209,15 +223,18 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("833ddce3314a4e28411edf3c6efde468f6f2616fc31e17a62587d6a9255f4633" "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "d89e15a34261019eec9072575d8a924185c27d3da64899905f8548cbd9491a36" default))
+   '("fee7287586b17efbfda432f05539b58e86e059e78006ce9237b8732fde991b4c" "524fa911b70d6b94d71585c9f0c5966fe85fb3a9ddd635362bfabd1a7981a307" "d445c7b530713eac282ecdeea07a8fa59692c83045bf84dd112dd738c7bcad1d" "833ddce3314a4e28411edf3c6efde468f6f2616fc31e17a62587d6a9255f4633" "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "d89e15a34261019eec9072575d8a924185c27d3da64899905f8548cbd9491a36" default))
  '(highlight-indent-guides-auto-character-face-perc 100)
  '(org-agenda-files '("/home/poni/org/youtubers.org"))
  '(package-selected-packages
-   '(solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
+   '(yasnippet-snippets yasnippet htmlize ox-reveal org-reveal solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
  '(warning-suppress-log-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(flymake-warning ((t nil))))
+ '(flymake-warning ((t nil)))
+ '(org-block-begin-line ((t (:inherit org-meta-line :extend t :underline nil))))
+ '(org-block-end-line ((t (:inherit org-meta-line :extend t :overline nil))))
+ '(yas-field-highlight-face ((t (:inherit secondary-selection :underline t)))))
