@@ -18,6 +18,10 @@
 (setq company-minimum-prefix-length 1)
 (setq company-idle-delay 0.2)
 
+(global-auto-revert-mode 1)
+(setq auto-revert-verbose nil)
+(global-set-key (kbd "<f5>") 'revert-buffer)
+
 (defalias 'yes-or-no-p 'y-or-n-p)
 (column-number-mode 1)
 (global-subword-mode 1)
@@ -28,7 +32,7 @@
 (tool-bar-mode 0)
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
-(global-visual-line-mode 0)
+(global-visual-line-mode 1)
 (setq shift-select-mode nil)
 (setq make-backup-files nil)
 (setq auto-save-default nil)
@@ -95,16 +99,21 @@
 (use-package counsel
   :config
   (counsel-mode))
-(use-package swiper
-  :config
-  (setq swiper-use-visual-line nil)
-  (setq swiper-use-visual-line-p (lambda (a) nil)))
+;; (use-package swiper
+;;   :config
+;;   (setq swiper-use-visual-line nil)
+;;   (setq swiper-use-visual-line-p (lambda (a) nil)))
 (use-package rustic
   :config
   (setq rustic-lsp-client 'eglot))
 (use-package gcmh
   :config
   (gcmh-mode 1))
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode))
+
+
 (use-package magit)
 
 
@@ -160,7 +169,7 @@
 ;(use-package geiser-guile)
 ;(use-package geiser)
 ;(use-package sly)
-(use-package multi-vterm :ensure t)
+(use-package multi-vterm)
 (use-package dired
   :ensure nil
   :bind (("C-x C-j" . dired-jump))
@@ -213,7 +222,7 @@
 
 ;; enable this if you want `swiper' to use it
 ;; (setq search-default-mode #'char-fold-to-regexp)
-(global-set-key "\C-s" 'swiper)
+;;(global-set-key "\C-s" 'swiper)
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 (global-set-key (kbd "<f6>") 'ivy-resume)
 
@@ -227,7 +236,7 @@
  '(highlight-indent-guides-auto-character-face-perc 100)
  '(org-agenda-files '("/home/poni/org/youtubers.org"))
  '(package-selected-packages
-   '(yasnippet-snippets yasnippet htmlize ox-reveal org-reveal solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
+   '(beacon undo-tree yasnippet-snippets yasnippet htmlize ox-reveal org-reveal solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
  '(warning-suppress-log-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
