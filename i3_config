@@ -25,7 +25,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 exec --no-startup-id nm-applet
 
-exec --no-startup-id picom -cfF -t 0  -l 0 -r 3 -D2 -m 0.88  -o 0.38 --no-fading-openclose --fade-in-step=1 --fade-out-step=1 --fade-delta=0 -i 1.0
+exec --no-startup-id picom -cfF -t 0  -l 0 -r 3 -D2 -o 0.38 --no-fading-openclose --fade-in-step=1 --fade-out-step=1 --fade-delta=0 -i 1.0
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
