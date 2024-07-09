@@ -134,16 +134,26 @@
 (use-package htmlize)
 
 
-(use-package vterm
+(use-package eat
   :bind
-  ("M-<return>" . 'vterm)
-  (:map 
-  vterm-mode-map
-      	("C-y" . vterm-yank))
+  ("M-<return>" . 'eshell)
   :config
-  (setq vterm-timer-delay 0.02)
-  (add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
-  (add-hook 'vterm-mode-hook (lambda () (display-line-numbers-mode 0))))
+  (eat-eshell-mode)
+  (add-hook 'eat-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
+  (add-hook 'eat-mode-hook (lambda () (display-line-numbers-mode 0)))
+  (add-hook 'eshell-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
+  (add-hook 'eshell-mode-hook (lambda () (display-line-numbers-mode 0))))
+
+;; (use-package vterm
+;;   :bind
+;;   ("M-<return>" . 'vterm)
+;;   (:map 
+;;   vterm-mode-map
+;;       	("C-y" . vterm-yank))
+;;   :config
+;;   (setq vterm-timer-delay 0.02)
+;;   (add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
+;;   (add-hook 'vterm-mode-hook (lambda () (display-line-numbers-mode 0))))
 (use-package which-key
   :config
   (which-key-mode))
@@ -236,7 +246,7 @@
  '(highlight-indent-guides-auto-character-face-perc 100)
  '(org-agenda-files '("/home/poni/org/youtubers.org"))
  '(package-selected-packages
-   '(beacon undo-tree yasnippet-snippets yasnippet htmlize ox-reveal org-reveal solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
+   '(eat beacon undo-tree yasnippet-snippets yasnippet htmlize ox-reveal org-reveal solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
  '(warning-suppress-log-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
