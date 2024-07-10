@@ -55,9 +55,9 @@
 (global-set-key (kbd "C-c c") 'kill-buffer-and-window)
 
 
-;(use-package hungry-delete
-;  :config
-;  (global-hungry-delete-mode))
+(use-package hungry-delete
+  :config
+  (global-hungry-delete-mode))
 (use-package projectile
   :config
   ;;(projectile-mode +1)
@@ -98,7 +98,8 @@
   (setq enable-recursive-minibuffers t))
 (use-package counsel
   :config
-  (counsel-mode))
+  (counsel-mode)
+  (define-key eshell-mode-map (kbd "C-M-r") 'counsel-esh-history))
 ;; (use-package swiper
 ;;   :config
 ;;   (setq swiper-use-visual-line nil)
@@ -111,7 +112,8 @@
   (gcmh-mode 1))
 (use-package undo-tree
   :config
-  (global-undo-tree-mode))
+  (global-undo-tree-mode)
+  (setq undo-tree-auto-save-history nil))
 
 
 (use-package magit)
