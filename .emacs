@@ -26,7 +26,6 @@
 (column-number-mode 1)
 (global-subword-mode 1)
 (global-hl-line-mode 1)
-;(global-whitespace-mode 0)
 (setq whitespace-line-column 999999)
 (menu-bar-mode 0)
 (tool-bar-mode 0)
@@ -44,8 +43,6 @@
 (electric-pair-mode 1)
 (setq scroll-margin 2)
 (setq max-mini-window-height 4)
-;;(setq scroll-step 3)
-;;(setq scroll-conservatively 1000)
 (global-set-key [remap list-buffers] 'ibuffer)
 (setq tab-bar-show nil)
 (tab-bar-mode 1)
@@ -62,9 +59,6 @@
   :config
   ;;(projectile-mode +1)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
-;; (use-package gruvbox-theme
-;;   :config
-;;   (load-theme 'gruvbox-dark-hard t))
 (setq solarized-distinct-fringe-background t)
 (setq solarized-scale-org-headlines nil)
 (setq solarized-use-variable-pitch nil)
@@ -115,9 +109,7 @@
   (global-undo-tree-mode)
   (setq undo-tree-auto-save-history nil))
 
-
 (use-package magit)
-
 
 (use-package org
   :config
@@ -134,7 +126,6 @@
   (setq org-reveal-mathjax t)
   (setq org-reveal-root "/home/poni/node_modules/reveal.js"))
 (use-package htmlize)
-
 
 (use-package eat
   :bind
@@ -178,9 +169,6 @@
 ;;   :hook
 ;;   (prog-mode . highlight-indent-guides-mode))
 
-;(use-package geiser-guile)
-;(use-package geiser)
-;(use-package sly)
 (use-package multi-vterm)
 (use-package dired
   :ensure nil
@@ -232,9 +220,6 @@
   (text-scale-decrease 2))
 (add-to-list 'vterm-eval-cmds '("split-term" split-term))
 
-;; enable this if you want `swiper' to use it
-;; (setq search-default-mode #'char-fold-to-regexp)
-;;(global-set-key "\C-s" 'swiper)
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 (global-set-key (kbd "<f6>") 'ivy-resume)
 
