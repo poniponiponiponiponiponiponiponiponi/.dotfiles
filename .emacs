@@ -92,8 +92,7 @@
   (setq enable-recursive-minibuffers t))
 (use-package counsel
   :config
-  (counsel-mode)
-  (define-key eshell-mode-map (kbd "C-M-r") 'counsel-esh-history))
+  (counsel-mode))
 ;; (use-package swiper
 ;;   :config
 ;;   (setq swiper-use-visual-line nil)
@@ -222,6 +221,7 @@
 
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 (global-set-key (kbd "<f6>") 'ivy-resume)
+(define-key eshell-mode-map (kbd "C-M-r") 'counsel-esh-history)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
