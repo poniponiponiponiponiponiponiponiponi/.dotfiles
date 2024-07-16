@@ -219,9 +219,9 @@
   (interactive "sVariable: ") 
   (insert "printf(\"" str ": 0x%lx\", " str ");"))
 
-(add-hook 'python-mode
-          (lambda () (global-set-key (kbd "M-p") 'pwn-info-variable)))
-(add-hook 'c-mode
+(add-hook 'python-mode-hook
+          (lambda () (local-set-key (kbd "M-p") 'pwn-info-variable)))
+(add-hook 'c-mode-hook
           (lambda () (local-set-key (kbd "M-p") 'kpwn-info-variable)))
 
 
