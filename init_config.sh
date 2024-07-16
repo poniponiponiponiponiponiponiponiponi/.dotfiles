@@ -65,7 +65,6 @@ mkdir -p ~/.config
 mkdir -p ~/.config/mpv
 mkdir -p ~/.config/tmux
 mkdir -p ~/.config/i3
-mkdir -p ~/.config/fish
 mkdir -p ~/Projects
 mkdir -p ~/FOSS
 mkdir -p ~/.scripts
@@ -82,17 +81,15 @@ mkdir -p ~/FOSS/pwndbg
 git clone https://github.com/pwndbg/pwndbg ~/FOSS/pwndbg
 ~/FOSS/pwndbg/setup.sh
 
-chsh -s $(which fish)
 
 ln -sf "$DOTFILES_PATH/mpv.conf" ~/.config/mpv/mpv.conf
 ln -sf "$DOTFILES_PATH/pwninit_template.py" ~/.config/pwninit_template.py
 ln -sf "$DOTFILES_PATH/tmux.conf" ~/.config/tmux/tmux.conf
 ln -sf "$DOTFILES_PATH/alacritty.yml" ~/.config/alacritty.yml
 ln -sf "$DOTFILES_PATH/.emacs" ~/.emacs
-ln -sf "$DOTFILES_PATH/config.fish" ~/.config/fish/config.fish
+ln -sf "$DOTFILES_PATH/.bashrc" ~/.bashrc
 ln -sf "$DOTFILES_PATH/sway_config" ~/.config/i3/config
 ln -sf "$DOTFILES_PATH/picom.conf" ~/.config/picom.conf
-ln -sf "$DOTFILES_PATH/split_emacsclient.fish" ~/.scripts/split_emacsclient.fish
 
 mkdir -p ~/FOSS/sig-database
 git clone https://github.com/push0ebp/sig-database ~/FOSS/sig-database
