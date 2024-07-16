@@ -182,6 +182,11 @@
   :bind (:map eshell-mode-map
 	      ("C-r" . counsel-esh-history)))
 
+(defun my-eshell-prompt ()
+  (concat (file-name-nondirectory (eshell/pwd)) " λ "))
+(setq eshell-prompt-function 'my-eshell-prompt)
+(setq eshell-prompt-regexp "λ ")
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
