@@ -11,10 +11,6 @@
 (defvar default-font "DejaVuSansM Nerd Font Mono 13")
 (set-frame-font "DejaVuSansM Nerd Font Mono 13" nil t)
 
-(add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
-(add-hook 'gud-mode-hook 'ansi-color-for-comint-mode-on)
-(setq ac-auto-start nil)
-
 (global-auto-revert-mode 1)
 (setq auto-revert-verbose nil)
 (global-set-key (kbd "<f5>") 'revert-buffer)
@@ -23,31 +19,20 @@
 (column-number-mode 1)
 (global-subword-mode 1)
 (global-hl-line-mode 1)
-(setq whitespace-line-column 999999)
-(menu-bar-mode 0)
 (tool-bar-mode 0)
+(scroll-bar-mode 0)
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
-(global-visual-line-mode 1)
-(setq shift-select-mode nil)
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 (setq kill-buffer-query-functions nil)
 (setq indent-tabs-mode nil)
 (setq-default indent-tabs-mode nil)
-(scroll-bar-mode 0)
 (blink-cursor-mode 0)
 (electric-pair-mode 1)
-(setq scroll-margin 2)
-(setq max-mini-window-height 4)
+(setq scroll-margin 1)
+(setq max-mini-window-height 6)
 (global-set-key [remap list-buffers] 'ibuffer)
-(setq tab-bar-show nil)
-(tab-bar-mode 1)
-(tab-bar-history-mode 1)
-(global-set-key (kbd "M-[") 'tab-bar-history-back)
-(global-set-key (kbd "M-]") 'tab-bar-history-forward)
-(global-set-key (kbd "C-c c") 'kill-buffer-and-window)
-
 
 (use-package hungry-delete
   :config
@@ -72,26 +57,6 @@
   :config
   (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 0))))
 (use-package corfu
-  ;; Optional customizations
-  ;; :custom
-  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  ;; (corfu-auto t)                 ;; Enable auto completion
-  ;; (corfu-separator ?\s)          ;; Orderless field separator
-  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
-  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
-  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
-  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
-
-  ;; Enable Corfu only for certain modes.
-  ;; :hook ((prog-mode . corfu-mode)
-  ;;        (shell-mode . corfu-mode)
-  ;;        (eshell-mode . corfu-mode))
-
-  ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
-  ;; be used globally (M-/).  See also the customization variable
-  ;; `global-corfu-modes' to exclude certain modes.
   :init
   (global-corfu-mode))
 
@@ -111,10 +76,6 @@
 (use-package counsel
   :config
   (counsel-mode))
-;; (use-package swiper
-;;   :config
-;;   (setq swiper-use-visual-line nil)
-;;   (setq swiper-use-visual-line-p (lambda (a) nil)))
 (use-package rustic
   :config
   (setq rustic-lsp-client 'eglot))
@@ -154,16 +115,6 @@
   (add-hook 'eshell-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
   (add-hook 'eshell-mode-hook (lambda () (display-line-numbers-mode 0))))
 
-;; (use-package vterm
-;;   :bind
-;;   ("M-<return>" . 'vterm)
-;;   (:map 
-;;   vterm-mode-map
-;;       	("C-y" . vterm-yank))
-;;   :config
-;;   (setq vterm-timer-delay 0.02)
-;;   (add-hook 'vterm-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
-;;   (add-hook 'vterm-mode-hook (lambda () (display-line-numbers-mode 0))))
 (use-package which-key
   :config
   (which-key-mode))
@@ -174,9 +125,9 @@
 (use-package dashboard
   :config
   (dashboard-setup-startup-hook))
-;; (use-package elcord
-;;   :config
-;;   (elcord-mode))
+(use-package elcord
+  :config
+  (elcord-mode))
 (use-package org-download)
 ;; (use-package highlight-indent-guides
 ;;   :custom
@@ -186,7 +137,6 @@
 ;;   :hook
 ;;   (prog-mode . highlight-indent-guides-mode))
 
-(use-package multi-vterm)
 (use-package dired
   :ensure nil
   :bind (("C-x C-j" . dired-jump))
@@ -223,19 +173,6 @@
           (lambda () (local-set-key (kbd "M-p") 'pwn-info-variable)))
 (add-hook 'c-mode-hook
           (lambda () (local-set-key (kbd "M-p") 'kpwn-info-variable)))
-
-
-(defun split-term (str)
-  "split terminal"
-  (interactive "sExecute: ")
-  (require 'vterm)
-  (split-window-right)
-  (other-window 1)
-  (multi-vterm)
-  (vterm-send-string str)
-  (vterm-send-return)
-  (text-scale-decrease 2))
-(add-to-list 'vterm-eval-cmds '("split-term" split-term))
 
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 (global-set-key (kbd "<f6>") 'ivy-resume)
