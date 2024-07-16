@@ -239,7 +239,12 @@
 
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 (global-set-key (kbd "<f6>") 'ivy-resume)
-(define-key eshell-mode-map (kbd "C-M-r") 'counsel-esh-history)
+
+(use-package esh-mode
+  :ensure nil
+  :bind (:map eshell-mode-map
+	      ("C-r" . counsel-esh-history)))
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
