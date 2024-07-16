@@ -31,7 +31,7 @@
 (blink-cursor-mode 0)
 (electric-pair-mode 1)
 (setq scroll-margin 1)
-(setq max-mini-window-height 6)
+(setq max-mini-window-height 10)
 (global-set-key [remap list-buffers] 'ibuffer)
 
 (use-package hungry-delete
@@ -186,6 +186,9 @@
   :ensure nil
   :bind (:map eshell-mode-map
 	      ("C-r" . counsel-esh-history)))
+(use-package eshell-syntax-highlighting
+  :config
+  (eshell-syntax-highlighting-global-mode +1))
 
 (defun my-eshell-prompt ()
   (let* ((user (user-login-name))
@@ -207,7 +210,7 @@
  '(highlight-indent-guides-auto-character-face-perc 100)
  '(org-agenda-files '("/home/poni/org/youtubers.org"))
  '(package-selected-packages
-   '(corfu eat beacon undo-tree yasnippet-snippets yasnippet htmlize ox-reveal org-reveal solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
+   '(eshell-syntax-highlighting corfu eat beacon undo-tree yasnippet-snippets yasnippet htmlize ox-reveal org-reveal solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
  '(warning-suppress-log-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
