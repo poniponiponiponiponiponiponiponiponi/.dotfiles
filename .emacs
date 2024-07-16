@@ -68,6 +68,11 @@
 (use-package avy
   :bind
   ("M-s" . avy-goto-char))
+
+(defun my-eshell-mode-hook ()
+  (define-key eshell-hist-mode-map (kbd "M-s") nil))
+(add-hook 'eshell-mode-hook 'my-eshell-mode-hook)
+
 (use-package ivy
   :config
   (ivy-mode)
@@ -183,9 +188,13 @@
 	      ("C-r" . counsel-esh-history)))
 
 (defun my-eshell-prompt ()
-  (concat (file-name-nondirectory (eshell/pwd)) " λ "))
+  (let* ((user (user-login-name))
+         (host (system-name))
+         (path (abbreviate-file-name (eshell/pwd))))
+    (concat "[" user "@" host " " path "] λ ")))
+
 (setq eshell-prompt-function 'my-eshell-prompt)
-(setq eshell-prompt-regexp "λ ")
+(setq eshell-prompt-regexp "^\\[.* λ ")
 
 
 (custom-set-variables

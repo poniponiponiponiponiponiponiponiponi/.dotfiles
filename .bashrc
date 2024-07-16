@@ -8,11 +8,11 @@ alias ipy="ipython"
 alias ls="exa"
 alias l='exa -lah'
 
-export PATH="~/.cargo/bin"
-export PATH="~/.local/share/gem/ruby/3.0.0/bin"
-export PATH="~/.scripts"
-export PATH="~/.local/bin"
-export PATH="/usr/lib/rustup/bin"
+export PATH="$PATH:~/.cargo/bin"
+export PATH="$PATH:~/.local/share/gem/ruby/3.0.0/bin"
+export PATH="$PATH:~/.scripts"
+export PATH="$PATH:~/.local/bin"
+export PATH="$PATH:/usr/lib/rustup/bin"
 
 RED="\[\033[0;31m\]"
 GREEN="\[\033[0;32m\]"
