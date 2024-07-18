@@ -7,9 +7,9 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-(add-to-list 'default-frame-alist '(font . "DejaVuSansM Nerd Font Mono 13"))
-(defvar default-font "DejaVuSansM Nerd Font Mono 13")
-(set-frame-font "DejaVuSansM Nerd Font Mono 13" nil t)
+(add-to-list 'default-frame-alist '(font . "DejaVuSansM Nerd Font Mono 11"))
+(defvar default-font "DejaVuSansM Nerd Font Mono 11")
+(set-frame-font "DejaVuSansM Nerd Font Mono 11" nil t)
 
 (global-auto-revert-mode 1)
 (setq auto-revert-verbose nil)
@@ -77,14 +77,18 @@
   (define-key eshell-hist-mode-map (kbd "M-s") nil))
 (add-hook 'eshell-mode-hook 'my-eshell-mode-hook)
 
-(use-package ivy
+(use-package vertico
   :config
-  (ivy-mode)
-  (setq ivy-use-virtual-buffers t)
-  (setq enable-recursive-minibuffers t))
-(use-package counsel
+  (setq vertico-resize nil)
+  (vertico-mode 1))
+(use-package marginalia
   :config
-  (counsel-mode))
+  (marginalia-mode 1))
+(use-package orderless
+  :config
+  (setq completion-styles '(orderless basic)))
+(use-package consult)
+
 (use-package rustic
   :config
   (setq rustic-lsp-client 'eglot))
@@ -189,7 +193,7 @@
 (use-package esh-mode
   :ensure nil
   :bind (:map eshell-mode-map
-	      ("C-r" . counsel-esh-history)))
+	      ("C-r" . consult-history)))
 (use-package eshell-syntax-highlighting
   :config
   (eshell-syntax-highlighting-global-mode +1))
@@ -214,7 +218,7 @@
  '(highlight-indent-guides-auto-character-face-perc 100)
  '(org-agenda-files '("/home/poni/org/youtubers.org"))
  '(package-selected-packages
-   '(eshell-syntax-highlighting corfu eat beacon undo-tree yasnippet-snippets yasnippet htmlize ox-reveal org-reveal solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
+   '(consult ivy-rich eshell-syntax-highlighting corfu eat beacon undo-tree yasnippet-snippets yasnippet htmlize ox-reveal org-reveal solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
  '(warning-suppress-log-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
