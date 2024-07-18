@@ -87,7 +87,9 @@
 (use-package orderless
   :config
   (setq completion-styles '(orderless basic)))
-(use-package consult)
+(use-package consult
+  :bind
+  ("C-x b" . consult-buffer))
 
 (use-package rustic
   :config
