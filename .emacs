@@ -37,10 +37,14 @@
 (use-package hungry-delete
   :config
   (global-hungry-delete-mode))
-(use-package projectile
-  :config
-  ;;(projectile-mode +1)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+
+(defun project-find-project (dir)
+  "Determine if DIR is a project by checking for a .project file."
+  (let ((root (locate-dominating-file dir ".project")))
+    (when root
+      (cons 'transient root))))
+(add-hook 'project-find-functions #'project-find-project)
+
 (setq solarized-distinct-fringe-background t)
 (setq solarized-scale-org-headlines nil)
 (setq solarized-use-variable-pitch nil)
@@ -221,3 +225,4 @@
  '(org-block-begin-line ((t (:inherit org-meta-line :extend t :underline nil))))
  '(org-block-end-line ((t (:inherit org-meta-line :extend t :overline nil))))
  '(yas-field-highlight-face ((t (:inherit secondary-selection :underline t)))))
+(put 'downcase-region 'disabled nil)
