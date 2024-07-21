@@ -7,13 +7,14 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-(add-to-list 'default-frame-alist '(font . "DejaVuSansM Nerd Font Mono 11"))
-(defvar default-font "DejaVuSansM Nerd Font Mono 11")
-(set-frame-font "DejaVuSansM Nerd Font Mono 11" nil t)
+(add-to-list 'default-frame-alist '(font . "DejaVuSansM Nerd Font Mono 13"))
+(defvar default-font "DejaVuSansM Nerd Font Mono 13")
+(set-frame-font "DejaVuSansM Nerd Font Mono 13" nil t)
 
 (global-auto-revert-mode 1)
 (setq auto-revert-verbose nil)
 (global-set-key (kbd "<f5>") 'revert-buffer)
+(setq max-lisp-eval-depth 6400)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (column-number-mode 1)
@@ -38,12 +39,7 @@
   :config
   (global-hungry-delete-mode))
 
-(defun project-find-project (dir)
-  "Determine if DIR is a project by checking for a .project file."
-  (let ((root (locate-dominating-file dir ".project")))
-    (when root
-      (cons 'transient root))))
-(add-hook 'project-find-functions #'project-find-project)
+(setq project-vc-extra-root-markers '(".project"))
 
 (setq solarized-distinct-fringe-background t)
 (setq solarized-scale-org-headlines nil)
@@ -60,7 +56,11 @@
                  (eglot-ensure))))
   :config
   (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 0))))
+(fset #'jsonrpc--log-event #'ignore)
+
 (use-package corfu
+  ;; :custom
+  ;; (corfu-auto 1)
   :init
   (global-corfu-mode))
 
@@ -89,7 +89,13 @@
   (setq completion-styles '(orderless basic)))
 (use-package consult
   :bind
-  ("C-x b" . consult-buffer))
+  ("C-x b" . consult-buffer)
+  ("C-<return> f" . consult-fd)
+  ("C-<return> l" . consult-flymake)
+  ("C-<return> o" . consult-outline)
+  ("C-<return> m" . consult-man)
+  ("C-<return> l" . consult-line)
+  ("C-<return> r" . consult-ripgrep))
 
 (use-package rustic
   :config
@@ -136,6 +142,7 @@
 (use-package rainbow-delimiters
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+
 (use-package sudo-edit)
 (use-package dashboard
   :config
@@ -156,23 +163,13 @@
   :ensure nil
   :bind (("C-x C-j" . dired-jump))
   :custom ((dired-listing-switches "-ahgo --group-directories-first")))
-(setq treesit-language-source-alist
-   '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-     (cmake "https://github.com/uyha/tree-sitter-cmake")
-     (css "https://github.com/tree-sitter/tree-sitter-css")
-     (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-     (go "https://github.com/tree-sitter/tree-sitter-go")
-     (html "https://github.com/tree-sitter/tree-sitter-html")
-     (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src") 
-     (json "https://github.com/tree-sitter/tree-sitter-json")
-     (make "https://github.com/alemuller/tree-sitter-make")
-     (rust "https://github.com/tree-sitter/tree-sitter-rust")
-     (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-     (python "https://github.com/tree-sitter/tree-sitter-python")
-     (toml "https://github.com/tree-sitter/tree-sitter-toml")
-     (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-     (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-     (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+
+(use-package treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 
 
 (defun pwn-info-variable (str)
@@ -186,11 +183,12 @@
 
 (add-hook 'python-mode-hook
           (lambda () (local-set-key (kbd "M-p") 'pwn-info-variable)))
+(add-hook 'python-ts-mode-hook
+          (lambda () (local-set-key (kbd "M-p") 'pwn-info-variable)))
 (add-hook 'c-mode-hook
           (lambda () (local-set-key (kbd "M-p") 'kpwn-info-variable)))
-
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
-(global-set-key (kbd "<f6>") 'ivy-resume)
+(add-hook 'c-ts-mode-hook
+          (lambda () (local-set-key (kbd "M-p") 'kpwn-info-variable)))
 
 (use-package esh-mode
   :ensure nil
@@ -209,6 +207,11 @@
 (setq eshell-prompt-function 'my-eshell-prompt)
 (setq eshell-prompt-regexp "^\\[.* λ ")
 
+(add-hook 'eshell-first-time-mode-hook
+          (lambda ()
+            (eshell/alias "pwninit" (concat "pwninit --template-path=" (getenv "HOME") "/.config/pwninit_template.py"))))
+
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -220,7 +223,7 @@
  '(highlight-indent-guides-auto-character-face-perc 100)
  '(org-agenda-files '("/home/poni/org/youtubers.org"))
  '(package-selected-packages
-   '(consult ivy-rich eshell-syntax-highlighting corfu eat beacon undo-tree yasnippet-snippets yasnippet htmlize ox-reveal org-reveal solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
+   '(treesit-auto consult ivy-rich eshell-syntax-highlighting corfu eat beacon undo-tree yasnippet-snippets yasnippet htmlize ox-reveal org-reveal solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
  '(warning-suppress-log-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -232,3 +235,4 @@
  '(org-block-end-line ((t (:inherit org-meta-line :extend t :overline nil))))
  '(yas-field-highlight-face ((t (:inherit secondary-selection :underline t)))))
 (put 'downcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
