@@ -21,6 +21,7 @@
 (global-subword-mode 1)
 (global-hl-line-mode 1)
 (tool-bar-mode 0)
+(menu-bar-mode 0)
 (scroll-bar-mode 0)
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
@@ -39,6 +40,12 @@
   :config
   (global-hungry-delete-mode))
 
+(use-package indent-bars
+  :load-path "~/FOSS/indent-bars"
+  :hook ((prog-mode . (lambda ()
+                        (unless (derived-mode-p 'emacs-lisp-mode)
+                          (indent-bars-mode))))))
+
 (setq project-vc-extra-root-markers '(".project"))
 
 (setq solarized-distinct-fringe-background t)
@@ -50,13 +57,19 @@
   (load-theme 'solarized-dark t))
 
 (use-package rg)
+
 (use-package eglot
   :hook
   (prog-mode . (lambda () (unless (eq major-mode 'emacs-lisp-mode)
                  (eglot-ensure))))
   :config
   (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 0))))
+
 (fset #'jsonrpc--log-event #'ignore)
+
+(use-package eglot-booster
+	:after eglot
+	:config	(eglot-booster-mode))
 
 (use-package corfu
   ;; :custom
@@ -223,7 +236,9 @@
  '(highlight-indent-guides-auto-character-face-perc 100)
  '(org-agenda-files '("/home/poni/org/youtubers.org"))
  '(package-selected-packages
-   '(treesit-auto consult ivy-rich eshell-syntax-highlighting corfu eat beacon undo-tree yasnippet-snippets yasnippet htmlize ox-reveal org-reveal solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
+   '(magit-delta eglot-booster treesit-auto consult ivy-rich eshell-syntax-highlighting corfu eat beacon undo-tree yasnippet-snippets yasnippet htmlize ox-reveal org-reveal solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
+ '(package-vc-selected-packages
+   '((eglot-booster :vc-backend Git :url "https://github.com/jdtsmith/eglot-booster")))
  '(warning-suppress-log-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
