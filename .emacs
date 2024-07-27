@@ -5,7 +5,7 @@
 ;; Even as I confront the heresy of DRM and the treachery of vendor lock-in,
 ;; I will not be led astray, for Emacs is my savior;
 ;; Thy keybindings and Thy modes guide my hands and heart,
-;; Keeping me true to the path of open software and freedom.
+;; Keeping me true to the path of free and open-source software.
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -23,7 +23,6 @@
 (global-auto-revert-mode 1)
 (setq auto-revert-verbose nil)
 (global-set-key (kbd "<f5>") 'revert-buffer)
-(setq max-lisp-eval-depth 6400)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (column-number-mode 1)
@@ -44,18 +43,59 @@
 (setq scroll-margin 1)
 (setq max-mini-window-height 10)
 (global-set-key [remap list-buffers] 'ibuffer)
+(setq project-vc-extra-root-markers '(".project"))
+
+(defun pwn-info-variable (str)
+  "Insert a string into the current buffer."
+  (interactive "sVariable: ") 
+  (insert "info(f\"" str ": {hex(" str ")}\")"))
+(defun kpwn-info-variable (str)
+  "Insert a string into the current buffer."
+  (interactive "sVariable: ") 
+  (insert "printf(\"" str ": 0x%lx\", " str ");"))
+
+(add-hook 'python-mode-hook
+          (lambda () (local-set-key (kbd "M-p") 'pwn-info-variable)))
+(add-hook 'python-ts-mode-hook
+          (lambda () (local-set-key (kbd "M-p") 'pwn-info-variable)))
+(add-hook 'c-mode-hook
+          (lambda () (local-set-key (kbd "M-p") 'kpwn-info-variable)))
+(add-hook 'c-ts-mode-hook
+          (lambda () (local-set-key (kbd "M-p") 'kpwn-info-variable)))
 
 (use-package hungry-delete
   :config
   (global-hungry-delete-mode))
+(use-package rg)
+(use-package which-key
+  :config
+  (which-key-mode))
+(use-package avy
+  :bind
+  ("M-s" . avy-goto-char))
+(use-package gcmh
+  :config
+  (gcmh-mode 1))
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode)
+  (setq undo-tree-auto-save-history nil))
+(use-package sudo-edit)
+(use-package dashboard
+  :config
+  (dashboard-setup-startup-hook))
+(use-package elcord
+  :config
+  (elcord-mode))
 
 (use-package indent-bars
   :load-path "~/FOSS/indent-bars"
   :hook ((prog-mode . (lambda ()
                         (unless (derived-mode-p 'emacs-lisp-mode)
                           (indent-bars-mode))))))
-
-(setq project-vc-extra-root-markers '(".project"))
+(use-package rainbow-delimiters
+  :config
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 (setq solarized-distinct-fringe-background t)
 (setq solarized-scale-org-headlines nil)
@@ -65,7 +105,12 @@
   :config
   (load-theme 'solarized-dark t))
 
-(use-package rg)
+(use-package treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 
 (use-package eglot
   :hook
@@ -73,12 +118,15 @@
                  (eglot-ensure))))
   :config
   (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 0))))
-
 (fset #'jsonrpc--log-event #'ignore)
-
 (use-package eglot-booster
 	:after eglot
 	:config	(eglot-booster-mode))
+(use-package rustic
+  :config
+  (setq rustic-lsp-client 'eglot))
+(use-package htmlize)
+(use-package magit)
 
 (use-package corfu
   ;; :custom
@@ -90,14 +138,6 @@
   :config
   (yas-global-mode 1))
 (use-package yasnippet-snippets)
-
-(use-package avy
-  :bind
-  ("M-s" . avy-goto-char))
-
-(defun my-eshell-mode-hook ()
-  (define-key eshell-hist-mode-map (kbd "M-s") nil))
-(add-hook 'eshell-mode-hook 'my-eshell-mode-hook)
 
 (use-package vertico
   :config
@@ -119,19 +159,6 @@
   ("C-<return> l" . consult-line)
   ("C-<return> r" . consult-ripgrep))
 
-(use-package rustic
-  :config
-  (setq rustic-lsp-client 'eglot))
-(use-package gcmh
-  :config
-  (gcmh-mode 1))
-(use-package undo-tree
-  :config
-  (global-undo-tree-mode)
-  (setq undo-tree-auto-save-history nil))
-
-(use-package magit)
-
 (use-package org
   :config
   (setq org-src-window-setup 'current-window)
@@ -146,7 +173,12 @@
   :config
   (setq org-reveal-mathjax t)
   (setq org-reveal-root "/home/poni/node_modules/reveal.js"))
-(use-package htmlize)
+(use-package org-download)
+
+(use-package dired
+  :ensure nil
+  :bind (("C-x C-j" . dired-jump))
+  :custom ((dired-listing-switches "-ahgo --group-directories-first")))
 
 (use-package eat
   :bind
@@ -157,61 +189,6 @@
   (add-hook 'eat-mode-hook (lambda () (display-line-numbers-mode 0)))
   (add-hook 'eshell-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
   (add-hook 'eshell-mode-hook (lambda () (display-line-numbers-mode 0))))
-
-(use-package which-key
-  :config
-  (which-key-mode))
-(use-package rainbow-delimiters
-  :config
-  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-
-(use-package sudo-edit)
-(use-package dashboard
-  :config
-  (dashboard-setup-startup-hook))
-(use-package elcord
-  :config
-  (elcord-mode))
-(use-package org-download)
-;; (use-package highlight-indent-guides
-;;   :custom
-;;   (highlight-indent-guides-method 'character)
-;;   :init
-;;   (setq highlight-indent-guides-character ?.)
-;;   :hook
-;;   (prog-mode . highlight-indent-guides-mode))
-
-(use-package dired
-  :ensure nil
-  :bind (("C-x C-j" . dired-jump))
-  :custom ((dired-listing-switches "-ahgo --group-directories-first")))
-
-(use-package treesit-auto
-  :custom
-  (treesit-auto-install 'prompt)
-  :config
-  (treesit-auto-add-to-auto-mode-alist 'all)
-  (global-treesit-auto-mode))
-
-
-(defun pwn-info-variable (str)
-  "Insert a string into the current buffer."
-  (interactive "sVariable: ") 
-  (insert "info(f\"" str ": {hex(" str ")}\")"))
-(defun kpwn-info-variable (str)
-  "Insert a string into the current buffer."
-  (interactive "sVariable: ") 
-  (insert "printf(\"" str ": 0x%lx\", " str ");"))
-
-(add-hook 'python-mode-hook
-          (lambda () (local-set-key (kbd "M-p") 'pwn-info-variable)))
-(add-hook 'python-ts-mode-hook
-          (lambda () (local-set-key (kbd "M-p") 'pwn-info-variable)))
-(add-hook 'c-mode-hook
-          (lambda () (local-set-key (kbd "M-p") 'kpwn-info-variable)))
-(add-hook 'c-ts-mode-hook
-          (lambda () (local-set-key (kbd "M-p") 'kpwn-info-variable)))
-
 (use-package esh-mode
   :ensure nil
   :bind (:map eshell-mode-map
@@ -219,6 +196,9 @@
 (use-package eshell-syntax-highlighting
   :config
   (eshell-syntax-highlighting-global-mode +1))
+(defun my-eshell-mode-hook ()
+  (define-key eshell-hist-mode-map (kbd "M-s") nil))
+(add-hook 'eshell-mode-hook 'my-eshell-mode-hook)
 
 (defun my-eshell-prompt ()
   (let* ((user (user-login-name))
@@ -232,7 +212,6 @@
 (add-hook 'eshell-first-time-mode-hook
           (lambda ()
             (eshell/alias "pwninit" (concat "pwninit --template-path=" (getenv "HOME") "/.config/pwninit_template.py"))))
-
 
 
 (custom-set-variables
