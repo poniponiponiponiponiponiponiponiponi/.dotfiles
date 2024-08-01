@@ -153,7 +153,7 @@
   :bind
   ("C-x b" . consult-buffer)
   ("C-<return> f" . consult-fd)
-  ("C-<return> l" . consult-flymake)
+  ("C-<return> e" . consult-flymake)
   ("C-<return> o" . consult-outline)
   ("C-<return> m" . consult-man)
   ("C-<return> l" . consult-line)
@@ -224,7 +224,7 @@
  '(highlight-indent-guides-auto-character-face-perc 100)
  '(org-agenda-files '("/home/poni/org/youtubers.org"))
  '(package-selected-packages
-   '(magit-delta eglot-booster treesit-auto consult ivy-rich eshell-syntax-highlighting corfu eat beacon undo-tree yasnippet-snippets yasnippet htmlize ox-reveal org-reveal solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
+   '(hl-column magit-delta eglot-booster treesit-auto consult ivy-rich eshell-syntax-highlighting corfu eat beacon undo-tree yasnippet-snippets yasnippet htmlize ox-reveal org-reveal solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
  '(package-vc-selected-packages
    '((eglot-booster :vc-backend Git :url "https://github.com/jdtsmith/eglot-booster")))
  '(warning-suppress-log-types '((comp))))
