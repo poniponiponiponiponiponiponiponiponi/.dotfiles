@@ -4,21 +4,21 @@ DOTFILES_PATH="$HOME/.dotfiles"
 
 if [[ "`uname -a`" == *"fedora"* ]]; then
     sudo dnf copr enable gourlaysama/dust
-    sudo dnf install -y \
-        https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-        https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+    #sudo dnf install -y \
+    #    https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+    #    https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
     sudo dnf update -y
-    sudo dnf install -y rofi neovim wine xclip gcc exa ripgrep dust fd-find zsh \
+    sudo dnf install -y rofi wine xclip gcc exa ripgrep dust fd-find zsh \
         alacritty tmux mpv ipython python3 gdb make cmake g++ dejavu-fonts-all \
         ruby gem java-17-openjdk-devel java-17-openjdk clang-tools-extra \
         xz-devel openssl-devel fontawesome-fonts acpi i3blocks feh dunst \
-        deluge-gtk rust-analyzer lxappearance htop curl wget bat pip patchelf \
+        deluge-gtk lxappearance htop curl wget bat pip patchelf \
         qemu-user qemu-user-static gcc-riscv64-linux-gnu \
         binutils-riscv64-linux-gnu gcc-aarch64-linux-gnu \
         binutils-aarch64-linux-gnu \
         texinfo readline-devel sqlite3 arc-theme unrar gimp blender light \
         p7zip p7zip-plugins strace ltrace ruby-devel binwalk \
-        java-runtime-decompiler nasm perf
+        java-runtime-decompiler nasm perf scrot corectrl
 
     # codecs
     sudo dnf install -y gstreamer1-plugins-{bad-\*,good-\*,base} \
@@ -27,7 +27,6 @@ if [[ "`uname -a`" == *"fedora"* ]]; then
     sudo dnf install -y lame\* --exclude=lame-devel
     sudo dnf group upgrade -y --with-optional Multimedia --allowerasing
 fi
-
 
 if [[ "`uname -a`" == *"arch"* ]]; then
 	sudo pacman -Syu emacs firefox neovim ttf-dejavu \
@@ -68,6 +67,7 @@ mkdir -p ~/.config/i3
 mkdir -p ~/Projects
 mkdir -p ~/FOSS
 mkdir -p ~/.scripts
+mkdir -p ~/org
 
 #pip install --upgrade pip
 #pip install pwntools
@@ -88,16 +88,19 @@ ln -sf "$DOTFILES_PATH/tmux.conf" ~/.config/tmux/tmux.conf
 ln -sf "$DOTFILES_PATH/alacritty.yml" ~/.config/alacritty.yml
 ln -sf "$DOTFILES_PATH/.emacs" ~/.emacs
 ln -sf "$DOTFILES_PATH/.bashrc" ~/.bashrc
-ln -sf "$DOTFILES_PATH/sway_config" ~/.config/i3/config
+ln -sf "$DOTFILES_PATH/i3_config" ~/.config/i3/config
 ln -sf "$DOTFILES_PATH/picom.conf" ~/.config/picom.conf
 
 mkdir -p ~/FOSS/sig-database
 git clone https://github.com/push0ebp/sig-database ~/FOSS/sig-database
+git clone https://github.com/jdtsmith/indent-bars ~/FOSS/indent-bars
+git clone https://github.com/poniponiponiponiponiponiponiponiponi/stuff ~/Projects/stuff
+git clone https://github.com/poniponiponiponiponiponiponiponiponi/private ~/Projects/private
 
 #curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 #source "$HOME/.cargo/env"
-#rustup component add rustfmt
-#rustup component add clippy
+rustup component add rustfmt
+rustup component add clippy
 
 git config --global pager.branch false
 git config --global user.name "tabun-dareka"
