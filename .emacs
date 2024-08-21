@@ -7,6 +7,8 @@
 ;; Thy keybindings and Thy modes guide my hands and heart,
 ;; Keeping me true to the path of free and open-source software.
 
+
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
@@ -16,9 +18,10 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-(add-to-list 'default-frame-alist '(font . "DejaVuSansM Nerd Font Mono 13"))
-(defvar default-font "DejaVuSansM Nerd Font Mono 13")
-(set-frame-font "DejaVuSansM Nerd Font Mono 13" nil t)
+(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 11"))
+(defvar default-font "DejaVu Sans Mono 11")
+(set-frame-font "DejaVu Sans Mono 11" nil t)
+(set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 110)
 
 (global-auto-revert-mode 1)
 (setq auto-revert-verbose nil)
@@ -31,7 +34,7 @@
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
-(setq display-line-numbers-type 'relative)
+(setq-default display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
 (setq make-backup-files nil)
 (setq auto-save-default nil)
@@ -41,17 +44,17 @@
 (blink-cursor-mode 0)
 (electric-pair-mode 1)
 (setq scroll-margin 1)
-(setq max-mini-window-height 10)
+(setq max-mini-window-height 6)
 (global-set-key [remap list-buffers] 'ibuffer)
-(setq project-vc-extra-root-markers '(".project"))
+(setq-default project-vc-extra-root-markers '(".project"))
 
 (defun pwn-info-variable (str)
   "Insert a string into the current buffer."
-  (interactive "sVariable: ") 
+  (interactive "sVariable: ")
   (insert "info(f\"" str ": {hex(" str ")}\")"))
 (defun kpwn-info-variable (str)
   "Insert a string into the current buffer."
-  (interactive "sVariable: ") 
+  (interactive "sVariable: ")
   (insert "printf(\"" str ": 0x%lx\", " str ");"))
 
 (add-hook 'python-mode-hook
@@ -76,10 +79,6 @@
 (use-package gcmh
   :config
   (gcmh-mode 1))
-(use-package undo-tree
-  :config
-  (global-undo-tree-mode)
-  (setq undo-tree-auto-save-history nil))
 (use-package sudo-edit)
 (use-package dashboard
   :config
@@ -97,10 +96,10 @@
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
-(setq solarized-distinct-fringe-background t)
-(setq solarized-scale-org-headlines nil)
-(setq solarized-use-variable-pitch nil)
-(setq solarized-high-contrast-mode-line t)
+(setq-default solarized-distinct-fringe-background t)
+(setq-default solarized-scale-org-headlines nil)
+(setq-default solarized-use-variable-pitch nil)
+(setq-default solarized-high-contrast-mode-line t)
 (use-package solarized-theme
   :config
   (load-theme 'solarized-dark t))
@@ -112,16 +111,40 @@
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
-(use-package eglot
-  :hook
-  (prog-mode . (lambda () (unless (eq major-mode 'emacs-lisp-mode)
-                 (eglot-ensure))))
+(package-install 'flycheck)
+(use-package flycheck
   :config
-  (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 0))))
-(fset #'jsonrpc--log-event #'ignore)
-(use-package eglot-booster
-	:after eglot
-	:config	(eglot-booster-mode))
+  (global-flycheck-mode))
+(use-package flycheck-eglot
+  :after (flycheck eglot)
+  :config
+  (global-flycheck-eglot-mode 1))
+
+(add-hook 'prog-mode-hook (lambda () (unless (eq major-mode 'emacs-lisp-mode)
+                                       (eglot-ensure))))
+(add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 0)))
+;; (fset #'jsonrpc--log-event #'ignore)
+;; (use-package eglot-booster
+;; 	:after eglot
+
+(setq-default eglot-workspace-configuration
+              '((:rust-analyzer
+                 . ((cargo
+                     . ((features . "all")))
+                    (diagnostics
+                     . ((experimental
+                         . ((enable . :json-false)))))
+                    (checkOnSave
+                     . t)))))
+;; THIS WAY DOESN'T WORK NO MATTER WHAT I TRY IDK WHY PLS HELP
+;; (with-eval-after-load 'eglot
+;;   (add-to-list 'eglot-server-programs
+;;                `(rustic-mode . ("rust-analyzer" :initializationOptions
+;;                               (:cargo (:features "all"))))))
+
+
+(use-package markdown-mode)
+
 (use-package rustic
   :config
   (setq rustic-lsp-client 'eglot))
@@ -134,11 +157,6 @@
   :init
   (global-corfu-mode))
 
-(use-package yasnippet
-  :config
-  (yas-global-mode 1))
-(use-package yasnippet-snippets)
-
 (use-package vertico
   :config
   (setq vertico-resize nil)
@@ -149,11 +167,12 @@
 (use-package orderless
   :config
   (setq completion-styles '(orderless basic)))
+(use-package consult-flycheck)
 (use-package consult
   :bind
   ("C-x b" . consult-buffer)
   ("C-<return> f" . consult-fd)
-  ("C-<return> e" . consult-flymake)
+  ("C-<return> e" . consult-flycheck)
   ("C-<return> o" . consult-outline)
   ("C-<return> m" . consult-man)
   ("C-<return> l" . consult-line)
@@ -162,6 +181,7 @@
 (use-package org
   :config
   (setq org-src-window-setup 'current-window)
+  (setq org-image-actual-width (truncate (* (display-pixel-width) 0.2)))
   (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
   (add-hook 'org-mode-hook '(lambda () (visual-line-mode 1)))
   (org-babel-do-load-languages
@@ -221,10 +241,9 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    '("fee7287586b17efbfda432f05539b58e86e059e78006ce9237b8732fde991b4c" "524fa911b70d6b94d71585c9f0c5966fe85fb3a9ddd635362bfabd1a7981a307" "d445c7b530713eac282ecdeea07a8fa59692c83045bf84dd112dd738c7bcad1d" "833ddce3314a4e28411edf3c6efde468f6f2616fc31e17a62587d6a9255f4633" "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "d89e15a34261019eec9072575d8a924185c27d3da64899905f8548cbd9491a36" default))
- '(highlight-indent-guides-auto-character-face-perc 100)
- '(org-agenda-files '("/home/poni/org/youtubers.org"))
+ '(org-agenda-files nil)
  '(package-selected-packages
-   '(hl-column magit-delta eglot-booster treesit-auto consult ivy-rich eshell-syntax-highlighting corfu eat beacon undo-tree yasnippet-snippets yasnippet htmlize ox-reveal org-reveal solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
+   '(vundo consult-flycheck hl-column magit-delta eglot-booster treesit-auto consult ivy-rich eshell-syntax-highlighting corfu eat beacon undo-tree htmlize ox-reveal org-reveal solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
  '(package-vc-selected-packages
    '((eglot-booster :vc-backend Git :url "https://github.com/jdtsmith/eglot-booster")))
  '(warning-suppress-log-types '((comp))))
@@ -233,9 +252,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(flymake-warning ((t nil)))
+ '(fixed-pitch ((t nil)))
  '(org-block-begin-line ((t (:inherit org-meta-line :extend t :underline nil))))
- '(org-block-end-line ((t (:inherit org-meta-line :extend t :overline nil))))
- '(yas-field-highlight-face ((t (:inherit secondary-selection :underline t)))))
+ '(org-block-end-line ((t (:inherit org-meta-line :extend t :overline nil)))))
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
