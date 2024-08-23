@@ -8,7 +8,6 @@
 ;; Keeping me true to the path of free and open-source software.
 
 
-
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
@@ -17,6 +16,26 @@
 
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
+
+;; (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
+;; (setq eldoc-display-functions '(eldoc-display-in-buffer))
+(setq eldoc-box-cleanup-interval 1)
+(setq eldoc-idle-delay 0.25)
+(add-function :after after-focus-change-function (lambda () (redraw-frame)))
+;; Not sure how to disable it, works good enough
+(setq flycheck-display-errors-delay 9999999)
+
+(use-package flycheck
+  :config
+  (global-flycheck-mode))
+(use-package flycheck-eglot
+  :after (flycheck eglot)
+  :config
+  (global-flycheck-eglot-mode 1))
+(use-package eldoc-box
+  :config
+  (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
+  (setq eldoc-box-max-pixel-height 300))
 
 (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 11"))
 (defvar default-font "DejaVu Sans Mono 11")
@@ -44,7 +63,7 @@
 (blink-cursor-mode 0)
 (electric-pair-mode 1)
 (setq scroll-margin 1)
-(setq max-mini-window-height 6)
+(setq max-mini-window-height 11)
 (global-set-key [remap list-buffers] 'ibuffer)
 (setq-default project-vc-extra-root-markers '(".project"))
 
@@ -111,15 +130,6 @@
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
-(package-install 'flycheck)
-(use-package flycheck
-  :config
-  (global-flycheck-mode))
-(use-package flycheck-eglot
-  :after (flycheck eglot)
-  :config
-  (global-flycheck-eglot-mode 1))
-
 (add-hook 'prog-mode-hook (lambda () (unless (eq major-mode 'emacs-lisp-mode)
                                        (eglot-ensure))))
 (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 0)))
@@ -141,7 +151,6 @@
 ;;   (add-to-list 'eglot-server-programs
 ;;                `(rustic-mode . ("rust-analyzer" :initializationOptions
 ;;                               (:cargo (:features "all"))))))
-
 
 (use-package markdown-mode)
 
@@ -240,12 +249,19 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("fee7287586b17efbfda432f05539b58e86e059e78006ce9237b8732fde991b4c" "524fa911b70d6b94d71585c9f0c5966fe85fb3a9ddd635362bfabd1a7981a307" "d445c7b530713eac282ecdeea07a8fa59692c83045bf84dd112dd738c7bcad1d" "833ddce3314a4e28411edf3c6efde468f6f2616fc31e17a62587d6a9255f4633" "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "d89e15a34261019eec9072575d8a924185c27d3da64899905f8548cbd9491a36" default))
+   '("fee7287586b17efbfda432f05539b58e86e059e78006ce9237b8732fde991b4c"
+     "524fa911b70d6b94d71585c9f0c5966fe85fb3a9ddd635362bfabd1a7981a307"
+     "d445c7b530713eac282ecdeea07a8fa59692c83045bf84dd112dd738c7bcad1d"
+     "833ddce3314a4e28411edf3c6efde468f6f2616fc31e17a62587d6a9255f4633"
+     "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5"
+     "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1"
+     "d89e15a34261019eec9072575d8a924185c27d3da64899905f8548cbd9491a36"
+     default))
  '(org-agenda-files nil)
- '(package-selected-packages
-   '(vundo consult-flycheck hl-column magit-delta eglot-booster treesit-auto consult ivy-rich eshell-syntax-highlighting corfu eat beacon undo-tree htmlize ox-reveal org-reveal solarized-theme rg hungry-delete multi-vterm projectile project-x ivy-xref sly geiser-guile fireplace snow org-download flycheck elcord sudo-edit rainbow-delimiters rainbow-delimiters-mode rainbow-mode which-key vterm highlight-indent-guides highlight-indentation vline use-package rustic magit gruvbox-theme gcmh eglot counsel company avy))
+ '(package-selected-packages nil)
  '(package-vc-selected-packages
-   '((eglot-booster :vc-backend Git :url "https://github.com/jdtsmith/eglot-booster")))
+   '((eglot-booster :vc-backend Git :url
+                    "https://github.com/jdtsmith/eglot-booster")))
  '(warning-suppress-log-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
