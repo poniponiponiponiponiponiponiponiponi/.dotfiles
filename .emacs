@@ -17,13 +17,24 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-;; (setq eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
-;; (setq eldoc-display-functions '(eldoc-display-in-buffer))
-(setq eldoc-box-cleanup-interval 1)
+(defun disable-flycheck-on-type (&rest _)
+  (when (bound-and-true-p flycheck-mode)
+    (flycheck-mode -1)))
+
+(defun enable-flycheck-on-save ()
+  (flycheck-mode 1))
+
+(defun setup-flycheck-toggle ()
+  (add-hook 'after-change-functions 'disable-flycheck-on-type nil t)
+  (add-hook 'before-save-hook 'enable-flycheck-on-save nil t))
+
+;; Because rust-analyzer is annoying with performing a lot of checks only on save
+(add-hook 'rustic-mode-hook 'setup-flycheck-toggle)
+
+
 (setq eldoc-idle-delay 0.25)
 (add-function :after after-focus-change-function (lambda () (redraw-frame)))
 ;; Not sure how to disable it, works good enough
-(setq flycheck-display-errors-delay 9999999)
 
 (use-package flycheck
   :config
@@ -32,10 +43,15 @@
   :after (flycheck eglot)
   :config
   (global-flycheck-eglot-mode 1))
+;; Not sure how to disable it, works good enough
+(setq flycheck-display-errors-delay 9999999)
+
 (use-package eldoc-box
   :config
   (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
-  (setq eldoc-box-max-pixel-height 300))
+  (setq eldoc-box-max-pixel-height 300)
+  (custom-set-faces
+   '(eldoc-box-border ((t (:background "#839496"))))))
 
 (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 11"))
 (defvar default-font "DejaVu Sans Mono 11")
@@ -66,6 +82,7 @@
 (setq max-mini-window-height 11)
 (global-set-key [remap list-buffers] 'ibuffer)
 (setq-default project-vc-extra-root-markers '(".project"))
+(use-package projectile)
 
 (defun pwn-info-variable (str)
   "Insert a string into the current buffer."
@@ -176,12 +193,11 @@
 (use-package orderless
   :config
   (setq completion-styles '(orderless basic)))
-(use-package consult-flycheck)
 (use-package consult
   :bind
   ("C-x b" . consult-buffer)
   ("C-<return> f" . consult-fd)
-  ("C-<return> e" . consult-flycheck)
+  ("C-<return> e" . consult-flymake)
   ("C-<return> o" . consult-outline)
   ("C-<return> m" . consult-man)
   ("C-<return> l" . consult-line)
@@ -242,6 +258,38 @@
           (lambda ()
             (eshell/alias "pwninit" (concat "pwninit --template-path=" (getenv "HOME") "/.config/pwninit_template.py"))))
 
+;; Overwritten function from eldoc-box, so when the box is resized
+;; it doesn't look now that glitchy/ugly (at least on my system)
+;; TODO: in the future I should make a wrapper for the function instead
+(setq prev-size '(0 . 0))
+(defun eldoc-box--update-childframe-geometry (frame window)
+  "Update the size and the position of childframe.
+FRAME is the childframe, WINDOW is the primary window."
+  (setcdr eldoc-box--markdown-separator-display-props nil)
+
+  (let* ((size
+          (window-text-pixel-size
+           window nil nil
+           (if (functionp eldoc-box-max-pixel-width) (funcall eldoc-box-max-pixel-width) eldoc-box-max-pixel-width)
+           (if (functionp eldoc-box-max-pixel-height) (funcall eldoc-box-max-pixel-height) eldoc-box-max-pixel-height)
+           t))
+         (width (car size))
+         (height (cdr size))
+         (width (+ width (frame-char-width frame))) ; add margin
+         (frame-resize-pixelwise t)
+         (pos (funcall eldoc-box-position-function width height)))
+    (if (not (equal prev-size size))
+        (eldoc-box--maybe-cleanup))
+    (setq prev-size size)
+    (set-frame-size frame width height t)
+
+    ;; Set the display property back.
+    (setcdr eldoc-box--markdown-separator-display-props
+            '(:width text))
+
+    ;; move position
+    (set-frame-position frame (car pos) (cdr pos))))
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -258,7 +306,13 @@
      "d89e15a34261019eec9072575d8a924185c27d3da64899905f8548cbd9491a36"
      default))
  '(org-agenda-files nil)
- '(package-selected-packages nil)
+ '(package-selected-packages
+   '(avy consult-flycheck corfu dashboard eat elcord eldoc-box
+         eshell-syntax-highlighting flycheck-eglot gcmh htmlize
+         hungry-delete magit marginalia orderless org-download
+         ox-reveal projectile rainbow-delimiters rg rustic
+         sideline-flycheck solarized-theme sudo-edit treesit-auto
+         vertico which-key))
  '(package-vc-selected-packages
    '((eglot-booster :vc-backend Git :url
                     "https://github.com/jdtsmith/eglot-booster")))
@@ -268,6 +322,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(eldoc-box-border ((t (:background "#839496"))))
  '(fixed-pitch ((t nil)))
  '(org-block-begin-line ((t (:inherit org-meta-line :extend t :underline nil))))
  '(org-block-end-line ((t (:inherit org-meta-line :extend t :overline nil)))))
