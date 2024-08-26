@@ -22,11 +22,13 @@
     (flycheck-mode -1)))
 
 (defun enable-flycheck-on-save ()
-  (flycheck-mode 1))
+  (run-at-time "0.25 sec" nil (lambda ()
+                               (flycheck-mode 1)
+                               (flycheck-buffer))))
 
 (defun setup-flycheck-toggle ()
   (add-hook 'after-change-functions 'disable-flycheck-on-type nil t)
-  (add-hook 'before-save-hook 'enable-flycheck-on-save nil t))
+  (add-hook 'after-save-hook 'enable-flycheck-on-save nil t))
 
 ;; Because rust-analyzer is annoying with performing a lot of checks only on save
 (add-hook 'rustic-mode-hook 'setup-flycheck-toggle)
@@ -38,13 +40,12 @@
 
 (use-package flycheck
   :config
-  (global-flycheck-mode))
+  (global-flycheck-mode)
+  (setq flycheck-display-errors-delay 0.25))
 (use-package flycheck-eglot
   :after (flycheck eglot)
   :config
   (global-flycheck-eglot-mode 1))
-;; Not sure how to disable it, works good enough
-(setq flycheck-display-errors-delay 9999999)
 
 (use-package eldoc-box
   :config
@@ -174,6 +175,7 @@
 (use-package rustic
   :config
   (setq rustic-lsp-client 'eglot))
+
 (use-package htmlize)
 (use-package magit)
 
@@ -197,7 +199,7 @@
   :bind
   ("C-x b" . consult-buffer)
   ("C-<return> f" . consult-fd)
-  ("C-<return> e" . consult-flymake)
+  ("C-<return> e" . consult-flycheck)
   ("C-<return> o" . consult-outline)
   ("C-<return> m" . consult-man)
   ("C-<return> l" . consult-line)
