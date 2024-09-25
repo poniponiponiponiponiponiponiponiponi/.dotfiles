@@ -34,7 +34,7 @@ if [[ "`uname -a`" == *"arch"* ]]; then
 		gcc python python-pip zip p7zip wget git curl \
 		openbsd-netcat ipython ruby rubygems mpv tmux fish ropper \
 		python-pwntools clang htop bat patchelf perf nasm binwalk \
-		blender ltrace strace unrar rust-analyzer dunst feh acpi \
+		blender ltrace strace unrar rustup dunst feh acpi \
 		ttf-font-awesome lxappearance wine-staging xclip exa ripgrep dust \
 		zsh alacritty gdb make cmake bear bash-completion man \
 		qemu-full jdk-openjdk openjdk-doc openjdk-src \
@@ -46,7 +46,7 @@ if [[ "`uname -a`" == *"arch"* ]]; then
 		aarch64-linux-gnu-binutils aarch64-linux-gnu-gcc \
 		aarch64-linux-gnu-gdb aarch64-linux-gnu-glibc \
 		arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-gdb \
-		arm-none-eabi-newlib python-ipdb inet-utils
+		python-ipdb scrot
 fi
 
 declare -a commands=("ipython" "git" "gem" "pip" "python" "curl")
@@ -91,7 +91,6 @@ ln -sf "$DOTFILES_PATH/.bashrc" ~/.bashrc
 ln -sf "$DOTFILES_PATH/i3_config" ~/.config/i3/config
 ln -sf "$DOTFILES_PATH/picom.conf" ~/.config/picom.conf
 
-mkdir -p ~/FOSS/sig-database
 git clone https://github.com/push0ebp/sig-database ~/FOSS/sig-database
 git clone https://github.com/jdtsmith/indent-bars ~/FOSS/indent-bars
 git clone https://github.com/poniponiponiponiponiponiponiponiponi/stuff ~/Projects/stuff
@@ -103,6 +102,6 @@ rustup component add rustfmt
 rustup component add clippy
 
 git config --global pager.branch false
-git config --global user.name "tabun-dareka"
-git config --global user.email "tabun.dareka@protonmail.com"
+git config --global user.name "poniponiponiponiponiponiponiponiponi"
+git config --global user.email "poniponiponiponiponiponiponiponiponiponi@protonmail.com"
 git config --global credential.helper store
