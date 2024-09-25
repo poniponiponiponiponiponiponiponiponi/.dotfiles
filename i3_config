@@ -64,21 +64,17 @@ bindsym $mod+q kill
 bindsym $mod+d exec --no-startup-id rofi -font "DejaVu Sans Mono 12" -theme ~/.dotfiles/rofi-theme -show run
 bindsym $mod+w exec --no-startup-id rofi -font "DejaVu Sans Mono 12" -theme ~/.dotfiles/rofi-theme -show window
 
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+bindsym $mod+b focus left
+bindsym $mod+n focus down
+bindsym $mod+p focus up
+bindsym $mod+f focus right
 
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+bindsym $mod+Shift+b move left
+bindsym $mod+Shift+n move down
+bindsym $mod+Shift+p move up
+bindsym $mod+Shift+f move right
 
-bindsym $mod+b split h
-
-bindsym $mod+v split v
-
-bindsym $mod+f fullscreen toggle
+bindsym $mod+h fullscreen toggle
 
 bindsym $mod+s layout tabbed
 bindsym $mod+e layout toggle split
