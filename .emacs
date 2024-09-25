@@ -14,8 +14,12 @@
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
+
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
+
+(global-set-key (kbd "C-v") (lambda () (interactive) (scroll-up-command 7)))
+(global-set-key (kbd "M-v") (lambda () (interactive) (scroll-down-command 7)))
 
 (defun disable-flycheck-on-type (&rest _)
   (when (bound-and-true-p flycheck-mode)
@@ -67,9 +71,9 @@
 (column-number-mode 1)
 (global-subword-mode 1)
 (global-hl-line-mode 1)
-(tool-bar-mode 0)
-(menu-bar-mode 0)
-(scroll-bar-mode 0)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
 (setq-default display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
 (setq make-backup-files nil)
@@ -79,7 +83,7 @@
 (setq-default indent-tabs-mode nil)
 (blink-cursor-mode 0)
 (electric-pair-mode 1)
-(setq scroll-margin 1)
+(setq scroll-margin 7)
 (setq max-mini-window-height 11)
 (global-set-key [remap list-buffers] 'ibuffer)
 (setq-default project-vc-extra-root-markers '(".project"))
@@ -140,6 +144,7 @@
 (use-package solarized-theme
   :config
   (load-theme 'solarized-dark t))
+(set-cursor-color "#d33682")
 
 (use-package treesit-auto
   :custom
@@ -170,7 +175,7 @@
 ;;                `(rustic-mode . ("rust-analyzer" :initializationOptions
 ;;                               (:cargo (:features "all"))))))
 
-(use-package markdown-mode)
+;;(use-package markdown-mode)
 
 (use-package rustic
   :config
@@ -188,7 +193,15 @@
 (use-package vertico
   :config
   (setq vertico-resize nil)
-  (vertico-mode 1))
+  (vertico-mode 1)
+  (keymap-global-set "<f10>" #'tmm-menubar)
+  (advice-add #'tmm-add-prompt :after #'minibuffer-hide-completions)
+  (add-hook 'minibuffer-setup-hook
+            (lambda ()
+              (local-set-key (kbd "C-n") #'vertico-next)))
+  (add-hook 'minibuffer-setup-hook
+            (lambda ()
+              (local-set-key (kbd "C-p") #'vertico-previous))))
 (use-package marginalia
   :config
   (marginalia-mode 1))
@@ -308,13 +321,7 @@ FRAME is the childframe, WINDOW is the primary window."
      "d89e15a34261019eec9072575d8a924185c27d3da64899905f8548cbd9491a36"
      default))
  '(org-agenda-files nil)
- '(package-selected-packages
-   '(avy consult-flycheck corfu dashboard eat elcord eldoc-box
-         eshell-syntax-highlighting flycheck-eglot gcmh htmlize
-         hungry-delete magit marginalia orderless org-download
-         ox-reveal projectile rainbow-delimiters rg rustic
-         sideline-flycheck solarized-theme sudo-edit treesit-auto
-         vertico which-key))
+ '(package-selected-packages nil)
  '(package-vc-selected-packages
    '((eglot-booster :vc-backend Git :url
                     "https://github.com/jdtsmith/eglot-booster")))
