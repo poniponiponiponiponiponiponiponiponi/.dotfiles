@@ -24,7 +24,7 @@
 (defun disable-flycheck-on-type (&rest _)
   (when (bound-and-true-p flycheck-mode)
     ;; hacky!
-    (run-at-time "0.02 sec" nil (lambda ()
+    (run-at-time "0.05 sec" nil (lambda ()
                                (flycheck-mode -1)))))
 
 (defun enable-flycheck-on-save ()
@@ -137,7 +137,11 @@
   (elcord-mode))
 
 (use-package indent-bars
-  :load-path "~/FOSS/indent-bars"
+  :config
+  (require 'indent-bars-ts)
+  ;; :custom
+  ;; (indent-bars-treesit-support t)
+  ;; (indent-bars-treesit-ignore-blank-lines-types '("module"))
   :hook ((prog-mode . (lambda ()
                         (unless (derived-mode-p 'emacs-lisp-mode)
                           (indent-bars-mode))))))
@@ -282,7 +286,8 @@
             (eshell/alias "pwninit" (concat "pwninit --template-path=" (getenv "HOME") "/.config/pwninit_template.py"))))
 
 ;; Overwritten function from eldoc-box, so when the box is resized
-;; it doesn't look now that glitchy/ugly (at least on my system)
+;; it doesn't look now that glitchy/ugly (at least on my system).
+;; I made a issue for it on github: https://github.com/casouri/eldoc-box/issues/110
 ;; TODO: in the future I should make a wrapper for the function instead
 (setq prev-size '(0 . 0))
 (defun eldoc-box--update-childframe-geometry (frame window)

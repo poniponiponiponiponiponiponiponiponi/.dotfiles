@@ -74,7 +74,6 @@ ln -sf "$DOTFILES_PATH/i3_config" ~/.config/i3/config
 ln -sf "$DOTFILES_PATH/picom.conf" ~/.config/picom.conf
 
 git clone https://github.com/push0ebp/sig-database ~/FOSS/sig-database
-git clone https://github.com/jdtsmith/indent-bars ~/FOSS/indent-bars
 git clone https://github.com/poniponiponiponiponiponiponiponiponi/stuff ~/Projects/stuff
 git clone https://github.com/poniponiponiponiponiponiponiponiponi/private ~/Projects/private
 
