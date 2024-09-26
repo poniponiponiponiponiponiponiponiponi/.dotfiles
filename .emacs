@@ -23,7 +23,9 @@
 
 (defun disable-flycheck-on-type (&rest _)
   (when (bound-and-true-p flycheck-mode)
-    (flycheck-mode -1)))
+    ;; hacky!
+    (run-at-time "0.02 sec" nil (lambda ()
+                               (flycheck-mode -1)))))
 
 (defun enable-flycheck-on-save ()
   (run-at-time "0.25 sec" nil (lambda ()
@@ -40,7 +42,6 @@
 
 (setq eldoc-idle-delay 0.25)
 (add-function :after after-focus-change-function (lambda () (redraw-frame)))
-;; Not sure how to disable it, works good enough
 
 (use-package flycheck
   :config
