@@ -14,17 +14,27 @@
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
-
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-(global-set-key (kbd "C-v") (lambda () (interactive) (scroll-up-command 7)))
-(global-set-key (kbd "M-v") (lambda () (interactive) (scroll-down-command 7)))
+
+(if (> (display-pixel-width) 1920)
+    (progn
+      (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 15"))
+      (defvar default-font "DejaVu Sans Mono 15")
+      (set-frame-font "DejaVu Sans Mono 15" nil t)
+      (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 150))
+  (progn
+    (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 11"))
+    (defvar default-font "DejaVu Sans Mono 11")
+    (set-frame-font "DejaVu Sans Mono 11" nil t)
+    (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 110)))
+
 
 (defun disable-flycheck-on-type (&rest _)
   (when (bound-and-true-p flycheck-mode)
     ;; hacky!
-    (run-at-time "0.05 sec" nil (lambda ()
+    (run-at-time "0.10 sec" nil (lambda ()
                                (flycheck-mode -1)))))
 
 (defun enable-flycheck-on-save ()
@@ -40,36 +50,29 @@
 (add-hook 'rustic-mode-hook 'setup-flycheck-toggle)
 
 
-(setq eldoc-idle-delay 0.25)
+(defun pwn-info-variable (str)
+  "Insert a string into the current buffer."
+  (interactive "sVariable: ")
+  (insert "info(f\"" str ": {hex(" str ")}\")"))
+(defun kpwn-info-variable (str)
+  "Insert a string into the current buffer."
+  (interactive "sVariable: ")
+  (insert "printf(\"" str ": 0x%lx\", " str ");"))
+
+(add-hook 'python-mode-hook
+          (lambda () (local-set-key (kbd "M-p") 'pwn-info-variable)))
+(add-hook 'python-ts-mode-hook
+          (lambda () (local-set-key (kbd "M-p") 'pwn-info-variable)))
+(add-hook 'c-mode-hook
+          (lambda () (local-set-key (kbd "M-p") 'kpwn-info-variable)))
+(add-hook 'c-ts-mode-hook
+          (lambda () (local-set-key (kbd "M-p") 'kpwn-info-variable)))
+
+
+(global-set-key (kbd "C-v") (lambda () (interactive) (scroll-up-command 7)))
+(global-set-key (kbd "M-v") (lambda () (interactive) (scroll-down-command 7)))
+
 (add-function :after after-focus-change-function (lambda () (redraw-frame)))
-
-(use-package flycheck
-  :config
-  (global-flycheck-mode)
-  (setq flycheck-display-errors-delay 0.25))
-(use-package flycheck-eglot
-  :after (flycheck eglot)
-  :config
-  (global-flycheck-eglot-mode 1))
-
-(use-package eldoc-box
-  :config
-  (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
-  (setq eldoc-box-max-pixel-height 300)
-  (custom-set-faces
-   '(eldoc-box-border ((t (:background "#839496"))))))
-
-(if (> (display-pixel-width) 1920)
-    (progn
-      (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 15"))
-      (defvar default-font "DejaVu Sans Mono 15")
-      (set-frame-font "DejaVu Sans Mono 15" nil t)
-      (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 150))
-  (progn
-    (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 11"))
-    (defvar default-font "DejaVu Sans Mono 11")
-    (set-frame-font "DejaVu Sans Mono 11" nil t)
-    (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 110)))
 
 (global-auto-revert-mode 1)
 (setq auto-revert-verbose nil)
@@ -91,30 +94,29 @@
 (setq-default indent-tabs-mode nil)
 (blink-cursor-mode 0)
 (electric-pair-mode 1)
-(setq scroll-margin 7)
+(setq scroll-margin 2)
 (setq max-mini-window-height 11)
+(set-cursor-color "#d33682")
 (global-set-key [remap list-buffers] 'ibuffer)
+(setq eldoc-idle-delay 0.25)
 (setq-default project-vc-extra-root-markers '(".project"))
-(use-package projectile)
 
-(defun pwn-info-variable (str)
-  "Insert a string into the current buffer."
-  (interactive "sVariable: ")
-  (insert "info(f\"" str ": {hex(" str ")}\")"))
-(defun kpwn-info-variable (str)
-  "Insert a string into the current buffer."
-  (interactive "sVariable: ")
-  (insert "printf(\"" str ": 0x%lx\", " str ");"))
 
-(add-hook 'python-mode-hook
-          (lambda () (local-set-key (kbd "M-p") 'pwn-info-variable)))
-(add-hook 'python-ts-mode-hook
-          (lambda () (local-set-key (kbd "M-p") 'pwn-info-variable)))
-(add-hook 'c-mode-hook
-          (lambda () (local-set-key (kbd "M-p") 'kpwn-info-variable)))
-(add-hook 'c-ts-mode-hook
-          (lambda () (local-set-key (kbd "M-p") 'kpwn-info-variable)))
+(use-package flycheck
+  :config
+  (global-flycheck-mode)
+  (setq flycheck-display-errors-delay 0.25))
+(use-package flycheck-eglot
+  :after (flycheck eglot)
+  :config
+  (global-flycheck-eglot-mode 1))
 
+(use-package eldoc-box
+  :config
+  (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
+  (setq eldoc-box-max-pixel-height 300)
+  (custom-set-faces
+   '(eldoc-box-border ((t (:background "#839496"))))))
 (use-package hungry-delete
   :config
   (global-hungry-delete-mode))
@@ -149,14 +151,13 @@
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
-(setq-default solarized-distinct-fringe-background t)
-(setq-default solarized-scale-org-headlines nil)
-(setq-default solarized-use-variable-pitch nil)
-(setq-default solarized-high-contrast-mode-line t)
 (use-package solarized-theme
   :config
+  (setq-default solarized-distinct-fringe-background t)
+  (setq-default solarized-scale-org-headlines nil)
+  (setq-default solarized-use-variable-pitch nil)
+  (setq-default solarized-high-contrast-mode-line t)
   (load-theme 'solarized-dark t))
-(set-cursor-color "#d33682")
 
 (use-package treesit-auto
   :custom
@@ -284,6 +285,7 @@
 (add-hook 'eshell-first-time-mode-hook
           (lambda ()
             (eshell/alias "pwninit" (concat "pwninit --template-path=" (getenv "HOME") "/.config/pwninit_template.py"))))
+
 
 ;; Overwritten function from eldoc-box, so when the box is resized
 ;; it doesn't look now that glitchy/ugly (at least on my system).
