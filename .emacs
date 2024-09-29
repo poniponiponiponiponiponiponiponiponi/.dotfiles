@@ -96,7 +96,6 @@
 (electric-pair-mode 1)
 (setq scroll-margin 2)
 (setq max-mini-window-height 11)
-(set-cursor-color "#d33682")
 (global-set-key [remap list-buffers] 'ibuffer)
 (setq eldoc-idle-delay 0.25)
 (setq-default project-vc-extra-root-markers '(".project"))
@@ -157,7 +156,8 @@
   (setq-default solarized-scale-org-headlines nil)
   (setq-default solarized-use-variable-pitch nil)
   (setq-default solarized-high-contrast-mode-line t)
-  (load-theme 'solarized-dark t))
+  (load-theme 'solarized-dark t)
+  (set-cursor-color "#d33682"))
 
 (use-package treesit-auto
   :custom
