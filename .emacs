@@ -20,10 +20,10 @@
 
 (if (> (display-pixel-width) 1920)
     (progn
-      (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 15"))
-      (defvar default-font "DejaVu Sans Mono 15")
-      (set-frame-font "DejaVu Sans Mono 15" nil t)
-      (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 150))
+      (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 17"))
+      (defvar default-font "DejaVu Sans Mono 17")
+      (set-frame-font "DejaVu Sans Mono 17" nil t)
+      (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 170))
   (progn
     (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 11"))
     (defvar default-font "DejaVu Sans Mono 11")
