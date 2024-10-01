@@ -26,7 +26,7 @@ if [[ "`uname -a`" == *"arch"* ]]; then
          python-pwntools clang htop bat patchelf perf nasm binwalk \
          blender ltrace strace unrar rustup dunst feh acpi \
          ttf-font-awesome lxappearance wine-staging xclip exa ripgrep dust \
-         zsh alacritty gdb make cmake bear bash-completion man \
+         zsh alacritty gdb make cmake bear bash-completion man man-pages \
          qemu-full jdk-openjdk openjdk-doc openjdk-src \
          riscv32-elf-binutils riscv32-elf-gdb riscv32-elf-newlib \
          riscv64-elf-binutils riscv64-elf-gcc riscv64-elf-gdb \
