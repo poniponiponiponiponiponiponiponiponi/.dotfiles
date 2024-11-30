@@ -98,7 +98,7 @@
 (setq max-mini-window-height 11)
 (global-set-key [remap list-buffers] 'ibuffer)
 (setq eldoc-idle-delay 0.25)
-(setq-default project-vc-extra-root-markers '(".project"))
+(setq-default project-vc-extra-root-markers '(".project" "Cargo.toml"))
 
 
 (use-package flycheck
@@ -109,6 +109,7 @@
   :after (flycheck eglot)
   :config
   (global-flycheck-eglot-mode 1))
+(use-package consult-flycheck)
 
 (use-package eldoc-box
   :config
@@ -336,7 +337,12 @@ FRAME is the childframe, WINDOW is the primary window."
      "d89e15a34261019eec9072575d8a924185c27d3da64899905f8548cbd9491a36"
      default))
  '(org-agenda-files nil)
- '(package-selected-packages nil)
+ '(package-selected-packages
+   '(avy consult consult-flycheck corfu dashboard eat elcord eldoc-box
+         eshell-syntax-highlighting flycheck-eglot gcmh htmlize
+         hungry-delete indent-bars magit marginalia orderless
+         org-download ox-reveal projectile rainbow-delimiters rg
+         rustic solarized-theme sudo-edit treesit-auto vertico))
  '(package-vc-selected-packages
    '((eglot-booster :vc-backend Git :url
                     "https://github.com/jdtsmith/eglot-booster")))
