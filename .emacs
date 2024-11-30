@@ -117,9 +117,9 @@
   (setq eldoc-box-max-pixel-height 300)
   (custom-set-faces
    '(eldoc-box-border ((t (:background "#839496"))))))
-(use-package hungry-delete
-  :config
-  (global-hungry-delete-mode))
+;; (use-package hungry-delete
+;;   :config
+;;   (global-hungry-delete-mode))
 (use-package rg)
 (use-package which-key
   :config
@@ -127,6 +127,12 @@
 (use-package avy
   :bind
   ("M-s" . avy-goto-char))
+(use-package multiple-cursors
+  :config
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
+
 (use-package gcmh
   :config
   (gcmh-mode 1))
@@ -340,9 +346,10 @@ FRAME is the childframe, WINDOW is the primary window."
  '(package-selected-packages
    '(avy consult consult-flycheck corfu dashboard eat elcord eldoc-box
          eshell-syntax-highlighting flycheck-eglot gcmh htmlize
-         hungry-delete indent-bars magit marginalia orderless
-         org-download ox-reveal projectile rainbow-delimiters rg
-         rustic solarized-theme sudo-edit treesit-auto vertico))
+         hungry-delete indent-bars magit marginalia multiple-cursors
+         orderless org-download ox-reveal projectile
+         rainbow-delimiters rg rustic solarized-theme sudo-edit
+         treesit-auto vertico))
  '(package-vc-selected-packages
    '((eglot-booster :vc-backend Git :url
                     "https://github.com/jdtsmith/eglot-booster")))
