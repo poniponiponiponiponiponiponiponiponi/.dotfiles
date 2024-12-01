@@ -327,6 +327,8 @@ FRAME is the childframe, WINDOW is the primary window."
     ;; move position
     (set-frame-position frame (car pos) (cdr pos))))
 
+(server-start)
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
