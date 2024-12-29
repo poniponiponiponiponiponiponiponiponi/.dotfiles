@@ -87,3 +87,4 @@ git config --global user.name "poniponiponiponiponiponiponiponiponi"
 git config --global user.email "poniponiponiponiponiponiponiponiponiponi@protonmail.com"
 git config --global credential.helper store
 git config --global core.editor "emacsclient"
+git config --global init.defaultBranch main
