@@ -110,6 +110,7 @@
   :config
   (global-flycheck-eglot-mode 1))
 (use-package consult-flycheck)
+(use-package yasnippet)
 
 (use-package eldoc-box
   :config
@@ -346,12 +347,11 @@ FRAME is the childframe, WINDOW is the primary window."
      default))
  '(org-agenda-files nil)
  '(package-selected-packages
-   '(avy consult consult-flycheck corfu dashboard eat elcord eldoc-box
+   '(avy consult-flycheck corfu dashboard eat elcord eldoc-box
          eshell-syntax-highlighting flycheck-eglot gcmh htmlize
-         hungry-delete indent-bars magit marginalia multiple-cursors
-         orderless org-download ox-reveal projectile
-         rainbow-delimiters rg rustic solarized-theme sudo-edit
-         treesit-auto vertico))
+         indent-bars magit marginalia multiple-cursors orderless
+         org-download ox-reveal rainbow-delimiters rg rustic
+         solarized-theme sudo-edit treesit-auto vertico yasnippet))
  '(package-vc-selected-packages
    '((eglot-booster :vc-backend Git :url
                     "https://github.com/jdtsmith/eglot-booster")))
