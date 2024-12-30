@@ -88,3 +88,7 @@ git config --global user.email "poniponiponiponiponiponiponiponiponiponi@protonm
 git config --global credential.helper store
 git config --global core.editor "emacsclient"
 git config --global init.defaultBranch main
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
