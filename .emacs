@@ -204,6 +204,13 @@
 
 ;;(use-package markdown-mode)
 
+(defun my-python-noindent (&optional _previous)
+  (let ((context (python-indent-context)))
+    (if (or (eq (car context) :inside-string)
+            (eq (car context) :inside-docstring))
+        'noindent)))
+(advice-add 'python-indent-line :before-until #'my-python-noindent)
+
 (use-package rustic
   :config
   (setq rustic-lsp-client 'eglot))
