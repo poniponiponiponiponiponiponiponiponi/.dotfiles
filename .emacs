@@ -90,8 +90,14 @@
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 (setq kill-buffer-query-functions nil)
+
+;; indentation
 (setq indent-tabs-mode nil)
 (setq-default indent-tabs-mode nil)
+(setq tab-width 4)
+(setq c-basic-offset 4)
+(setq c-ts-mode-indent-offset 4)
+
 (blink-cursor-mode 0)
 (electric-pair-mode 1)
 (setq scroll-margin 2)
@@ -127,7 +133,7 @@
   (which-key-mode))
 (use-package avy
   :bind
-  ("M-s" . avy-goto-char))
+  ("M-s" . avy-goto-char-timer))
 (use-package multiple-cursors
   :config
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)

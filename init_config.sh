@@ -82,13 +82,14 @@ git clone https://github.com/poniponiponiponiponiponiponiponiponi/private ~/Proj
 rustup component add rustfmt
 rustup component add clippy
 
-git config --global pager.branch false
 git config --global user.name "poniponiponiponiponiponiponiponiponi"
 git config --global user.email "poniponiponiponiponiponiponiponiponiponi@protonmail.com"
 git config --global credential.helper store
 git config --global core.editor "emacsclient"
 git config --global init.defaultBranch main
+git config --global log.decorate full
 git config --global alias.co checkout
 git config --global alias.br branch
 git config --global alias.ci commit
 git config --global alias.st status
+git config --global remote.origin.followRemoteHead warn
