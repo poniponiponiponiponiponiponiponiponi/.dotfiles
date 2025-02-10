@@ -284,9 +284,7 @@
   (add-hook 'eshell-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
   (add-hook 'eshell-mode-hook (lambda () (display-line-numbers-mode 0))))
 (use-package esh-mode
-  :ensure nil
-  :bind (:map eshell-mode-map
-	      ("C-r" . consult-history)))
+  :ensure nil)
 (use-package eshell-syntax-highlighting
   :config
   (eshell-syntax-highlighting-global-mode +1))
@@ -307,17 +305,9 @@
           (lambda ()
             (eshell/alias "pwninit" (concat "pwninit --template-path=" (getenv "HOME") "/.config/pwninit_template.py"))))
 
-(defun eshell-load-bash-history ()
-  "Load Bash history into Eshell history."
-  (interactive)
-  (let ((bash-hist-file "~/.bash_history")
-        (eshell-hist-file (or eshell-history-file-name "~/.emacs.d/eshell/history")))
-    (when (file-exists-p bash-hist-file)
-      (with-temp-buffer
-        (insert-file-contents bash-hist-file)
-        (append-to-file (point-min) (point-max) eshell-hist-file)))))
+;; Bind `my/consult-eshell-history` to a key or use it directly
+(define-key eshell-mode-map (kbd "C-r") 'consult-history)
 
-(add-hook 'eshell-mode-hook #'eshell-load-bash-history)
 
 
 ;; Overwritten function from eldoc-box, so when the box is resized
