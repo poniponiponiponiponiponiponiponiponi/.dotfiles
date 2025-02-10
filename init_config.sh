@@ -20,7 +20,7 @@ if [[ "`uname -a`" == *"arch"* ]]; then
          aarch64-linux-gnu-binutils aarch64-linux-gnu-gcc \
          aarch64-linux-gnu-gdb aarch64-linux-gnu-glibc \
          arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-gdb \
-         python-ipdb scrot fd one_gadget
+         python-ipip-ipdb scrot fd one_gadget pwninit
 fi
 
 declare -a commands=("git" "gem" "pip" "curl")
@@ -45,17 +45,16 @@ mkdir -p ~/org
 
 gem install seccomp-tools
 
-git clone https://github.com/pwndbg/pwndbg ~/FOSS/pwndbg
-
 ln -sf "$DOTFILES_PATH/mpv.conf" ~/.config/mpv/mpv.conf
 ln -sf "$DOTFILES_PATH/pwninit_template.py" ~/.config/pwninit_template.py
 ln -sf "$DOTFILES_PATH/tmux.conf" ~/.config/tmux/tmux.conf
-ln -sf "$DOTFILES_PATH/alacritty.yml" ~/.config/alacritty.yml
+ln -sf "$DOTFILES_PATH/alacritty.toml" ~/.config/alacritty.toml
 ln -sf "$DOTFILES_PATH/.emacs" ~/.emacs
 ln -sf "$DOTFILES_PATH/.bashrc" ~/.bashrc
 ln -sf "$DOTFILES_PATH/i3_config" ~/.config/i3/config
 ln -sf "$DOTFILES_PATH/picom.conf" ~/.config/picom.conf
 
+git clone https://github.com/pwndbg/pwndbg ~/FOSS/pwndbg
 git clone https://github.com/push0ebp/sig-database ~/FOSS/sig-database
 git clone https://github.com/poniponiponiponiponiponiponiponiponi/stuff ~/Projects/stuff
 git clone https://github.com/poniponiponiponiponiponiponiponiponi/private ~/Projects/private
