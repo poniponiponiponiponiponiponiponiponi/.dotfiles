@@ -2,24 +2,8 @@
 
 DOTFILES_PATH="$HOME/.dotfiles"
 
-if [[ "`uname -a`" == *"fedora"* ]]; then
-    sudo dnf copr enable gourlaysama/dust
-    sudo dnf update -y
-    sudo dnf install -y rofi wine xclip gcc exa ripgrep dust fd-find zsh \
-         alacritty tmux mpv ipython python3 gdb make cmake g++ dejavu-fonts-all \
-         ruby gem java-17-openjdk-devel java-17-openjdk clang-tools-extra \
-         xz-devel openssl-devel fontawesome-fonts acpi i3blocks feh dunst \
-         eluge-gtk lxappearance htop curl wget bat pip patchelf \
-         qemu-user qemu-user-static gcc-riscv64-linux-gnu \
-         binutils-riscv64-linux-gnu gcc-aarch64-linux-gnu \
-         binutils-aarch64-linux-gnu \
-         texinfo readline-devel sqlite3 arc-theme unrar gimp blender light \
-         p7zip p7zip-plugins strace ltrace ruby-devel binwalk \
-         java-runtime-decompiler nasm perf scrot corectrl
-fi
-
 if [[ "`uname -a`" == *"arch"* ]]; then
-    sudo pacman -Syu emacs firefox neovim ttf-dejavu \
+    sudo pacman -Syu emacs firefox ttf-dejavu \
          noto-fonts noto-fonts-cjk noto-fonts-emoji \
          gcc python python-pip zip p7zip wget git curl \
          openbsd-netcat ipython ruby rubygems mpv tmux fish ropper \
@@ -36,7 +20,7 @@ if [[ "`uname -a`" == *"arch"* ]]; then
          aarch64-linux-gnu-binutils aarch64-linux-gnu-gcc \
          aarch64-linux-gnu-gdb aarch64-linux-gnu-glibc \
          arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-gdb \
-         python-ipdb scrot fd
+         python-ipdb scrot fd one_gadget
 fi
 
 declare -a commands=("git" "gem" "pip" "curl")
@@ -59,8 +43,7 @@ mkdir -p ~/FOSS
 mkdir -p ~/.scripts
 mkdir -p ~/org
 
-sudo gem install one_gadget
-sudo gem install seccomp-tools
+gem install seccomp-tools
 
 git clone https://github.com/pwndbg/pwndbg ~/FOSS/pwndbg
 
@@ -81,6 +64,7 @@ git clone https://github.com/poniponiponiponiponiponiponiponiponi/private ~/Proj
 #source "$HOME/.cargo/env"
 rustup component add rustfmt
 rustup component add clippy
+rustup component add rust-analyzer
 
 git config --global user.name "poniponiponiponiponiponiponiponiponi"
 git config --global user.email "poniponiponiponiponiponiponiponiponiponi@protonmail.com"
