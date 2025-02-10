@@ -17,7 +17,7 @@ export MANPAGER="less -R --use-color -Dd+r -Du+b"
 export MANROFFOPT="-P -c"
 
 export PATH="$PATH:~/.cargo/bin"
-export PATH="$PATH:~/.local/share/gem/ruby/3.0.0/bin"
+export PATH="$PATH:~/.local/share/gem/ruby/3.3.0/bin"
 export PATH="$PATH:~/.scripts"
 export PATH="$PATH:~/.local/bin"
 export PATH="$PATH:/usr/lib/rustup/bin"
@@ -29,7 +29,6 @@ YELLOW="\[\033[0;33m\]"
 RESET="\[\033[0m\]"
 
 PS1="[${GREEN}\u${RESET}@${BLUE}\h${RESET} ${YELLOW}\w${RESET}]$ "
-. "$HOME/.cargo/env"
 
 if [ -f /usr/share/bash-completion/bash_completion ]; then
 	. /usr/share/bash-completion/bash_completion
