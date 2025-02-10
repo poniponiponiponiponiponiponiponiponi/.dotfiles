@@ -307,6 +307,18 @@
           (lambda ()
             (eshell/alias "pwninit" (concat "pwninit --template-path=" (getenv "HOME") "/.config/pwninit_template.py"))))
 
+(defun eshell-load-bash-history ()
+  "Load Bash history into Eshell history."
+  (interactive)
+  (let ((bash-hist-file "~/.bash_history")
+        (eshell-hist-file (or eshell-history-file-name "~/.emacs.d/eshell/history")))
+    (when (file-exists-p bash-hist-file)
+      (with-temp-buffer
+        (insert-file-contents bash-hist-file)
+        (append-to-file (point-min) (point-max) eshell-hist-file)))))
+
+(add-hook 'eshell-mode-hook #'eshell-load-bash-history)
+
 
 ;; Overwritten function from eldoc-box, so when the box is resized
 ;; it doesn't look now that glitchy/ugly (at least on my system).
@@ -350,24 +362,12 @@ FRAME is the childframe, WINDOW is the primary window."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("fee7287586b17efbfda432f05539b58e86e059e78006ce9237b8732fde991b4c"
-     "524fa911b70d6b94d71585c9f0c5966fe85fb3a9ddd635362bfabd1a7981a307"
-     "d445c7b530713eac282ecdeea07a8fa59692c83045bf84dd112dd738c7bcad1d"
-     "833ddce3314a4e28411edf3c6efde468f6f2616fc31e17a62587d6a9255f4633"
-     "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5"
-     "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1"
-     "d89e15a34261019eec9072575d8a924185c27d3da64899905f8548cbd9491a36"
-     default))
+   '("c2777e181b704baeafc9360b7de113236398c7229f4e7bddb9c59e71a85ff38e" "fee7287586b17efbfda432f05539b58e86e059e78006ce9237b8732fde991b4c" "524fa911b70d6b94d71585c9f0c5966fe85fb3a9ddd635362bfabd1a7981a307" "d445c7b530713eac282ecdeea07a8fa59692c83045bf84dd112dd738c7bcad1d" "833ddce3314a4e28411edf3c6efde468f6f2616fc31e17a62587d6a9255f4633" "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "d89e15a34261019eec9072575d8a924185c27d3da64899905f8548cbd9491a36" default))
  '(org-agenda-files nil)
  '(package-selected-packages
-   '(avy consult-flycheck corfu dashboard eat elcord eldoc-box
-         eshell-syntax-highlighting flycheck-eglot gcmh htmlize
-         indent-bars magit marginalia multiple-cursors orderless
-         org-download ox-reveal rainbow-delimiters rg rustic
-         solarized-theme sudo-edit treesit-auto vertico yasnippet))
+   '(avy consult-flycheck corfu dashboard eat elcord eldoc-box eshell-syntax-highlighting flycheck-eglot gcmh htmlize indent-bars magit marginalia multiple-cursors orderless org-download ox-reveal rainbow-delimiters rg rustic solarized-theme sudo-edit treesit-auto vertico yasnippet))
  '(package-vc-selected-packages
-   '((eglot-booster :vc-backend Git :url
-                    "https://github.com/jdtsmith/eglot-booster")))
+   '((eglot-booster :vc-backend Git :url "https://github.com/jdtsmith/eglot-booster")))
  '(warning-suppress-log-types '((comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
