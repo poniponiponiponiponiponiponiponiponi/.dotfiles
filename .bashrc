@@ -37,9 +37,8 @@ elif [ -f /etc/bash_completion ]; then
 fi
 
 export HISTFILESIZE=999999
-export HISTSIZE=9999
+export HISTSIZE=99999
+export EDITOR=emacsclient
 
 shopt -s checkwinsize
 shopt -s histappend
-
-

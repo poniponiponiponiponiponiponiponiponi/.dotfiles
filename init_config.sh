@@ -3,7 +3,7 @@
 DOTFILES_PATH="$HOME/.dotfiles"
 
 if [[ "`uname -a`" == *"arch"* ]]; then
-    sudo pacman -Syu emacs firefox ttf-dejavu unzip \
+    sudo pacman -Syu emacs firefox ttf-dejavu unzip bash-language-server \
          noto-fonts noto-fonts-cjk noto-fonts-emoji \
          gcc python python-pip zip p7zip wget git curl \
          openbsd-netcat ipython ruby rubygems mpv tmux fish ropper \
