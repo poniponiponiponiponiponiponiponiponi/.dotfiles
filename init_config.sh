@@ -3,7 +3,7 @@
 DOTFILES_PATH="$HOME/.dotfiles"
 
 if [[ "`uname -a`" == *"arch"* ]]; then
-    sudo pacman -Syu emacs firefox ttf-dejavu \
+    sudo pacman -Syu emacs firefox ttf-dejavu unzip \
          noto-fonts noto-fonts-cjk noto-fonts-emoji \
          gcc python python-pip zip p7zip wget git curl \
          openbsd-netcat ipython ruby rubygems mpv tmux fish ropper \
@@ -20,7 +20,7 @@ if [[ "`uname -a`" == *"arch"* ]]; then
          aarch64-linux-gnu-binutils aarch64-linux-gnu-gcc \
          aarch64-linux-gnu-gdb aarch64-linux-gnu-glibc \
          arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-gdb \
-         python-ipip-ipdb scrot fd one_gadget pwninit
+         python-ipip-ipdb scrot fd one_gadget pwninit plocate ispell
 fi
 
 declare -a commands=("git" "gem" "pip" "curl")
@@ -42,14 +42,13 @@ mkdir -p ~/Projects
 mkdir -p ~/FOSS
 mkdir -p ~/.scripts
 mkdir -p ~/org
-
-gem install seccomp-tools
+mkdir -p ~/.emacs.d
 
 ln -sf "$DOTFILES_PATH/mpv.conf" ~/.config/mpv/mpv.conf
 ln -sf "$DOTFILES_PATH/pwninit_template.py" ~/.config/pwninit_template.py
 ln -sf "$DOTFILES_PATH/tmux.conf" ~/.config/tmux/tmux.conf
 ln -sf "$DOTFILES_PATH/alacritty.toml" ~/.config/alacritty.toml
-ln -sf "$DOTFILES_PATH/.emacs" ~/.emacs
+ln -sf "$DOTFILES_PATH/.emacs" ~/.emacs.d/init.el
 ln -sf "$DOTFILES_PATH/.bashrc" ~/.bashrc
 ln -sf "$DOTFILES_PATH/i3_config" ~/.config/i3/config
 ln -sf "$DOTFILES_PATH/picom.conf" ~/.config/picom.conf
@@ -64,6 +63,8 @@ git clone https://github.com/poniponiponiponiponiponiponiponiponi/private ~/Proj
 rustup component add rustfmt
 rustup component add clippy
 rustup component add rust-analyzer
+
+gem install seccomp-tools
 
 git config --global user.name "poniponiponiponiponiponiponiponiponi"
 git config --global user.email "poniponiponiponiponiponiponiponiponiponi@protonmail.com"
