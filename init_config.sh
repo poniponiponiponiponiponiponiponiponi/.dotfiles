@@ -4,7 +4,7 @@ DOTFILES_PATH="$HOME/.dotfiles"
 
 if [[ "`uname -a`" == *"arch"* ]]; then
     sudo pacman -Syu emacs firefox ttf-dejavu unzip bash-language-server \
-         noto-fonts noto-fonts-cjk noto-fonts-emoji \
+         noto-fonts noto-fonts-cjk noto-fonts-emoji gimp \
          gcc python python-pip zip p7zip wget git curl \
          openbsd-netcat ipython ruby rubygems mpv tmux fish ropper \
          python-pwntools clang htop bat patchelf perf nasm binwalk \
@@ -20,7 +20,8 @@ if [[ "`uname -a`" == *"arch"* ]]; then
          aarch64-linux-gnu-binutils aarch64-linux-gnu-gcc \
          aarch64-linux-gnu-gdb aarch64-linux-gnu-glibc \
          arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-gdb \
-         python-ipip-ipdb scrot fd one_gadget pwninit plocate ispell
+         python-ipip-ipdb scrot fd one_gadget pwninit plocate ispell aspell \
+         aspell-pl aspell-uk aspell-en
 fi
 
 declare -a commands=("git" "gem" "pip" "curl")
