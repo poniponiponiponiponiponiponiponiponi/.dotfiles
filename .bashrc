@@ -28,7 +28,7 @@ BLUE="\[\033[0;34m\]"
 YELLOW="\[\033[0;33m\]"
 RESET="\[\033[0m\]"
 
-PS1="[${GREEN}\u${RESET}@${BLUE}\h${RESET} ${YELLOW}\w${RESET}]$ "
+PS1="[${GREEN}\u${RESET}@${BLUE}\h${RESET} ${YELLOW}\w${RESET}] λδ "
 
 if [ -f /usr/share/bash-completion/bash_completion ]; then
 	. /usr/share/bash-completion/bash_completion

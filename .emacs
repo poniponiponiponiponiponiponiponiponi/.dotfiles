@@ -303,10 +303,10 @@
   (let* ((user (user-login-name))
          (host (system-name))
          (path (abbreviate-file-name (eshell/pwd))))
-    (concat "[" user "@" host " " path "] λ ")))
+    (concat "[" user "@" host " " path "] λδ ")))
 
 (setq eshell-prompt-function 'my-eshell-prompt)
-(setq eshell-prompt-regexp "^\\[.* λ ")
+(setq eshell-prompt-regexp "^\\[.* λδ ")
 
 (add-hook 'eshell-first-time-mode-hook
           (lambda ()
