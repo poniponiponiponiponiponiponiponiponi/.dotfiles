@@ -69,9 +69,6 @@
           (lambda () (local-set-key (kbd "M-p") 'kpwn-info-variable)))
 
 
-(global-set-key (kbd "C-v") (lambda () (interactive) (scroll-up-command 7)))
-(global-set-key (kbd "M-v") (lambda () (interactive) (scroll-down-command 7)))
-
 (add-function :after after-focus-change-function (lambda () (redraw-frame)))
 
 (global-auto-revert-mode 1)
@@ -91,6 +88,14 @@
 (setq auto-save-default nil)
 (setq kill-buffer-query-functions nil)
 (setq custom-safe-themes t)
+(setq isearch-allow-motion t)
+(setq whitespace-style '(trailing tabs newline tab-mark))
+(global-whitespace-mode)
+
+(setq next-screen-context-lines (- (window-height) 8))
+(defun update-next-screen-context-lines (frame)
+  (setq next-screen-context-lines (- (window-height (frame-selected-window frame)) 8)))
+(add-hook 'window-size-change-functions 'update-next-screen-context-lines)
 
 ;; indentation
 (setq indent-tabs-mode nil)
@@ -134,7 +139,10 @@
   (which-key-mode))
 (use-package avy
   :bind
-  ("M-s" . avy-goto-char-timer))
+  ("M-i" . avy-goto-char-timer)
+  :config
+  (setq avy-timeout-seconds 0.75))
+
 (use-package multiple-cursors
   :config
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
@@ -250,12 +258,35 @@
 (use-package consult
   :bind
   ("C-x b" . consult-buffer)
+  ("M-g i" . consult-imenu)
+  ("M-g I" . consult-imenu-multi)
+  ("M-s d" . consult-fd)
+  ("M-s r" . consult-ripgrep)
+  ("M-s l" . consult-line)
+  ("M-s L" . consult-line-multi)
+  ("M-s k" . consult-keep-lines)
+  ("M-s u" . consult-focus-lines)
+  ("M-g f" . consult-flycheck)
+  ("M-g o" . consult-outline)
+  ("M-g m" . consult-mark)
+  ("M-g k" . consult-global-mark)
+  
   ("C-<return> f" . consult-fd)
   ("C-<return> e" . consult-flycheck)
   ("C-<return> o" . consult-outline)
   ("C-<return> m" . consult-man)
   ("C-<return> l" . consult-line)
   ("C-<return> r" . consult-ripgrep))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(eldoc-box-border ((t (:background "#839496"))))
+ '(fixed-pitch ((t nil)))
+ '(org-block-begin-line ((t (:inherit org-meta-line :extend t :underline nil))))
+ '(org-block-end-line ((t (:inherit org-meta-line :extend t :overline nil))))
+ '(vertico-current ((t (:background "#665c54")))))
 
 (use-package org
   :config
@@ -362,18 +393,10 @@ FRAME is the childframe, WINDOW is the primary window."
    '("5a0ddbd75929d24f5ef34944d78789c6c3421aa943c15218bac791c199fc897d" default))
  '(org-agenda-files nil)
  '(package-selected-packages
-   '(gruvbox-theme avy consult-flycheck corfu dashboard eat elcord eldoc-box eshell-syntax-highlighting flycheck-eglot gcmh htmlize indent-bars magit marginalia multiple-cursors orderless org-download ox-reveal rainbow-delimiters rg rustic solarized-theme sudo-edit treesit-auto vertico yasnippet))
+   '(whole-line-or-region undo-tree gruvbox-theme avy consult-flycheck corfu dashboard eat elcord eldoc-box eshell-syntax-highlighting flycheck-eglot gcmh htmlize indent-bars magit marginalia multiple-cursors orderless org-download ox-reveal rainbow-delimiters rg rustic solarized-theme sudo-edit treesit-auto vertico yasnippet))
  '(package-vc-selected-packages
    '((eglot-booster :vc-backend Git :url "https://github.com/jdtsmith/eglot-booster")))
  '(warning-suppress-log-types '((comp))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(eldoc-box-border ((t (:background "#665c54"))))
- '(fixed-pitch ((t nil)))
- '(org-block-begin-line ((t (:inherit org-meta-line :extend t :underline nil))))
- '(org-block-end-line ((t (:inherit org-meta-line :extend t :overline nil)))))
+
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
