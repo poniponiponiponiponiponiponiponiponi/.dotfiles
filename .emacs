@@ -18,6 +18,53 @@
 (setq use-package-always-ensure t)
 
 
+(server-start)
+
+(global-auto-revert-mode 1)
+(column-number-mode 1)
+(global-subword-mode 1)
+(global-hl-line-mode 1)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(global-display-line-numbers-mode)
+(global-whitespace-mode)
+(blink-cursor-mode 0)
+(electric-pair-mode 1)
+
+(global-set-key (kbd "M-Z") 'zap-up-to-char)
+(global-set-key (kbd "<f5>") 'revert-buffer)
+(global-set-key [remap list-buffers] 'ibuffer)
+
+(defalias 'yes-or-no-p 'y-or-n-p)
+(setq auto-revert-verbose nil)
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+(setq kill-buffer-query-functions nil)
+(setq custom-safe-themes t)
+(setq isearch-allow-motion t)
+(setq whitespace-style '(trailing tabs newline tab-mark))
+(setq eldoc-idle-delay 0.25)
+;; indentation
+(setq indent-tabs-mode nil)
+(setq-default display-line-numbers-type 'relative)
+(setq-default indent-tabs-mode nil)
+(setq tab-width 4)
+(setq c-basic-offset 4)
+(setq c-ts-mode-indent-offset 4)
+
+(setq scroll-margin 2)
+(setq max-mini-window-height 11)
+(setq-default project-vc-extra-root-markers '(".project" "Cargo.toml"))
+
+
+(setq-default my-scroll-lines 8)
+(setq next-screen-context-lines (- (window-height) my-scroll-lines))
+(defun update-next-screen-context-lines (frame)
+  (setq next-screen-context-lines (- (window-height (frame-selected-window frame)) my-scroll-lines)))
+(add-hook 'window-size-change-functions 'update-next-screen-context-lines)
+
+
 (if (> (display-pixel-width) 1920)
     (progn
       (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 17"))
@@ -45,7 +92,6 @@
 (defun setup-flycheck-toggle ()
   (add-hook 'after-change-functions 'disable-flycheck-on-type nil t)
   (add-hook 'after-save-hook 'enable-flycheck-on-save nil t))
-
 ;; Because rust-analyzer is annoying with performing a lot of checks only on save
 (add-hook 'rustic-mode-hook 'setup-flycheck-toggle)
 
@@ -58,7 +104,6 @@
   "Insert a string into the current buffer."
   (interactive "sVariable: ")
   (insert "printf(\"" str ": 0x%lx\", " str ");"))
-
 (add-hook 'python-mode-hook
           (lambda () (local-set-key (kbd "M-p") 'pwn-info-variable)))
 (add-hook 'python-ts-mode-hook
@@ -69,51 +114,16 @@
           (lambda () (local-set-key (kbd "M-p") 'kpwn-info-variable)))
 
 
-(add-function :after after-focus-change-function (lambda () (redraw-frame)))
+(defun my-python-noindent (&optional _previous)
+  (let ((context (python-indent-context)))
+    (if (or (eq (car context) :inside-string)
+            (eq (car context) :inside-docstring))
+        'noindent)))
+(advice-add 'python-indent-line :before-until #'my-python-noindent)
 
-(global-auto-revert-mode 1)
-(setq auto-revert-verbose nil)
-(global-set-key (kbd "<f5>") 'revert-buffer)
 
-(defalias 'yes-or-no-p 'y-or-n-p)
-(column-number-mode 1)
-(global-subword-mode 1)
-(global-hl-line-mode 1)
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-(setq-default display-line-numbers-type 'relative)
-(global-display-line-numbers-mode)
-(setq make-backup-files nil)
-(setq auto-save-default nil)
-(setq kill-buffer-query-functions nil)
-(setq custom-safe-themes t)
-(setq isearch-allow-motion t)
-(setq whitespace-style '(trailing tabs newline tab-mark))
-(global-whitespace-mode)
-(global-set-key (kbd "M-Z") 'zap-up-to-char)
-
-(setq next-screen-context-lines (- (window-height) 8))
-(defun update-next-screen-context-lines (frame)
-  (setq next-screen-context-lines (- (window-height (frame-selected-window frame)) 8)))
-(add-hook 'window-size-change-functions 'update-next-screen-context-lines)
-
-;; indentation
-(setq indent-tabs-mode nil)
-(setq-default indent-tabs-mode nil)
-(setq tab-width 4)
-(setq c-basic-offset 4)
-(setq c-ts-mode-indent-offset 4)
-
-(blink-cursor-mode 0)
-(electric-pair-mode 1)
-(setq scroll-margin 2)
-(setq max-mini-window-height 11)
-(global-set-key [remap list-buffers] 'ibuffer)
-(setq eldoc-idle-delay 0.25)
-(setq-default project-vc-extra-root-markers '(".project" "Cargo.toml"))
 
 
 (use-package flycheck
@@ -131,11 +141,7 @@
   :config
   (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
   (setq eldoc-box-max-pixel-height 300)
-  (custom-set-faces
-   '(eldoc-box-border ((t (:background "#665c54"))))))
-;; (use-package hungry-delete
-;;   :config
-;;   (global-hungry-delete-mode))
+  (set-face-attribute 'eldoc-box-border nil :background "#665c54"))
 (use-package rg)
 (use-package which-key
   :config
@@ -144,7 +150,7 @@
   :bind
   ("M-i" . avy-goto-char-timer)
   :config
-  (setq avy-timeout-seconds 0.75))
+  (setq avy-timeout-seconds 7))
 
 (use-package multiple-cursors
   :config
@@ -176,18 +182,10 @@
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
-;; (use-package solarized-theme
-;;   :config
-;;   (setq-default solarized-distinct-fringe-background t)
-;;   (setq-default solarized-scale-org-headlines nil)
-;;   (setq-default solarized-use-variable-pitch nil)
-;;   (setq-default solarized-high-contrast-mode-line t)
-;;   (load-theme 'solarized-dark t))
 (use-package gruvbox-theme
   :config
   (load-theme 'gruvbox-dark-medium)
   (set-cursor-color "#d33682"))
-
 
 (use-package treesit-auto
   :custom
@@ -195,6 +193,7 @@
   :config
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
+
 
 (add-hook 'prog-mode-hook (lambda () (unless (eq major-mode 'emacs-lisp-mode)
                                        (eglot-ensure))))
@@ -218,18 +217,12 @@
 ;;                `(rustic-mode . ("rust-analyzer" :initializationOptions
 ;;                               (:cargo (:features "all"))))))
 
-;;(use-package markdown-mode)
 
-(defun my-python-noindent (&optional _previous)
-  (let ((context (python-indent-context)))
-    (if (or (eq (car context) :inside-string)
-            (eq (car context) :inside-docstring))
-        'noindent)))
-(advice-add 'python-indent-line :before-until #'my-python-noindent)
 
 (use-package rustic
   :config
   (setq rustic-lsp-client 'eglot))
+;; (add-function :after after-focus-change-function (lambda () (redraw-frame)))
 
 (use-package htmlize)
 (use-package magit)
@@ -272,24 +265,7 @@
   ("M-g f" . consult-flycheck)
   ("M-g o" . consult-outline)
   ("M-g m" . consult-mark)
-  ("M-g k" . consult-global-mark)
-  
-  ("C-<return> f" . consult-fd)
-  ("C-<return> e" . consult-flycheck)
-  ("C-<return> o" . consult-outline)
-  ("C-<return> m" . consult-man)
-  ("C-<return> l" . consult-line)
-  ("C-<return> r" . consult-ripgrep))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(eldoc-box-border ((t (:background "#839496"))))
- '(fixed-pitch ((t nil)))
- '(org-block-begin-line ((t (:inherit org-meta-line :extend t :underline nil))))
- '(org-block-end-line ((t (:inherit org-meta-line :extend t :overline nil))))
- '(vertico-current ((t (:background "#665c54")))))
+  ("M-g k" . consult-global-mark))
 
 (use-package org
   :config
@@ -384,8 +360,6 @@ FRAME is the childframe, WINDOW is the primary window."
     ;; move position
     (set-frame-position frame (car pos) (cdr pos))))
 
-(server-start)
-
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -400,6 +374,15 @@ FRAME is the childframe, WINDOW is the primary window."
  '(package-vc-selected-packages
    '((eglot-booster :vc-backend Git :url "https://github.com/jdtsmith/eglot-booster")))
  '(warning-suppress-log-types '((comp))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(fixed-pitch ((t nil)))
+ '(org-block-begin-line ((t (:inherit org-meta-line :extend t :underline nil))))
+ '(org-block-end-line ((t (:inherit org-meta-line :extend t :overline nil))))
+ '(vertico-current ((t (:background "#665c54")))))
 
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
