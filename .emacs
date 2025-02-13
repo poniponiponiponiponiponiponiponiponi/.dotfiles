@@ -82,6 +82,8 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
 (setq-default display-line-numbers-type 'relative)
 (global-display-line-numbers-mode)
 (setq make-backup-files nil)
@@ -91,6 +93,7 @@
 (setq isearch-allow-motion t)
 (setq whitespace-style '(trailing tabs newline tab-mark))
 (global-whitespace-mode)
+(global-set-key (kbd "M-Z") 'zap-up-to-char)
 
 (setq next-screen-context-lines (- (window-height) 8))
 (defun update-next-screen-context-lines (frame)
@@ -129,7 +132,7 @@
   (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
   (setq eldoc-box-max-pixel-height 300)
   (custom-set-faces
-   '(eldoc-box-border ((t (:background "#839496"))))))
+   '(eldoc-box-border ((t (:background "#665c54"))))))
 ;; (use-package hungry-delete
 ;;   :config
 ;;   (global-hungry-delete-mode))
@@ -400,3 +403,4 @@ FRAME is the childframe, WINDOW is the primary window."
 
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
