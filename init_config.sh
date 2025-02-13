@@ -4,12 +4,12 @@ DOTFILES_PATH="$HOME/.dotfiles"
 
 if [[ "`uname -a`" == *"arch"* ]]; then
     sudo pacman -Syu emacs firefox ttf-dejavu unzip bash-language-server \
-         noto-fonts noto-fonts-cjk noto-fonts-emoji gimp tldr \
-         gcc python python-pip zip p7zip wget git curl \
+         noto-fonts noto-fonts-cjk noto-fonts-emoji nerd-fonts gimp tldr \
+         gcc python python-pip zip p7zip wget git curl radare2 r2ghidra \
          openbsd-netcat ipython ruby rubygems mpv tmux fish ropper \
          python-pwntools clang htop bat patchelf perf nasm binwalk \
-         blender ltrace strace unrar rustup dunst feh acpi \
-         ttf-font-awesome lxappearance wine-staging xclip exa ripgrep dust \
+         blender ltrace strace unrar rustup dunst feh acpi python-r2pipe \
+         ttf-font-awesome lxappearance wine-staging xclip eza ripgrep dust \
          zsh alacritty gdb make cmake bear bash-completion man man-pages \
          qemu-full jdk-openjdk openjdk-doc openjdk-src \
          riscv32-elf-binutils riscv32-elf-gdb riscv32-elf-newlib \
@@ -18,10 +18,10 @@ if [[ "`uname -a`" == *"arch"* ]]; then
          riscv64-linux-gnu-gcc riscv64-linux-gnu-gdb \
          riscv64-linux-gnu-glibc riscv64-linux-gnu-linux-api-headers \
          aarch64-linux-gnu-binutils aarch64-linux-gnu-gcc \
-         aarch64-linux-gnu-gdb aarch64-linux-gnu-glibc \
+         aarch64-linux-gnu-gdb aarch64-linux-gnu-glibc jedi-language-server \
          arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-gdb \
-         python-ipip-ipdb scrot fd one_gadget pwninit plocate ispell aspell \
-         aspell-pl aspell-uk aspell-en
+         python-ipip-ipdb scrot fd one_gadget pwninit plocate aspell \
+         aspell-pl aspell-uk aspell-en rizin rz-ghidra python-rzpipe
 fi
 
 declare -a commands=("git" "gem" "pip" "curl")
