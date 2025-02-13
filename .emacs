@@ -218,7 +218,6 @@
 ;;                               (:cargo (:features "all"))))))
 
 
-
 (use-package rustic
   :config
   (setq rustic-lsp-client 'eglot))
@@ -232,19 +231,12 @@
   ;; (corfu-auto 1)
   :init
   (global-corfu-mode))
-
 (use-package vertico
   :config
   (setq vertico-resize nil)
   (vertico-mode 1)
   (keymap-global-set "<f10>" #'tmm-menubar)
-  (advice-add #'tmm-add-prompt :after #'minibuffer-hide-completions)
-  (add-hook 'minibuffer-setup-hook
-            (lambda ()
-              (local-set-key (kbd "C-n") #'vertico-next)))
-  (add-hook 'minibuffer-setup-hook
-            (lambda ()
-              (local-set-key (kbd "C-p") #'vertico-previous))))
+  (advice-add #'tmm-add-prompt :after #'minibuffer-hide-completions))
 (use-package marginalia
   :config
   (marginalia-mode 1))
@@ -279,11 +271,6 @@
    '((python . t)
      (C . t)
      (shell . t))))
-
-(use-package ox-reveal
-  :config
-  (setq org-reveal-mathjax t)
-  (setq org-reveal-root "/home/poni/node_modules/reveal.js"))
 (use-package org-download)
 
 (use-package dired
