@@ -4,7 +4,7 @@ DOTFILES_PATH="$HOME/.dotfiles"
 
 if [[ "`uname -a`" == *"arch"* ]]; then
     sudo pacman -Syu emacs firefox ttf-dejavu unzip bash-language-server \
-         noto-fonts noto-fonts-cjk noto-fonts-emoji gimp \
+         noto-fonts noto-fonts-cjk noto-fonts-emoji gimp tldr \
          gcc python python-pip zip p7zip wget git curl \
          openbsd-netcat ipython ruby rubygems mpv tmux fish ropper \
          python-pwntools clang htop bat patchelf perf nasm binwalk \
@@ -39,6 +39,7 @@ mkdir -p ~/.config
 mkdir -p ~/.config/mpv
 mkdir -p ~/.config/tmux
 mkdir -p ~/.config/i3
+mkdir -p ~/.config/dunst
 mkdir -p ~/Projects
 mkdir -p ~/FOSS
 mkdir -p ~/.scripts
@@ -53,6 +54,7 @@ ln -sf "$DOTFILES_PATH/.emacs" ~/.emacs.d/init.el
 ln -sf "$DOTFILES_PATH/.bashrc" ~/.bashrc
 ln -sf "$DOTFILES_PATH/i3_config" ~/.config/i3/config
 ln -sf "$DOTFILES_PATH/picom.conf" ~/.config/picom.conf
+ln -sf "$DOTFILES_PATH/dunstrc" ~/.config/dunst/dunstrc
 
 git clone https://github.com/pwndbg/pwndbg ~/FOSS/pwndbg
 git clone https://github.com/push0ebp/sig-database ~/FOSS/sig-database
