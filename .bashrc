@@ -20,10 +20,10 @@ export HISTFILESIZE=999999
 export HISTSIZE=999999
 export EDITOR=emacsclient
 
-export PATH="$PATH:~/.cargo/bin"
-export PATH="$PATH:~/.local/share/gem/ruby/3.3.0/bin"
-export PATH="$PATH:~/.dotfiles/scripts"
-export PATH="$PATH:~/.local/bin"
+export PATH="$PATH:$HOME/.cargo/bin"
+export PATH="$PATH:$HOME/.local/share/gem/ruby/3.3.0/bin"
+export PATH="$PATH:$HOME/.dotfiles/scripts"
+export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/usr/lib/rustup/bin"
 
 RED="\[\033[0;31m\]"

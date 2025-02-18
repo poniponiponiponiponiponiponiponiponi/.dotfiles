@@ -5,7 +5,7 @@ from pwn import *
 {bindings}
 
 context.binary = {bin_name}
-context.terminal = "alacritty -e".split()
+context.terminal = "alacritty".split()
 
 
 def conn():

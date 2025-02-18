@@ -286,7 +286,8 @@
   (add-hook 'eat-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
   (add-hook 'eat-mode-hook (lambda () (display-line-numbers-mode 0)))
   (add-hook 'eshell-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
-  (add-hook 'eshell-mode-hook (lambda () (display-line-numbers-mode 0))))
+  (add-hook 'eshell-mode-hook (lambda () (display-line-numbers-mode 0)))
+  (setq eat-term-scrollback-size 10000))
 
 (defun split-eat (str)
   (interactive "sExecute: ")
