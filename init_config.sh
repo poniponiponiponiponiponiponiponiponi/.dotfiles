@@ -3,7 +3,7 @@
 DOTFILES_PATH="$HOME/.dotfiles"
 
 if [[ "`uname -a`" == *"arch"* ]]; then
-    sudo pacman -Syu emacs firefox ttf-dejavu unzip bash-language-server \
+    sudo pacman -Syu emacs-nativecomp firefox ttf-dejavu unzip \
          noto-fonts noto-fonts-cjk noto-fonts-emoji nerd-fonts gimp tldr \
          gcc python python-pip zip p7zip wget git curl radare2 r2ghidra \
          openbsd-netcat ipython ruby rubygems mpv tmux fish ropper \
@@ -11,16 +11,16 @@ if [[ "`uname -a`" == *"arch"* ]]; then
          blender ltrace strace unrar rustup dunst feh acpi python-r2pipe \
          ttf-font-awesome lxappearance wine-staging xclip eza ripgrep dust \
          zsh alacritty gdb make cmake bear bash-completion man man-pages \
-         qemu-full jdk-openjdk openjdk-doc openjdk-src \
-         riscv32-elf-binutils riscv32-elf-gdb riscv32-elf-newlib \
+         qemu-full jdk-openjdk openjdk-doc openjdk-src tk fastfetch \
+         riscv32-elf-binutils riscv32-elf-gdb riscv32-elf-newlib obs-studio \
          riscv64-elf-binutils riscv64-elf-gcc riscv64-elf-gdb \
-         riscv64-elf-newlib riscv64-linux-gnu-binutils \
-         riscv64-linux-gnu-gcc riscv64-linux-gnu-gdb \
+         riscv64-elf-newlib riscv64-linux-gnu-binutils bash-language-server \
+         riscv64-linux-gnu-gcc riscv64-linux-gnu-gdb python-poetry \
          riscv64-linux-gnu-glibc riscv64-linux-gnu-linux-api-headers \
-         aarch64-linux-gnu-binutils aarch64-linux-gnu-gcc \
+         aarch64-linux-gnu-binutils aarch64-linux-gnu-gcc libreoffice-still \
          aarch64-linux-gnu-gdb aarch64-linux-gnu-glibc jedi-language-server \
          arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-gdb \
-         python-ipip-ipdb scrot fd one_gadget pwninit plocate aspell \
+         python-virtualenv scrot fd one_gadget pwninit plocate aspell \
          aspell-pl aspell-uk aspell-en rizin rz-ghidra python-rzpipe
 fi
 
@@ -50,7 +50,7 @@ ln -sf "$DOTFILES_PATH/mpv.conf" ~/.config/mpv/mpv.conf
 ln -sf "$DOTFILES_PATH/pwninit_template.py" ~/.config/pwninit_template.py
 ln -sf "$DOTFILES_PATH/tmux.conf" ~/.config/tmux/tmux.conf
 ln -sf "$DOTFILES_PATH/alacritty.toml" ~/.config/alacritty.toml
-ln -sf "$DOTFILES_PATH/.emacs" ~/.emacs.d/init.el
+ln -sf "$DOTFILES_PATH/init.el" ~/.emacs.d/init.el
 ln -sf "$DOTFILES_PATH/.bashrc" ~/.bashrc
 ln -sf "$DOTFILES_PATH/i3_config" ~/.config/i3/config
 ln -sf "$DOTFILES_PATH/picom.conf" ~/.config/picom.conf
@@ -75,10 +75,21 @@ git config --global credential.helper store
 git config --global core.editor "emacsclient"
 git config --global init.defaultBranch main
 git config --global log.decorate full
+git config --global core.pager cat
+git config --global remote.origin.followRemoteHead warn
+
 git config --global alias.co checkout
 git config --global alias.br branch
 git config --global alias.ci commit
 git config --global alias.st status
-git config --global remote.origin.followRemoteHead warn
 
 sudo localectl set-x11-keymap pl
+sudo localectl set-x11-keymap "" "" "" ctrl:nocaps
+
+if ! grep -q FONT "/etc/vconsole.conf"; then
+    if [ -e "/usr/share/kbd/consolefonts/eurlatgr.psfu.gz" ]; then
+        echo "FONT=eurlatgr" >> /etc/vconsole.conf
+    else
+        echo "consolefont not found!"
+    fi
+fi

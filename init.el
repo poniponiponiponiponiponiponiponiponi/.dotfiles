@@ -33,8 +33,13 @@
 (electric-pair-mode 1)
 
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
+(global-set-key (kbd "C-<return>") 'eshell)
+(global-set-key (kbd "M-<return>") 'eshell)
 (global-set-key (kbd "<f5>") 'revert-buffer)
 (global-set-key [remap list-buffers] 'ibuffer)
+(global-set-key (kbd "C-v") (lambda () (interactive) (scroll-up-line 7)))
+(global-set-key (kbd "M-v") (lambda () (interactive) (scroll-down-line 7)))
+
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq auto-revert-verbose nil)
@@ -42,9 +47,9 @@
 (setq auto-save-default nil)
 (setq kill-buffer-query-functions nil)
 (setq custom-safe-themes t)
-(setq isearch-allow-motion t)
 (setq whitespace-style '(trailing tabs newline tab-mark))
 (setq eldoc-idle-delay 0.25)
+
 ;; indentation
 (setq indent-tabs-mode nil)
 (setq-default display-line-numbers-type 'relative)
@@ -56,13 +61,6 @@
 (setq scroll-margin 2)
 (setq max-mini-window-height 11)
 (setq-default project-vc-extra-root-markers '(".project" "Cargo.toml"))
-
-
-(setq-default my-scroll-lines 8)
-(setq next-screen-context-lines (- (window-height) my-scroll-lines))
-(defun update-next-screen-context-lines (frame)
-  (setq next-screen-context-lines (- (window-height (frame-selected-window frame)) my-scroll-lines)))
-(add-hook 'window-size-change-functions 'update-next-screen-context-lines)
 
 
 (if (> (display-pixel-width) 1920)
@@ -120,6 +118,10 @@
             (eq (car context) :inside-docstring))
         'noindent)))
 (advice-add 'python-indent-line :before-until #'my-python-noindent)
+
+(use-package virtualenvwrapper
+  :config
+  (venv-initialize-eshell))
 
 
 (add-hook 'text-mode-hook 'flyspell-mode)
@@ -200,7 +202,7 @@
 (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 0)))
 ;; (fset #'jsonrpc--log-event #'ignore)
 ;; (use-package eglot-booster
-;; 	:after eglot
+;;      :after eglot
 
 (setq-default eglot-workspace-configuration
               '((:rust-analyzer
@@ -279,14 +281,27 @@
   :custom ((dired-listing-switches "-ahgo --group-directories-first")))
 
 (use-package eat
-  :bind
-  ("M-<return>" . 'eshell)
   :config
   (eat-eshell-mode)
   (add-hook 'eat-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
   (add-hook 'eat-mode-hook (lambda () (display-line-numbers-mode 0)))
   (add-hook 'eshell-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
   (add-hook 'eshell-mode-hook (lambda () (display-line-numbers-mode 0))))
+
+(defun split-eat (str)
+  (interactive "sExecute: ")
+  (split-window-right)
+  (other-window 1)
+  (eshell t)
+  (eshell-return-to-prompt)
+  (insert str)
+  (insert " ; { (progn (kill-this-buffer) (delete-window)) }")
+  (eshell-send-input))
+
+
+(defun my/open-terminal ()
+    (interactive)
+    (call-process "alacritty" nil 0 nil "--working-directory" (file-truename default-directory)))
 (use-package esh-mode
   :ensure nil)
 (use-package eshell-syntax-highlighting
@@ -302,16 +317,21 @@
          (path (abbreviate-file-name (eshell/pwd))))
     (concat "[" user "@" host " " path "] λδ ")))
 
+(setq eshell-banner-message "")
 (setq eshell-prompt-function 'my-eshell-prompt)
 (setq eshell-prompt-regexp "^\\[.* λδ ")
 
 (add-hook 'eshell-first-time-mode-hook
           (lambda ()
-            (eshell/alias "pwninit" (concat "pwninit --template-path=" (getenv "HOME") "/.config/pwninit_template.py"))))
+            (eshell/alias "pwninit" (concat
+                                     "pwninit --template-path="
+                                     (getenv "HOME")
+                                     "/.config/pwninit_template.py"))
+            (eshell/alias "py" "python")))
+
 
 ;; Bind `my/consult-eshell-history` to a key or use it directly
 (define-key eshell-mode-map (kbd "C-r") 'consult-history)
-
 
 
 ;; Overwritten function from eldoc-box, so when the box is resized
@@ -357,7 +377,7 @@ FRAME is the childframe, WINDOW is the primary window."
    '("5a0ddbd75929d24f5ef34944d78789c6c3421aa943c15218bac791c199fc897d" default))
  '(org-agenda-files nil)
  '(package-selected-packages
-   '(whole-line-or-region undo-tree gruvbox-theme avy consult-flycheck corfu dashboard eat elcord eldoc-box eshell-syntax-highlighting flycheck-eglot gcmh htmlize indent-bars magit marginalia multiple-cursors orderless org-download ox-reveal rainbow-delimiters rg rustic solarized-theme sudo-edit treesit-auto vertico yasnippet))
+   '(virtualenvwrapper whole-line-or-region undo-tree gruvbox-theme avy consult-flycheck corfu dashboard eat elcord eldoc-box eshell-syntax-highlighting flycheck-eglot gcmh htmlize indent-bars magit marginalia multiple-cursors orderless org-download ox-reveal rainbow-delimiters rg rustic solarized-theme sudo-edit treesit-auto vertico yasnippet))
  '(package-vc-selected-packages
    '((eglot-booster :vc-backend Git :url "https://github.com/jdtsmith/eglot-booster")))
  '(warning-suppress-log-types '((comp))))
