@@ -58,6 +58,7 @@ ln -sf "$DOTFILES_PATH/dunstrc" ~/.config/dunst/dunstrc
 
 git clone https://github.com/pwndbg/pwndbg ~/FOSS/pwndbg
 git clone https://github.com/push0ebp/sig-database ~/FOSS/sig-database
+git clone https://github.com/rexim/simpc-mode ~/FOSS/simpc-mode
 git clone https://github.com/poniponiponiponiponiponiponiponiponi/stuff ~/Projects/stuff
 git clone https://github.com/poniponiponiponiponiponiponiponiponi/private ~/Projects/private
 

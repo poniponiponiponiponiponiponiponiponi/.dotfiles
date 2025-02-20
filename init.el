@@ -42,25 +42,31 @@
 
 
 (defalias 'yes-or-no-p 'y-or-n-p)
+(setq custom-file "~/.emacs.d/custom.el")
+(load-file custom-file)
 (setq auto-revert-verbose nil)
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 (setq kill-buffer-query-functions nil)
 (setq custom-safe-themes t)
-(setq whitespace-style '(trailing tabs newline tab-mark))
+(setq whitespace-style '(face trailing tabs newline tab-mark))
+
 (setq eldoc-idle-delay 0.25)
+(setq-default display-line-numbers-type 'relative)
+(setq scroll-margin 2)
+(setq max-mini-window-height 11)
+(setq-default project-vc-extra-root-markers '(".project" "Cargo.toml"))
 
 ;; indentation
 (setq indent-tabs-mode nil)
-(setq-default display-line-numbers-type 'relative)
 (setq-default indent-tabs-mode nil)
 (setq tab-width 4)
 (setq c-basic-offset 4)
 (setq c-ts-mode-indent-offset 4)
 
-(setq scroll-margin 2)
-(setq max-mini-window-height 11)
-(setq-default project-vc-extra-root-markers '(".project" "Cargo.toml"))
+(put 'downcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
 
 
 (if (> (display-pixel-width) 1920)
@@ -196,6 +202,9 @@
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
+(use-package simpc-mode
+  :load-path "~/FOSS/simpc-mode")
+
 
 (add-hook 'prog-mode-hook (lambda () (unless (eq major-mode 'emacs-lisp-mode)
                                        (eglot-ensure))))
@@ -236,6 +245,7 @@
 (use-package vertico
   :config
   (setq vertico-resize nil)
+  (set-face-attribute 'vertico-current nil :background "#665c54")
   (vertico-mode 1)
   (keymap-global-set "<f10>" #'tmm-menubar)
   (advice-add #'tmm-add-prompt :after #'minibuffer-hide-completions))
@@ -246,6 +256,9 @@
   :config
   (setq completion-styles '(orderless basic)))
 (use-package consult
+  :config
+  (consult-customize
+   consult-buffer :preview-key "M-.")
   :bind
   ("C-x b" . consult-buffer)
   ("M-g i" . consult-imenu)
@@ -367,31 +380,3 @@ FRAME is the childframe, WINDOW is the primary window."
 
     ;; move position
     (set-frame-position frame (car pos) (cdr pos))))
-
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("5a0ddbd75929d24f5ef34944d78789c6c3421aa943c15218bac791c199fc897d" default))
- '(org-agenda-files nil)
- '(package-selected-packages
-   '(virtualenvwrapper whole-line-or-region undo-tree gruvbox-theme avy consult-flycheck corfu dashboard eat elcord eldoc-box eshell-syntax-highlighting flycheck-eglot gcmh htmlize indent-bars magit marginalia multiple-cursors orderless org-download ox-reveal rainbow-delimiters rg rustic solarized-theme sudo-edit treesit-auto vertico yasnippet))
- '(package-vc-selected-packages
-   '((eglot-booster :vc-backend Git :url "https://github.com/jdtsmith/eglot-booster")))
- '(warning-suppress-log-types '((comp))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(fixed-pitch ((t nil)))
- '(org-block-begin-line ((t (:inherit org-meta-line :extend t :underline nil))))
- '(org-block-end-line ((t (:inherit org-meta-line :extend t :overline nil))))
- '(vertico-current ((t (:background "#665c54")))))
-
-(put 'downcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
