@@ -2,6 +2,7 @@
 
 DOTFILES_PATH="$HOME/.dotfiles"
 
+
 if [[ "`uname -a`" == *"arch"* ]]; then
     sudo pacman -Syu emacs-nativecomp firefox ttf-dejavu unzip \
          noto-fonts noto-fonts-cjk noto-fonts-emoji nerd-fonts gimp tldr \
@@ -11,7 +12,7 @@ if [[ "`uname -a`" == *"arch"* ]]; then
          blender ltrace strace unrar rustup dunst feh acpi python-r2pipe \
          ttf-font-awesome lxappearance wine-staging xclip eza ripgrep dust \
          zsh alacritty gdb make cmake bear bash-completion man man-pages \
-         qemu-full jdk-openjdk openjdk-doc openjdk-src tk fastfetch \
+         qemu-full jdk-openjdk openjdk-doc openjdk-src tk fastfetch flatpak \
          riscv32-elf-binutils riscv32-elf-gdb riscv32-elf-newlib obs-studio \
          riscv64-elf-binutils riscv64-elf-gcc riscv64-elf-gdb \
          riscv64-elf-newlib riscv64-linux-gnu-binutils bash-language-server \
@@ -23,6 +24,7 @@ if [[ "`uname -a`" == *"arch"* ]]; then
          python-virtualenv scrot fd one_gadget pwninit plocate aspell \
          aspell-pl aspell-uk aspell-en rizin rz-ghidra python-rzpipe
 fi
+
 
 declare -a commands=("git" "gem" "pip" "curl")
 for command in "${commands[@]}"
@@ -59,8 +61,15 @@ ln -sf "$DOTFILES_PATH/dunstrc" ~/.config/dunst/dunstrc
 git clone https://github.com/pwndbg/pwndbg ~/FOSS/pwndbg
 git clone https://github.com/push0ebp/sig-database ~/FOSS/sig-database
 git clone https://github.com/rexim/simpc-mode ~/FOSS/simpc-mode
+git clone https://aur.archlinux.org/paru.git ~/FOSS/paru
 git clone https://github.com/poniponiponiponiponiponiponiponiponi/stuff ~/Projects/stuff
 git clone https://github.com/poniponiponiponiponiponiponiponiponi/private ~/Projects/private
+
+(cd ~/FOSS/paru && makepkg -si)
+
+paru -S imhex-bin
+
+#flatpak install flathub net.werwolv.ImHex
 
 #curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 #source "$HOME/.cargo/env"
