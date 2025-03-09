@@ -4,10 +4,10 @@ DOTFILES_PATH="$HOME/.dotfiles"
 
 
 if [[ "`uname -a`" == *"arch"* ]]; then
-    sudo pacman -Syu emacs-nativecomp firefox ttf-dejavu unzip \
+    sudo pacman -Syu emacs-nativecomp firefox ttf-dejavu unzip mdbook musl \
          noto-fonts noto-fonts-cjk noto-fonts-emoji nerd-fonts gimp tldr \
          gcc python python-pip zip p7zip wget git curl radare2 r2ghidra \
-         openbsd-netcat ipython ruby rubygems mpv tmux fish ropper \
+         openbsd-netcat ipython ruby rubygems mpv tmux fish ropper keychain \
          python-pwntools clang htop bat patchelf perf nasm binwalk \
          blender ltrace strace unrar rustup dunst feh acpi python-r2pipe \
          ttf-font-awesome lxappearance wine-staging xclip eza ripgrep dust \
@@ -96,10 +96,16 @@ git config --global alias.st status
 sudo localectl set-x11-keymap pl
 sudo localectl set-x11-keymap "" "" "" ctrl:nocaps
 
-if ! grep -q FONT "/etc/vconsole.conf"; then
+if ! grep -q FONT /etc/vconsole.conf; then
     if [ -e "/usr/share/kbd/consolefonts/eurlatgr.psfu.gz" ]; then
         echo "FONT=eurlatgr" >> /etc/vconsole.conf
     else
         echo "consolefont not found!"
     fi
+fi
+
+if ! grep -q "disassembly-flavor" ~/.gdbinit; then
+    echo "set disassembly-flavor att" >> ~/.gdbinit
+else
+    echo "disassembly-flavor is already set"
 fi

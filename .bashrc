@@ -19,6 +19,7 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 export HISTFILESIZE=999999
 export HISTSIZE=999999
 export EDITOR=emacsclient
+export SSH_AUTH_SOCK=/run/user/1000/ssh-agent.socket
 
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/.local/share/gem/ruby/3.3.0/bin"
@@ -42,3 +43,6 @@ fi
 
 shopt -s checkwinsize
 shopt -s histappend
+
+setxkbmap -option ctrl:nocaps
+setxkbmap pl

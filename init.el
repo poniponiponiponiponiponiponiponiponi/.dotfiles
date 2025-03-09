@@ -31,6 +31,9 @@
 (global-whitespace-mode)
 (blink-cursor-mode 0)
 (electric-pair-mode 1)
+(setq asm-comment-char ?\#)
+
+(setq flymake-no-changes-timeout 999999)
 
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
 (global-set-key (kbd "C-<return>") 'eshell)
@@ -63,6 +66,7 @@
 (setq tab-width 4)
 (setq c-basic-offset 4)
 (setq c-ts-mode-indent-offset 4)
+(setq c-ts-mode-indent-style 'bsd)
 
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
@@ -80,24 +84,6 @@
     (defvar default-font "DejaVu Sans Mono 11")
     (set-frame-font "DejaVu Sans Mono 11" nil t)
     (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 110)))
-
-
-(defun disable-flycheck-on-type (&rest _)
-  (when (bound-and-true-p flycheck-mode)
-    ;; hacky!
-    (run-at-time "0.10 sec" nil (lambda ()
-                               (flycheck-mode -1)))))
-
-(defun enable-flycheck-on-save ()
-  (run-at-time "0.25 sec" nil (lambda ()
-                               (flycheck-mode 1)
-                               (flycheck-buffer))))
-
-(defun setup-flycheck-toggle ()
-  (add-hook 'after-change-functions 'disable-flycheck-on-type nil t)
-  (add-hook 'after-save-hook 'enable-flycheck-on-save nil t))
-;; Because rust-analyzer is annoying with performing a lot of checks only on save
-(add-hook 'rustic-mode-hook 'setup-flycheck-toggle)
 
 
 (defun pwn-info-variable (str)
@@ -118,47 +104,33 @@
           (lambda () (local-set-key (kbd "M-p") 'kpwn-info-variable)))
 
 
-(defun my-python-noindent (&optional _previous)
-  (let ((context (python-indent-context)))
-    (if (or (eq (car context) :inside-string)
-            (eq (car context) :inside-docstring))
-        'noindent)))
-(advice-add 'python-indent-line :before-until #'my-python-noindent)
+;; (defun my-python-noindent (&optional _previous)
+;;   (let ((context (python-indent-context)))
+;;     (if (or (eq (car context) :inside-string)
+;;             (eq (car context) :inside-docstring))
+;;         'noindent)))
+;; (advice-add 'python-indent-line :before-until #'my-python-noindent)
 
 (use-package virtualenvwrapper
   :config
   (venv-initialize-eshell))
 
+(use-package gas-mode
+    :vc (:url "https://github.com/SciBourne/gas-mode"
+       :rev :newest)
+  :mode ("\\.s\\'" "\\.S\\'" "\\.asm\\'")
+  :init
+  (add-hook 'gas-mode-hook (lambda () (setq tab-width 8))))
 
-(add-hook 'text-mode-hook 'flyspell-mode)
-(add-hook 'prog-mode-hook 'flyspell-prog-mode)
-
-
-(use-package flycheck
-  :config
-  (global-flycheck-mode)
-  (setq flycheck-display-errors-delay 0.25))
-(use-package flycheck-eglot
-  :after (flycheck eglot)
-  :config
-  (global-flycheck-eglot-mode 1))
-(use-package consult-flycheck)
 (use-package yasnippet)
 
-(use-package eldoc-box
-  :config
-  (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-mode t)
-  (setq eldoc-box-max-pixel-height 300)
-  (set-face-attribute 'eldoc-box-border nil :background "#665c54"))
 (use-package rg)
 (use-package which-key
   :config
   (which-key-mode))
 (use-package avy
   :bind
-  ("M-i" . avy-goto-char-timer)
-  :config
-  (setq avy-timeout-seconds 7))
+  ("M-i" . avy-goto-char))
 
 (use-package multiple-cursors
   :config
@@ -202,17 +174,16 @@
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
-(use-package simpc-mode
-  :load-path "~/FOSS/simpc-mode")
+;; (use-package simpc-mode
+;;   :load-path "~/FOSS/simpc-mode")
 
-
-(add-hook 'prog-mode-hook (lambda () (unless (eq major-mode 'emacs-lisp-mode)
-                                       (eglot-ensure))))
+(add-hook 'prog-mode-hook 'eglot-ensure)
 (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 0)))
 ;; (fset #'jsonrpc--log-event #'ignore)
-;; (use-package eglot-booster
-;;      :after eglot
 
+(setq eglot-server-programs
+      '((c-mode . ("ccls"))
+        (c++-mode . ("ccls"))))
 (setq-default eglot-workspace-configuration
               '((:rust-analyzer
                  . ((cargo
@@ -346,6 +317,10 @@
 
 ;; Bind `my/consult-eshell-history` to a key or use it directly
 (define-key eshell-mode-map (kbd "C-r") 'consult-history)
+
+;; (use-package dtrt-indent
+;;   :config
+;;   (dtrt-indent-global-mode))
 
 
 ;; Overwritten function from eldoc-box, so when the box is resized

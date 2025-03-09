@@ -206,4 +206,3 @@ client.urgent           $red $red $white $red $red
 #	dwt enabled
 #	middle_emulation enabled
 #}
-exec --no-startup-id setxkbmap -option ctrl:nocaps
