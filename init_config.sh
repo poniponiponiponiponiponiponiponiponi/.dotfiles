@@ -29,8 +29,7 @@ fi
 declare -a commands=("git" "gem" "pip" "curl")
 for command in "${commands[@]}"
 do
-    if ! command -v "$command" &> /dev/null
-    then
+    if ! command -v "$command" &> /dev/null; then
         echo "NO ${command} DETECTED. Please make sure you have everything" \
             "installed before proceeding."
         exit 1
@@ -65,11 +64,11 @@ git clone https://aur.archlinux.org/paru.git ~/FOSS/paru
 git clone https://github.com/poniponiponiponiponiponiponiponiponi/stuff ~/Projects/stuff
 git clone https://github.com/poniponiponiponiponiponiponiponiponi/private ~/Projects/private
 
-(cd ~/FOSS/paru && makepkg -si)
+if ! command -v paru; then
+    (cd ~/FOSS/paru && makepkg -si)
+fi
 
 paru -S imhex-bin
-
-#flatpak install flathub net.werwolv.ImHex
 
 #curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 #source "$HOME/.cargo/env"
@@ -109,3 +108,6 @@ if ! grep -q "disassembly-flavor" ~/.gdbinit; then
 else
     echo "disassembly-flavor is already set"
 fi
+
+sudo echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
+sudo echo "blacklist snd_pcsp" >> /etc/modprobe.d/nobeep.conf
