@@ -27,8 +27,10 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
-(global-display-line-numbers-mode)
-(global-whitespace-mode)
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+(add-hook 'text-mode-hook #'display-line-numbers-mode)
+(add-hook 'prog-mode-hook #'whitespace-mode)
+(add-hook 'text-mode-hook #'whitespace-mode)
 (blink-cursor-mode 0)
 (electric-pair-mode 1)
 (setq asm-comment-char ?\#)
@@ -73,7 +75,7 @@
 (put 'upcase-region 'disabled nil)
 
 
-(if (> (display-pixel-width) 1920)
+(if (> (x-display-pixel-width) 1920)
     (progn
       (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 17"))
       (defvar default-font "DejaVu Sans Mono 17")
@@ -103,6 +105,10 @@
 (add-hook 'c-ts-mode-hook
           (lambda () (local-set-key (kbd "M-p") 'kpwn-info-variable)))
 
+(setq gdb-many-windows t
+      gdb-use-separate-io-buffer t)
+(advice-add 'gdb-setup-windows :after
+            (lambda () (set-window-dedicated-p (selected-window) t)))
 
 ;; (defun my-python-noindent (&optional _previous)
 ;;   (let ((context (python-indent-context)))
@@ -156,8 +162,9 @@
   ;; (indent-bars-treesit-support t)
   ;; (indent-bars-treesit-ignore-blank-lines-types '("module"))
   :hook ((prog-mode . (lambda ()
-                        (unless (derived-mode-p 'emacs-lisp-mode)
-                          (indent-bars-mode))))))
+                        (if (derived-mode-p 'prog-mode)
+                            (unless (derived-mode-p 'emacs-lisp-mode)
+                              (indent-bars-mode)))))))
 (use-package rainbow-delimiters
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
@@ -181,9 +188,10 @@
 (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 0)))
 ;; (fset #'jsonrpc--log-event #'ignore)
 
-(setq eglot-server-programs
-      '((c-mode . ("ccls"))
-        (c++-mode . ("ccls"))))
+(use-package eglot
+  :config
+  (add-to-list 'eglot-server-programs '(c-mode . ("ccls")))
+  (add-to-list 'eglot-server-programs '(c++-mode . ("ccls"))))
 (setq-default eglot-workspace-configuration
               '((:rust-analyzer
                  . ((cargo
@@ -321,37 +329,3 @@
 ;; (use-package dtrt-indent
 ;;   :config
 ;;   (dtrt-indent-global-mode))
-
-
-;; Overwritten function from eldoc-box, so when the box is resized
-;; it doesn't look now that glitchy/ugly (at least on my system).
-;; I made a issue for it on github: https://github.com/casouri/eldoc-box/issues/110
-;; TODO: in the future I should make a wrapper for the function instead
-(setq prev-size '(0 . 0))
-(defun eldoc-box--update-childframe-geometry (frame window)
-  "Update the size and the position of childframe.
-FRAME is the childframe, WINDOW is the primary window."
-  (setcdr eldoc-box--markdown-separator-display-props nil)
-
-  (let* ((size
-          (window-text-pixel-size
-           window nil nil
-           (if (functionp eldoc-box-max-pixel-width) (funcall eldoc-box-max-pixel-width) eldoc-box-max-pixel-width)
-           (if (functionp eldoc-box-max-pixel-height) (funcall eldoc-box-max-pixel-height) eldoc-box-max-pixel-height)
-           t))
-         (width (car size))
-         (height (cdr size))
-         (width (+ width (frame-char-width frame))) ; add margin
-         (frame-resize-pixelwise t)
-         (pos (funcall eldoc-box-position-function width height)))
-    (if (not (equal prev-size size))
-        (eldoc-box--maybe-cleanup))
-    (setq prev-size size)
-    (set-frame-size frame width height t)
-
-    ;; Set the display property back.
-    (setcdr eldoc-box--markdown-separator-display-props
-            '(:width text))
-
-    ;; move position
-    (set-frame-position frame (car pos) (cdr pos))))
