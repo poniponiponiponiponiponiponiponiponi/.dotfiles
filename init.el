@@ -18,6 +18,9 @@
 (setq use-package-always-ensure t)
 
 
+(add-hook 'markdown-mode-hook
+          (lambda () (text-scale-decrease 0.5)))
+
 (server-start)
 
 (global-auto-revert-mode 1)
@@ -27,6 +30,7 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
+(setq vc-follow-symlinks t)
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (add-hook 'text-mode-hook #'display-line-numbers-mode)
 (add-hook 'prog-mode-hook #'whitespace-mode)
@@ -38,8 +42,8 @@
 (setq flymake-no-changes-timeout 999999)
 
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
-(global-set-key (kbd "C-<return>") 'eshell)
-(global-set-key (kbd "M-<return>") 'eshell)
+;; (global-set-key (kbd "C-<return>") 'eshell)
+;; (global-set-key (kbd "M-<return>") 'eshell)
 (global-set-key (kbd "<f5>") 'revert-buffer)
 (global-set-key [remap list-buffers] 'ibuffer)
 (global-set-key (kbd "C-v") (lambda () (interactive) (scroll-up-line 7)))
@@ -77,15 +81,15 @@
 
 (if (> (x-display-pixel-width) 1920)
     (progn
-      (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 17"))
-      (defvar default-font "DejaVu Sans Mono 17")
-      (set-frame-font "DejaVu Sans Mono 17" nil t)
-      (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 170))
+      (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 18"))
+      (defvar default-font "JetBrainsMono Nerd Font 18")
+      (set-frame-font "JetBrainsMono Nerd Font 18" nil t)
+      (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 180))
   (progn
-    (add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono 11"))
-    (defvar default-font "DejaVu Sans Mono 11")
-    (set-frame-font "DejaVu Sans Mono 11" nil t)
-    (set-face-attribute 'default nil :family "DejaVu Sans Mono" :height 110)))
+    (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 11"))
+    (defvar default-font "JetBrainsMono Nerd Font 11")
+    (set-frame-font "JetBrainsMono Nerd Font 11" nil t)
+    (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 110)))
 
 
 (defun pwn-info-variable (str)
@@ -110,12 +114,15 @@
 (advice-add 'gdb-setup-windows :after
             (lambda () (set-window-dedicated-p (selected-window) t)))
 
-;; (defun my-python-noindent (&optional _previous)
-;;   (let ((context (python-indent-context)))
-;;     (if (or (eq (car context) :inside-string)
-;;             (eq (car context) :inside-docstring))
-;;         'noindent)))
-;; (advice-add 'python-indent-line :before-until #'my-python-noindent)
+;; Keep the python indent inside string sane.
+;; It is not perfect but good enough.
+(defun my-python-string-indent (&optional _previous)
+  (let ((context (python-indent-context)))
+    (if (or (eq (car context) :inside-string)
+            (eq (car context) :inside-docstring))
+        (indent-relative)
+      t)))
+(advice-add 'python-indent-line :before-until #'my-python-string-indent)
 
 (use-package virtualenvwrapper
   :config
@@ -180,18 +187,36 @@
   :config
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
+;; (global-tree-sitter-mode)
+;;(setq major-mode-remap-defaults t)
+(setq treesit-language-source-alist
+   '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+     (cmake "https://github.com/uyha/tree-sitter-cmake")
+     (c "https://github.com/tree-sitter/tree-sitter-c")
+     (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+     (css "https://github.com/tree-sitter/tree-sitter-css")
+     (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+     (go "https://github.com/tree-sitter/tree-sitter-go")
+     (html "https://github.com/tree-sitter/tree-sitter-html")
+     (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+     (json "https://github.com/tree-sitter/tree-sitter-json")
+     (make "https://github.com/alemuller/tree-sitter-make")
+     (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+     (python "https://github.com/tree-sitter/tree-sitter-python")
+     (toml "https://github.com/tree-sitter/tree-sitter-toml")
+     (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+     (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+     (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
-;; (use-package simpc-mode
-;;   :load-path "~/FOSS/simpc-mode")
 
 (add-hook 'prog-mode-hook 'eglot-ensure)
 (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 0)))
 ;; (fset #'jsonrpc--log-event #'ignore)
 
-(use-package eglot
-  :config
-  (add-to-list 'eglot-server-programs '(c-mode . ("ccls")))
-  (add-to-list 'eglot-server-programs '(c++-mode . ("ccls"))))
+;; (use-package eglot
+;;   :config
+;;   (add-to-list 'eglot-server-programs '(c-mode . ("ccls")))
+;;   (add-to-list 'eglot-server-programs '(c++-mode . ("ccls"))))
 (setq-default eglot-workspace-configuration
               '((:rust-analyzer
                  . ((cargo
@@ -208,10 +233,8 @@
 ;;                               (:cargo (:features "all"))))))
 
 
-(use-package rustic
-  :config
-  (setq rustic-lsp-client 'eglot))
-;; (add-function :after after-focus-change-function (lambda () (redraw-frame)))
+(use-package rust-mode)
+(use-package markdown-mode)
 
 (use-package htmlize)
 (use-package magit)
@@ -220,7 +243,15 @@
   ;; :custom
   ;; (corfu-auto 1)
   :init
-  (global-corfu-mode))
+  (global-corfu-mode)
+  )
+
+(setq completions-format 'one-column)
+(setq completions-header-format nil)
+(setq completions-max-height 20)
+(setq completion-auto-select nil)
+(define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
+(define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
 (use-package vertico
   :config
   (setq vertico-resize nil)
@@ -278,8 +309,7 @@
   (add-hook 'eat-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
   (add-hook 'eat-mode-hook (lambda () (display-line-numbers-mode 0)))
   (add-hook 'eshell-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
-  (add-hook 'eshell-mode-hook (lambda () (display-line-numbers-mode 0)))
-  (setq eat-term-scrollback-size 10000))
+  (add-hook 'eshell-mode-hook (lambda () (display-line-numbers-mode 0))))
 
 (defun split-eat (str)
   (interactive "sExecute: ")
