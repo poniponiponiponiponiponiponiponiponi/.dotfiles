@@ -17,10 +17,6 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-
-(add-hook 'markdown-mode-hook
-          (lambda () (text-scale-decrease 0.5)))
-
 (server-start)
 
 (global-auto-revert-mode 1)
@@ -70,6 +66,8 @@
 (setq indent-tabs-mode nil)
 (setq-default indent-tabs-mode nil)
 (setq tab-width 4)
+(setq-local tab-width 4)
+(setq-default tab-width 4)
 (setq c-basic-offset 4)
 (setq c-ts-mode-indent-offset 4)
 (setq c-ts-mode-indent-style 'bsd)
@@ -116,13 +114,17 @@
 
 ;; Keep the python indent inside string sane.
 ;; It is not perfect but good enough.
-(defun my-python-string-indent (&optional _previous)
+(defun my-python-string-indent (orig-fun &rest args)
   (let ((context (python-indent-context)))
     (if (or (eq (car context) :inside-string)
             (eq (car context) :inside-docstring))
         (indent-relative)
-      t)))
-(advice-add 'python-indent-line :before-until #'my-python-string-indent)
+      (apply orig-fun args))))
+(advice-add 'python-indent-line :around #'my-python-string-indent)
+
+(use-package gcmh
+  :config
+  (gcmh-mode 1))
 
 (use-package virtualenvwrapper
   :config
@@ -133,7 +135,7 @@
        :rev :newest)
   :mode ("\\.s\\'" "\\.S\\'" "\\.asm\\'")
   :init
-  (add-hook 'gas-mode-hook (lambda () (setq tab-width 8))))
+  (add-hook 'gas-mode-hook (lambda () (setq tab-width 4))))
 
 (use-package yasnippet)
 
@@ -151,9 +153,6 @@
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
 
-(use-package gcmh
-  :config
-  (gcmh-mode 1))
 (use-package sudo-edit)
 (use-package dashboard
   :config
@@ -231,6 +230,20 @@
 ;;   (add-to-list 'eglot-server-programs
 ;;                `(rustic-mode . ("rust-analyzer" :initializationOptions
 ;;                               (:cargo (:features "all"))))))
+(require 'eglot)
+(setq eglot-ignored-server-capabilities
+      '(:documentOnTypeFormattingProvider))
+(add-to-list 'eglot-server-programs
+                 '((c-ts-mode c++-ts-mode c-mode c++-mode)
+                   . ("clangd"
+                      "-j=8"
+                      "--log=error"
+                      "--malloc-trim"
+                      "--background-index"
+                      "--clang-tidy"
+                      "--pch-storage=memory"
+                      "--header-insertion=never"
+                      "--header-insertion-decorators=0")))
 
 
 (use-package rust-mode)
