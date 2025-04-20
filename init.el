@@ -33,7 +33,6 @@
 (add-hook 'text-mode-hook #'whitespace-mode)
 (blink-cursor-mode 0)
 (electric-pair-mode 1)
-(setq asm-comment-char ?\#)
 
 (setq flymake-no-changes-timeout 999999)
 
@@ -129,13 +128,6 @@
 (use-package virtualenvwrapper
   :config
   (venv-initialize-eshell))
-
-(use-package gas-mode
-    :vc (:url "https://github.com/SciBourne/gas-mode"
-       :rev :newest)
-  :mode ("\\.s\\'" "\\.S\\'" "\\.asm\\'")
-  :init
-  (add-hook 'gas-mode-hook (lambda () (setq tab-width 4))))
 
 (use-package yasnippet)
 
@@ -245,6 +237,22 @@
                       "--header-insertion=never"
                       "--header-insertion-decorators=0")))
 
+;; keep asm programming sane
+(defun my-asm-newline-and-indent ()
+  (interactive)
+  (newline)
+  (indent-according-to-mode))
+(add-hook 'asm-mode-hook
+          (lambda ()
+            (setq-local comment-start "#")
+            (setq-local comment-add 0)
+            (setq-local comment-end "")
+            (setq-local comment-start-skip "#+\\s-*")
+            (electric-indent-local-mode -1)
+            (local-set-key (kbd "RET") #'my-asm-newline-and-indent)
+            ))
+(advice-add #'asm-comment :override #'self-insert-command)
+(setq asm-comment-char ?\#)
 
 (use-package rust-mode)
 (use-package markdown-mode)
