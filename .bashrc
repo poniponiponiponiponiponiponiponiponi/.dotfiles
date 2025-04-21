@@ -43,6 +43,7 @@ fi
 
 shopt -s checkwinsize
 shopt -s histappend
+shopt -s autocd
 
 setxkbmap -option ctrl:nocaps
 setxkbmap pl

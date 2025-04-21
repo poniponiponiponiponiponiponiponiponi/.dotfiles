@@ -145,7 +145,8 @@
   (dashboard-setup-startup-hook))
 (use-package elcord
   :config
-  (elcord-mode))
+  (elcord-mode)
+  (setq elcord-quiet t))
 
 (use-package indent-bars
   :config
@@ -337,7 +338,7 @@
   (eshell-send-input))
 
 
-(defun my/open-terminal ()
+(defun alacritty ()
     (interactive)
     (call-process "alacritty" nil 0 nil "--working-directory" (file-truename default-directory)))
 (use-package esh-mode
