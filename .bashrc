@@ -5,7 +5,8 @@ alias nvim="emacsclient"
 alias nano="emacsclient"
 alias py="python"
 alias ipy="ipython"
-alias ls="eza --icons"
+alias ls="eza"
+alias ll="eza -lah"
 
 # colors
 alias diff='diff --color=auto'
