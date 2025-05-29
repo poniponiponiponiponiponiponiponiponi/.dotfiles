@@ -17,6 +17,7 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
+;; (setq debug-on-error t)
 (server-start)
 
 (global-auto-revert-mode 1)
@@ -30,11 +31,59 @@
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (add-hook 'text-mode-hook #'display-line-numbers-mode)
 (add-hook 'prog-mode-hook #'whitespace-mode)
-(add-hook 'text-mode-hook #'whitespace-mode)
 (blink-cursor-mode 0)
 (electric-pair-mode 1)
 
-(setq flymake-no-changes-timeout 999999)
+;; ;; 1) Disable Flymake’s built‑in triggers
+;; (with-eval-after-load 'flymake
+;;   ;; Never run at startup, idle, or on save automatically
+;;   (setq flymake-start-on-flymake-mode nil
+;;         flymake-no-changes-timeout nil
+;;         flymake-start-on-save-buffer nil))
+
+;; ;; 2) Define overlay‑clearing function
+;; (defun my/flymake-clear-overlays (_beg _end _len)
+;;   "Delete *all* Flymake diagnostic overlays in the current buffer."
+;;   (dolist (ov (overlays-in (point-min) (point-max)))
+;;     (when (overlay-get ov 'flymake-diagnostic)
+;;       (delete-overlay ov))))
+
+;; ;; 3) On entering Flymake mode, yank out *every* Flymake hook/timer,
+;; ;;    then add just our overlay‑clear on-change hook
+;; (defun my/flymake-disable-idle-and-hooks ()
+;;   ;; Remove the legacy and new on-change functions
+;;   (remove-hook 'after-change-functions #'flymake-after-change-function t)
+;;   (when (fboundp 'flymake--on-change)
+;;     (remove-hook 'after-change-functions #'flymake--on-change t))
+;;   ;; Cancel any idle timer Flymake scheduled
+;;   (when (fboundp 'cancel-function-timers)
+;;     (cancel-function-timers #'flymake--post-self-change))
+;;   ;; Now add our own clear‑on‑type
+;;   (add-hook 'after-change-functions
+;;             #'my/flymake-clear-overlays nil t))
+
+;; (add-hook 'flymake-mode-hook #'my/flymake-disable-idle-and-hooks)
+
+;; ;; 4) Only on save: clear old overlays *and* do a fresh Flymake pass
+;; (defun my/flymake-save-and-run ()
+;;   "Clear stale Flymake overlays and then start a new check."
+;;   (when (bound-and-true-p flymake-mode)
+;;     ;; immediately wipe old overlays
+;;     (my/flymake-clear-overlays nil nil nil)
+;;     ;; start Flymake now that the file is saved
+;;     ;; (flymake-start)
+;;     (run-with-timer
+;;      0.3               ;; delay in seconds
+;;      nil               ;; repeat interval (nil = run just once)
+;;      (lambda ()
+;;        ;; your code here
+;;        (flymake-start)))))
+
+;; (add-hook 'after-save-hook #'my/flymake-save-and-run)
+
+
+
+
 
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
 ;; (global-set-key (kbd "C-<return>") 'eshell)
@@ -54,6 +103,10 @@
 (setq kill-buffer-query-functions nil)
 (setq custom-safe-themes t)
 (setq whitespace-style '(face trailing tabs newline tab-mark))
+(global-whitespace-mode)
+
+;; (add-hook 'write-file-hooks 'delete-trailing-whitespace)
+
 
 (setq eldoc-idle-delay 0.25)
 (setq-default display-line-numbers-type 'relative)
@@ -92,7 +145,7 @@
 (defun pwn-info-variable (str)
   "Insert a string into the current buffer."
   (interactive "sVariable: ")
-  (insert "info(f\"" str ": {hex(" str ")}\")"))
+  (insert "info(f'{" str " = :#x}')"))
 (defun kpwn-info-variable (str)
   "Insert a string into the current buffer."
   (interactive "sVariable: ")
@@ -110,16 +163,6 @@
       gdb-use-separate-io-buffer t)
 (advice-add 'gdb-setup-windows :after
             (lambda () (set-window-dedicated-p (selected-window) t)))
-
-;; Keep the python indent inside string sane.
-;; It is not perfect but good enough.
-(defun my-python-string-indent (orig-fun &rest args)
-  (let ((context (python-indent-context)))
-    (if (or (eq (car context) :inside-string)
-            (eq (car context) :inside-docstring))
-        (indent-relative)
-      (apply orig-fun args))))
-(advice-add 'python-indent-line :around #'my-python-string-indent)
 
 (use-package gcmh
   :config
@@ -145,8 +188,7 @@
   (dashboard-setup-startup-hook))
 (use-package elcord
   :config
-  (elcord-mode)
-  (setq elcord-quiet t))
+  (elcord-mode))
 
 (use-package indent-bars
   :config
@@ -162,10 +204,25 @@
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
-(use-package gruvbox-theme
-  :config
-  (load-theme 'gruvbox-dark-medium)
-  (set-cursor-color "#d33682"))
+;; (use-package gruvbox-theme
+;;   :config
+;;   (load-theme 'gruvbox-dark-medium)
+;;   (set-cursor-color "#d33682"))
+
+(setq solarized-distinct-fringe-background t)
+(use-package solarized-theme)
+;; (load-theme 'solarized-dark t)
+(load-theme 'spacemacs-dark)
+(set-cursor-color "#d33682")
+(set-face-attribute 'whitespace-trailing nil
+                    :foreground nil
+                    :background "#212026")
+
+(set-face-attribute 'mode-line nil
+                    :box '(:line-width (5 . 1) :color "#5d4d7a" :style nil))
+(set-face-attribute 'mode-line-inactive nil
+                    :box '(:line-width (5 . 1) :color "#5d4d7a" :style nil))
+
 
 (use-package treesit-auto
   :custom
@@ -244,23 +301,39 @@
             (setq-local comment-end "")
             (setq-local comment-start-skip "#+\\s-*")
             (electric-indent-local-mode -1)
-            (local-set-key (kbd "RET") #'my-asm-newline-and-indent)
-            ))
+            (local-set-key (kbd "RET") #'my-asm-newline-and-indent)))
 (advice-add #'asm-comment :override #'self-insert-command)
 (setq asm-comment-char ?\#)
 
+;; Keep the python indent inside string sane.
+;; It is not perfect but good enough.
+(defun my-python-string-indent (orig-fun &rest args)
+  (let ((context (python-indent-context)))
+    (if (or (eq (car context) :inside-string)
+            (eq (car context) :inside-docstring))
+        (indent-relative)
+      (apply orig-fun args))))
+(advice-add 'python-indent-line :around #'my-python-string-indent)
+
 (use-package rust-mode)
 (use-package markdown-mode)
+(custom-set-variables
+ '(markdown-command "/usr/bin/pandoc"))
 
 (use-package htmlize)
+
 (use-package magit)
+(use-package diff-hl
+  :config
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+  (diff-hl-flydiff-mode)
+  (global-diff-hl-mode))
 
 (use-package corfu
   ;; :custom
   ;; (corfu-auto 1)
   :init
-  (global-corfu-mode)
-  )
+  (global-corfu-mode))
 
 (setq completions-format 'one-column)
 (setq completions-header-format nil)
@@ -271,7 +344,6 @@
 (use-package vertico
   :config
   (setq vertico-resize nil)
-  (set-face-attribute 'vertico-current nil :background "#665c54")
   (vertico-mode 1)
   (keymap-global-set "<f10>" #'tmm-menubar)
   (advice-add #'tmm-add-prompt :after #'minibuffer-hide-completions))
@@ -285,6 +357,7 @@
   :config
   (consult-customize
    consult-buffer :preview-key "M-.")
+  (setq consult-async-min-input 2)
   :bind
   ("C-x b" . consult-buffer)
   ("M-g i" . consult-imenu)
@@ -341,6 +414,7 @@
 (defun alacritty ()
     (interactive)
     (call-process "alacritty" nil 0 nil "--working-directory" (file-truename default-directory)))
+
 (use-package esh-mode
   :ensure nil)
 (use-package eshell-syntax-highlighting
@@ -368,9 +442,10 @@
                                      "/.config/pwninit_template.py"))
             (eshell/alias "py" "python")))
 
-
-;; Bind `my/consult-eshell-history` to a key or use it directly
 (define-key eshell-mode-map (kbd "C-r") 'consult-history)
+(setq eshell-save-history-on-exit t)
+(setq eshell-history-size 999999)
+(setq eshell-hist-ignoredups t)
 
 ;; (use-package dtrt-indent
 ;;   :config
