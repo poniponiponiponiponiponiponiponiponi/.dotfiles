@@ -6,7 +6,7 @@ DOTFILES_PATH="$HOME/.dotfiles"
 if [[ "`uname -a`" == *"arch"* ]]; then
     sudo pacman -Syu emacs-nativecomp firefox ttf-dejavu unzip mdbook musl \
          noto-fonts noto-fonts-cjk noto-fonts-emoji nerd-fonts gimp tldr \
-         gcc python python-pip zip p7zip wget git curl radare2 r2ghidra \
+         gcc python python-pip zip p7zip wget git curl radare2 r2ghidra bc \
          openbsd-netcat ipython ruby rubygems mpv tmux fish ropper keychain \
          python-pwntools clang htop bat patchelf perf nasm binwalk \
          blender ltrace strace unrar rustup dunst feh acpi python-r2pipe \
@@ -14,7 +14,7 @@ if [[ "`uname -a`" == *"arch"* ]]; then
          zsh alacritty gdb make cmake bear bash-completion man man-pages \
          qemu-full jdk-openjdk openjdk-doc openjdk-src tk fastfetch flatpak \
          riscv32-elf-binutils riscv32-elf-gdb riscv32-elf-newlib obs-studio \
-         riscv64-elf-binutils riscv64-elf-gcc riscv64-elf-gdb  \
+         riscv64-elf-binutils riscv64-elf-gcc riscv64-elf-gdb \
          riscv64-elf-newlib riscv64-linux-gnu-binutils bash-language-server \
          riscv64-linux-gnu-gcc riscv64-linux-gnu-gdb python-poetry \
          riscv64-linux-gnu-glibc riscv64-linux-gnu-linux-api-headers \
