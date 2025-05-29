@@ -112,6 +112,7 @@
 (setq-default display-line-numbers-type 'relative)
 (setq scroll-margin 2)
 (setq max-mini-window-height 11)
+(setq vertico-count 20)
 (setq-default project-vc-extra-root-markers '(".project" "Cargo.toml"))
 
 ;; indentation
