@@ -359,12 +359,27 @@
   (consult-customize
    consult-buffer :preview-key "M-.")
   (setq consult-async-min-input 2)
+
+  (defun my/consult-fd (&optional include-dotfiles)
+    (interactive "P")
+    (if include-dotfiles
+        (let ((consult-fd-args "fd --full-path --type f --hidden --color=never"))
+          (consult-fd))
+      (consult-fd)))
+
+  (defun my/consult-ripgrep (&optional include-dotfiles)
+    (interactive "P")
+    (if include-dotfiles
+        (let ((consult-ripgrep-args "rg --null --line-buffered --color=never --max-columns=1000 --path-separator /   --smart-case --no-heading --with-filename --line-number --search-zip --hidden"))
+          (consult-ripgrep))
+      (consult-ripgrep)))
+
   :bind
   ("C-x b" . consult-buffer)
   ("M-g i" . consult-imenu)
   ("M-g I" . consult-imenu-multi)
-  ("M-s d" . consult-fd)
-  ("M-s r" . consult-ripgrep)
+  ("M-s d" . my/consult-fd)
+  ("M-s r" . my/consult-ripgrep)
   ("M-s l" . consult-line)
   ("M-s L" . consult-line-multi)
   ("M-s k" . consult-keep-lines)
@@ -380,7 +395,6 @@
   (setq org-image-actual-width (truncate (* (display-pixel-width) 0.2)))
   (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
   (add-hook 'org-mode-hook '(lambda () (visual-line-mode 1)))
-  (add-hook 'org-mode-hook 'turn-on-flyspell)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((python . t)
