@@ -86,12 +86,11 @@
 
 
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
-;; (global-set-key (kbd "C-<return>") 'eshell)
-;; (global-set-key (kbd "M-<return>") 'eshell)
+(global-set-key (kbd "C-<return>") 'eshell)
 (global-set-key (kbd "<f5>") 'revert-buffer)
 (global-set-key [remap list-buffers] 'ibuffer)
-(global-set-key (kbd "C-v") (lambda () (interactive) (scroll-up-line 7)))
-(global-set-key (kbd "M-v") (lambda () (interactive) (scroll-down-line 7)))
+(global-set-key (kbd "C-v") (lambda () (interactive) (scroll-up-line 14)))
+(global-set-key (kbd "M-v") (lambda () (interactive) (scroll-down-line 14)))
 
 
 (defalias 'yes-or-no-p 'y-or-n-p)
