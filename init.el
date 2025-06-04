@@ -335,6 +335,10 @@
   :init
   (global-corfu-mode))
 
+(use-package cape
+  :config
+  (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible))
+
 (setq completions-format 'one-column)
 (setq completions-header-format nil)
 (setq completions-max-height 20)
