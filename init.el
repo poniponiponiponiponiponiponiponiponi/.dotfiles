@@ -181,6 +181,9 @@
 (use-package avy
   :bind
   ("M-i" . avy-goto-char))
+(use-package vundo
+  :config
+  (vundo-mode))
 
 (use-package sudo-edit)
 (use-package dashboard
@@ -338,6 +341,15 @@
 (use-package cape
   :config
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible))
+
+(use-package xterm-color
+  :config
+  (setq compilation-environment '("TERM=xterm-256color"))
+
+  (defun my/advice-compilation-filter (f proc string)
+    (funcall f proc (xterm-color-filter string)))
+
+  (advice-add 'compilation-filter :around #'my/advice-compilation-filter))
 
 (setq completions-format 'one-column)
 (setq completions-header-format nil)
