@@ -189,9 +189,9 @@
 (use-package dashboard
   :config
   (dashboard-setup-startup-hook))
-(use-package elcord
-  :config
-  (elcord-mode))
+;; (use-package elcord
+;;   :config
+;;   (elcord-mode))
 
 (use-package indent-bars
   :config
