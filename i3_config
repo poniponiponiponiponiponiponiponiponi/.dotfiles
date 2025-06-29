@@ -62,8 +62,8 @@ bindsym $mod+Return exec --no-startup-id $term
 bindsym $mod+q kill
 
 #bindsym $mod+d exec --no-startup-id  fuzzel -b 282828ff -t ffffffff -s 689d68ff -S 1d2021ff -m b16286ff -M b16286ff -B 0 -r 0
-bindsym $mod+d exec --no-startup-id rofi -font "DejaVu Sans Mono 12" -theme ~/.dotfiles/rofi-theme -show run
-bindsym $mod+w exec --no-startup-id rofi -font "DejaVu Sans Mono 12" -theme ~/.dotfiles/rofi-theme -show window
+bindsym $mod+d exec --no-startup-id rofi -font "JetBrainsMono Nerd Font 14" -theme ~/.dotfiles/rofi-theme -show run
+bindsym $mod+w exec --no-startup-id rofi -font "JetBrainsMono Nerd Font 14" -theme ~/.dotfiles/rofi-theme -show window
 
 bindsym $mod+b focus left
 bindsym $mod+n focus down
