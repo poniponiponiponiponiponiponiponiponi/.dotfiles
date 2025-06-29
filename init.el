@@ -94,6 +94,8 @@
 
 
 (defalias 'yes-or-no-p 'y-or-n-p)
+(unless (file-exists-p "~/.emacs.d/custom.el")
+  (with-temp-buffer (write-file "~/.emacs.d/custom.el")))
 (setq custom-file "~/.emacs.d/custom.el")
 (load-file custom-file)
 (setq auto-revert-verbose nil)
@@ -213,9 +215,10 @@
 ;;   (set-cursor-color "#d33682"))
 
 (setq solarized-distinct-fringe-background t)
-(use-package solarized-theme)
-;; (load-theme 'solarized-dark t)
-(load-theme 'spacemacs-dark)
+(use-package spacemacs-theme
+  :config
+  (load-theme 'spacemacs-dark))
+
 (set-cursor-color "#d33682")
 (set-face-attribute 'whitespace-trailing nil
                     :foreground nil
@@ -342,6 +345,8 @@
   :config
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible))
 
+(use-package crux)
+
 (use-package xterm-color
   :config
   (setq compilation-environment '("TERM=xterm-256color"))
@@ -408,7 +413,7 @@
   :config
   (setq org-src-window-setup 'current-window)
   (setq org-image-actual-width (truncate (* (display-pixel-width) 0.2)))
-  (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
+  ;; (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
   (add-hook 'org-mode-hook '(lambda () (visual-line-mode 1)))
   (org-babel-do-load-languages
    'org-babel-load-languages
