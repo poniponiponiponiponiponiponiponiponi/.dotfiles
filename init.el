@@ -131,17 +131,18 @@
 (put 'upcase-region 'disabled nil)
 
 
-(if (> (x-display-pixel-width) 1920)
+(ignore-errors
+  (if (> (x-display-pixel-width) 1920)
+      (progn
+        (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 18"))
+        (defvar default-font "JetBrainsMono Nerd Font 18")
+        (set-frame-font "JetBrainsMono Nerd Font 18" nil t)
+        (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 180))
     (progn
-      (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 18"))
-      (defvar default-font "JetBrainsMono Nerd Font 18")
-      (set-frame-font "JetBrainsMono Nerd Font 18" nil t)
-      (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 180))
-  (progn
-    (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 11"))
-    (defvar default-font "JetBrainsMono Nerd Font 11")
-    (set-frame-font "JetBrainsMono Nerd Font 11" nil t)
-    (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 110)))
+      (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 11"))
+      (defvar default-font "JetBrainsMono Nerd Font 11")
+      (set-frame-font "JetBrainsMono Nerd Font 11" nil t)
+      (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 110))))
 
 
 (defun pwn-info-variable (str)
@@ -230,12 +231,12 @@
                     :box '(:line-width (5 . 1) :color "#5d4d7a" :style nil))
 
 
-(use-package treesit-auto
-  :custom
-  (treesit-auto-install 'prompt)
-  :config
-  (treesit-auto-add-to-auto-mode-alist 'all)
-  (global-treesit-auto-mode))
+;; (use-package treesit-auto
+;;   :custom
+;;   (treesit-auto-install 'prompt)
+;;   :config
+;;   (treesit-auto-add-to-auto-mode-alist 'all)
+;;   (global-treesit-auto-mode))
 ;; (global-tree-sitter-mode)
 ;;(setq major-mode-remap-defaults t)
 (setq treesit-language-source-alist
@@ -250,6 +251,7 @@
      (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
      (json "https://github.com/tree-sitter/tree-sitter-json")
      (make "https://github.com/alemuller/tree-sitter-make")
+     (rust "https://github.com/tree-sitter/tree-sitter-rust")
      (markdown "https://github.com/ikatyang/tree-sitter-markdown")
      (python "https://github.com/tree-sitter/tree-sitter-python")
      (toml "https://github.com/tree-sitter/tree-sitter-toml")
