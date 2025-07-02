@@ -411,18 +411,18 @@
   ("M-g m" . consult-mark)
   ("M-g k" . consult-global-mark))
 
-(use-package org
-  :config
-  (setq org-src-window-setup 'current-window)
-  (setq org-image-actual-width (truncate (* (display-pixel-width) 0.2)))
-  ;; (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
-  (add-hook 'org-mode-hook '(lambda () (visual-line-mode 1)))
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((python . t)
-     (C . t)
-     (shell . t))))
-(use-package org-download)
+;; (use-package org
+;;   :config
+;;   (setq org-src-window-setup 'current-window)
+;;   (setq org-image-actual-width (truncate (* (display-pixel-width) 0.2)))
+;;   ;; (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
+;;   (add-hook 'org-mode-hook '(lambda () (visual-line-mode 1)))
+;;   (org-babel-do-load-languages
+;;    'org-babel-load-languages
+;;    '((python . t)
+;;      (C . t)
+;;      (shell . t))))
+;; (use-package org-download)
 
 (use-package dired
   :ensure nil
