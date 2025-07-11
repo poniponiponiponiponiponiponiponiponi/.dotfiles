@@ -184,9 +184,9 @@
 (use-package avy
   :bind
   ("M-i" . avy-goto-char))
-;; (use-package vundo
-;;   :config
-;;   (vundo-mode))
+(use-package vundo
+  :config
+  (vundo-mode))
 
 (use-package sudo-edit)
 (use-package dashboard
