@@ -335,7 +335,14 @@
   :config
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
   (diff-hl-flydiff-mode)
-  (global-diff-hl-mode))
+  (global-diff-hl-mode)
+
+  ;; magit-blame-mode-hook doesn't work there, so I came up with this shit
+  (defun my/after-magit-blame-process-sentinel (&rest _)
+    (when (bound-and-true-p diff-hl-mode)
+      (diff-hl-magit-post-refresh)))
+  (with-eval-after-load 'magit-blame
+    (advice-add 'magit-blame-process-sentinel :after #'my/after-magit-blame-process-sentinel)))
 
 (use-package corfu
   ;; :custom
