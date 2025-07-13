@@ -102,6 +102,7 @@
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 (setq kill-buffer-query-functions nil)
+(setq sentence-end-double-space nil)
 (setq custom-safe-themes t)
 (setq whitespace-style '(face trailing tabs newline tab-mark))
 (global-whitespace-mode)
