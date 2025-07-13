@@ -324,7 +324,13 @@
       (apply orig-fun args))))
 (advice-add 'python-indent-line :around #'my-python-string-indent)
 
-(use-package rust-mode)
+(use-package rustic
+  :ensure t
+  :config
+  (setq rustic-format-on-save nil)
+  (setq rustic-lsp-client 'eglot)
+  :custom
+  (rustic-cargo-use-last-stored-arguments t))
 (use-package markdown-mode)
 (custom-set-variables
  '(markdown-command "/usr/bin/pandoc"))
