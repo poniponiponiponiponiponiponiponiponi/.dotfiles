@@ -88,6 +88,8 @@ git config --global log.decorate full
 git config --global core.pager cat
 git config --global remote.origin.followRemoteHead warn
 git config --global pull.ff only
+git config --global status.submodulesummary 1
+git config --global submodule.recurse true
 
 git config --global alias.co checkout
 git config --global alias.br branch
