@@ -87,6 +87,7 @@ git config --global init.defaultBranch main
 git config --global log.decorate full
 git config --global core.pager cat
 git config --global remote.origin.followRemoteHead warn
+git config --global pull.ff only
 
 git config --global alias.co checkout
 git config --global alias.br branch

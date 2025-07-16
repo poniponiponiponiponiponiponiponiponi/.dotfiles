@@ -340,6 +340,8 @@
 (use-package magit)
 (use-package diff-hl
   :config
+  (transient-append-suffix 'magit-clone "-s"
+    '("-r" "Recurse submodules" "--recurse-submodules"))
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
   (diff-hl-flydiff-mode)
   (global-diff-hl-mode)
