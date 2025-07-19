@@ -159,6 +159,8 @@
 (set-face-attribute 'whitespace-trailing nil
                     :foreground nil
                     :background "#212026")
+(custom-set-faces
+ '(eglot-highlight-symbol-face ((t (:inherit bold :background "#29422d")))))
 
 (set-face-attribute 'mode-line nil
                     :box '(:line-width (5 . 1) :color "#5d4d7a" :style nil))
