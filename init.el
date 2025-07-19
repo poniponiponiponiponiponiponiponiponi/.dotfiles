@@ -121,6 +121,7 @@
 (use-package virtualenvwrapper
   :config
   (venv-initialize-eshell))
+(use-package cmake-mode)
 
 (use-package yasnippet)
 
