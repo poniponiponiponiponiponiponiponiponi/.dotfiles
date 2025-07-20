@@ -8,7 +8,7 @@ if [[ "`uname -a`" == *"arch"* ]]; then
          noto-fonts noto-fonts-cjk noto-fonts-emoji nerd-fonts gimp tldr \
          gcc python python-pip zip p7zip wget git curl radare2 r2ghidra bc \
          openbsd-netcat ipython ruby rubygems mpv tmux fish ropper keychain \
-         python-pwntools clang htop bat patchelf perf nasm binwalk \
+         python-pwntools clang htop bat patchelf perf nasm binwalk minicom \
          blender ltrace strace unrar rustup dunst feh acpi python-r2pipe \
          ttf-font-awesome lxappearance wine-staging xclip eza ripgrep dust \
          zsh alacritty gdb make cmake bear bash-completion man man-pages \
