@@ -4,7 +4,7 @@ DOTFILES_PATH="$HOME/.dotfiles"
 
 
 if [[ "`uname -a`" == *"arch"* ]]; then
-    sudo pacman -Syu emacs-nativecomp firefox ttf-dejavu unzip mdbook musl \
+    sudo pacman -Syu emacs firefox ttf-dejavu unzip mdbook musl screen \
          noto-fonts noto-fonts-cjk noto-fonts-emoji nerd-fonts gimp tldr \
          gcc python python-pip zip p7zip wget git curl radare2 r2ghidra bc \
          openbsd-netcat ipython ruby rubygems mpv tmux fish ropper keychain \
@@ -14,7 +14,7 @@ if [[ "`uname -a`" == *"arch"* ]]; then
          zsh alacritty gdb make cmake bear bash-completion man man-pages \
          qemu-full jdk-openjdk openjdk-doc openjdk-src tk fastfetch flatpak \
          riscv32-elf-binutils riscv32-elf-gdb riscv32-elf-newlib obs-studio \
-         riscv64-elf-binutils riscv64-elf-gcc riscv64-elf-gdb \
+         riscv64-elf-binutils riscv64-elf-gcc riscv64-elf-gdb openssh \
          riscv64-elf-newlib riscv64-linux-gnu-binutils bash-language-server \
          riscv64-linux-gnu-gcc riscv64-linux-gnu-gdb python-poetry \
          riscv64-linux-gnu-glibc riscv64-linux-gnu-linux-api-headers \
@@ -23,7 +23,8 @@ if [[ "`uname -a`" == *"arch"* ]]; then
          arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-gdb \
          python-virtualenv scrot fd one_gadget pwninit plocate aspell \
          aspell-pl aspell-uk aspell-en rizin rz-ghidra python-rzpipe \
-         qemu-user-static-binfmt qemu-user-static
+         qemu-user-static-binfmt qemu-user-static rofi dmenu arandr \
+         ttf-jetbrains-mono-nerd
 fi
 
 
