@@ -24,7 +24,7 @@ if [[ "`uname -a`" == *"arch"* ]]; then
          python-virtualenv scrot fd one_gadget pwninit plocate aspell \
          aspell-pl aspell-uk aspell-en rizin rz-ghidra python-rzpipe \
          qemu-user-static-binfmt qemu-user-static rofi dmenu arandr \
-         ttf-jetbrains-mono-nerd
+         ttf-jetbrains-mono-nerd dotnet-sdk dotnet-runtime dotnet-host
 fi
 
 

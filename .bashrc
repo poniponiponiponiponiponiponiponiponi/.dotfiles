@@ -27,6 +27,7 @@ export PATH="$PATH:$HOME/.local/share/gem/ruby/3.3.0/bin"
 export PATH="$PATH:$HOME/.dotfiles/scripts"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/usr/lib/rustup/bin"
+export PATH="$PATH:/home/adrian/.dotnet/tools"
 
 RED="\[\033[0;31m\]"
 GREEN="\[\033[0;32m\]"
