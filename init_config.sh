@@ -64,7 +64,6 @@ git clone https://github.com/push0ebp/sig-database ~/FOSS/sig-database
 git clone https://github.com/rexim/simpc-mode ~/FOSS/simpc-mode
 git clone https://aur.archlinux.org/paru.git ~/FOSS/paru
 git clone https://github.com/poniponiponiponiponiponiponiponiponi/stuff ~/Projects/stuff
-git clone https://github.com/poniponiponiponiponiponiponiponiponi/private ~/Projects/private
 
 if ! command -v paru; then
     (cd ~/FOSS/paru && makepkg -si)
