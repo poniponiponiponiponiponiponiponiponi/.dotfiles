@@ -271,6 +271,9 @@
   (setq rustic-lsp-client 'eglot)
   :custom
   (rustic-cargo-use-last-stored-arguments t))
+(use-package yaml-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
 (use-package markdown-mode)
 (custom-set-variables
  '(markdown-command "/usr/bin/pandoc"))
