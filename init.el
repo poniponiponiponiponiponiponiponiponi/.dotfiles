@@ -201,6 +201,9 @@
 (add-hook 'prog-mode-hook 'eglot-ensure)
 (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 0)))
 ;; (fset #'jsonrpc--log-event #'ignore)
+;; (setq eglot-events-buffer-config '(:size 0 :format full))
+;; (setq eglot-events-buffer-size 0)
+;; (setq eglot-connect-timeout 999)
 
 ;; (use-package eglot
 ;;   :config
