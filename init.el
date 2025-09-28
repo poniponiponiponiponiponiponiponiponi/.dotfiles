@@ -54,6 +54,7 @@
 (setq sentence-end-double-space nil)
 (setq custom-safe-themes t)
 (setq whitespace-style '(face trailing tabs newline tab-mark))
+(setq enable-recursive-minibuffers t)
 (global-whitespace-mode)
 
 (setq eldoc-idle-delay 0.25)
