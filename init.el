@@ -82,9 +82,6 @@
 ;; (add-hook 'after-save-hook #'my/flymake-save-and-run)
 
 
-
-
-
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
 (global-set-key (kbd "C-<return>") 'eshell)
 (global-set-key (kbd "<f5>") 'revert-buffer)
@@ -106,9 +103,6 @@
 (setq custom-safe-themes t)
 (setq whitespace-style '(face trailing tabs newline tab-mark))
 (global-whitespace-mode)
-
-;; (add-hook 'write-file-hooks 'delete-trailing-whitespace)
-
 
 (setq eldoc-idle-delay 0.25)
 (setq-default display-line-numbers-type 'relative)
@@ -135,10 +129,16 @@
 (ignore-errors
   (if (> (x-display-pixel-width) 1920)
       (progn
-        (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 18"))
-        (defvar default-font "JetBrainsMono Nerd Font 18")
-        (set-frame-font "JetBrainsMono Nerd Font 18" nil t)
-        (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 180))
+        (if (> (x-display-pixel-width) 2560)
+            (progn
+              (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 11"))
+              (defvar default-font "JetBrainsMono Nerd Font 11")
+              (set-frame-font "JetBrainsMono Nerd Font 11" nil t)
+              (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 110))
+        (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 13"))
+        (defvar default-font "JetBrainsMono Nerd Font 15")
+        (set-frame-font "JetBrainsMono Nerd Font 15" nil t)
+        (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 150)))
     (progn
       (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 11"))
       (defvar default-font "JetBrainsMono Nerd Font 11")
@@ -172,30 +172,33 @@
   :config
   (gcmh-mode 1))
 
-;; (use-package virtualenvwrapper
-;;   :config
-;;   (venv-initialize-eshell))
+;; Because everyone in my job thinks it's Vim when they touch my keyboard
+;; and they don't know how to use Emacs (debauchery!)
+(use-package evil)
+
+(use-package virtualenvwrapper
+  :config
+  (venv-initialize-eshell))
+(use-package cmake-mode)
 
 (use-package yasnippet)
 
-(use-package rg)
+(use-package rg
+  :config
+  (setq rg-group-result nil)
+  (rg-enable-default-bindings)
+  (rg-enable-menu))
 (use-package which-key
   :config
   (which-key-mode))
 (use-package avy
   :bind
   ("M-i" . avy-goto-char))
-(use-package vundo
-  :config
-  (vundo-mode))
 
 (use-package sudo-edit)
 (use-package dashboard
   :config
   (dashboard-setup-startup-hook))
-;; (use-package elcord
-;;   :config
-;;   (elcord-mode))
 
 (use-package indent-bars
   :config
@@ -211,12 +214,6 @@
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
-;; (use-package gruvbox-theme
-;;   :config
-;;   (load-theme 'gruvbox-dark-medium)
-;;   (set-cursor-color "#d33682"))
-
-(setq solarized-distinct-fringe-background t)
 (use-package spacemacs-theme
   :config
   (load-theme 'spacemacs-dark))
@@ -225,6 +222,8 @@
 (set-face-attribute 'whitespace-trailing nil
                     :foreground nil
                     :background "#212026")
+(custom-set-faces
+ '(eglot-highlight-symbol-face ((t (:inherit bold :background "#29422d")))))
 
 (set-face-attribute 'mode-line nil
                     :box '(:line-width (5 . 1) :color "#5d4d7a" :style nil))
@@ -264,6 +263,9 @@
 (add-hook 'prog-mode-hook 'eglot-ensure)
 (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 0)))
 ;; (fset #'jsonrpc--log-event #'ignore)
+;; (setq eglot-events-buffer-config '(:size 0 :format full))
+;; (setq eglot-events-buffer-size 0)
+;; (setq eglot-connect-timeout 999)
 
 ;; (use-package eglot
 ;;   :config
@@ -331,6 +333,10 @@
   (setq rustic-lsp-client 'eglot)
   :custom
   (rustic-cargo-use-last-stored-arguments t))
+(use-package yaml-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
+(use-package csproj-mode)
 (use-package markdown-mode)
 (custom-set-variables
  '(markdown-command "/usr/bin/pandoc"))
@@ -340,6 +346,8 @@
 (use-package magit)
 (use-package diff-hl
   :config
+  (transient-append-suffix 'magit-clone "-s"
+    '("-r" "Recurse submodules" "--recurse-submodules"))
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
   (diff-hl-flydiff-mode)
   (global-diff-hl-mode)
@@ -399,7 +407,7 @@
   (defun my/consult-fd (&optional include-dotfiles)
     (interactive "P")
     (if include-dotfiles
-        (let ((consult-fd-args "fd --full-path --type f --hidden --color=never"))
+        (let ((consult-fd-args "fd --full-path --type f -I --color=never"))
           (consult-fd))
       (consult-fd)))
 
@@ -425,18 +433,18 @@
   ("M-g m" . consult-mark)
   ("M-g k" . consult-global-mark))
 
-;; (use-package org
-;;   :config
-;;   (setq org-src-window-setup 'current-window)
-;;   (setq org-image-actual-width (truncate (* (display-pixel-width) 0.2)))
-;;   ;; (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
-;;   (add-hook 'org-mode-hook '(lambda () (visual-line-mode 1)))
-;;   (org-babel-do-load-languages
-;;    'org-babel-load-languages
-;;    '((python . t)
-;;      (C . t)
-;;      (shell . t))))
-;; (use-package org-download)
+(use-package org
+  :config
+  (setq org-src-window-setup 'current-window)
+  (setq org-image-actual-width (truncate (* (display-pixel-width) 0.2)))
+  ;; (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
+  (add-hook 'org-mode-hook '(lambda () (visual-line-mode 1)))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t)
+     (C . t)
+     (shell . t))))
+(use-package org-download)
 
 (use-package dired
   :ensure nil
