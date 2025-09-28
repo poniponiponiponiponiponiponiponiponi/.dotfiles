@@ -34,6 +34,54 @@
 (blink-cursor-mode 0)
 (electric-pair-mode 1)
 
+;; ;; 1) Disable Flymake’s built‑in triggers
+;; (with-eval-after-load 'flymake
+;;   ;; Never run at startup, idle, or on save automatically
+;;   (setq flymake-start-on-flymake-mode nil
+;;         flymake-no-changes-timeout nil
+;;         flymake-start-on-save-buffer nil))
+
+;; ;; 2) Define overlay‑clearing function
+;; (defun my/flymake-clear-overlays (_beg _end _len)
+;;   "Delete *all* Flymake diagnostic overlays in the current buffer."
+;;   (dolist (ov (overlays-in (point-min) (point-max)))
+;;     (when (overlay-get ov 'flymake-diagnostic)
+;;       (delete-overlay ov))))
+
+;; ;; 3) On entering Flymake mode, yank out *every* Flymake hook/timer,
+;; ;;    then add just our overlay‑clear on-change hook
+;; (defun my/flymake-disable-idle-and-hooks ()
+;;   ;; Remove the legacy and new on-change functions
+;;   (remove-hook 'after-change-functions #'flymake-after-change-function t)
+;;   (when (fboundp 'flymake--on-change)
+;;     (remove-hook 'after-change-functions #'flymake--on-change t))
+;;   ;; Cancel any idle timer Flymake scheduled
+;;   (when (fboundp 'cancel-function-timers)
+;;     (cancel-function-timers #'flymake--post-self-change))
+;;   ;; Now add our own clear‑on‑type
+;;   (add-hook 'after-change-functions
+;;             #'my/flymake-clear-overlays nil t))
+
+;; (add-hook 'flymake-mode-hook #'my/flymake-disable-idle-and-hooks)
+
+;; ;; 4) Only on save: clear old overlays *and* do a fresh Flymake pass
+;; (defun my/flymake-save-and-run ()
+;;   "Clear stale Flymake overlays and then start a new check."
+;;   (when (bound-and-true-p flymake-mode)
+;;     ;; immediately wipe old overlays
+;;     (my/flymake-clear-overlays nil nil nil)
+;;     ;; start Flymake now that the file is saved
+;;     ;; (flymake-start)
+;;     (run-with-timer
+;;      0.3               ;; delay in seconds
+;;      nil               ;; repeat interval (nil = run just once)
+;;      (lambda ()
+;;        ;; your code here
+;;        (flymake-start)))))
+
+;; (add-hook 'after-save-hook #'my/flymake-save-and-run)
+
+
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
 (global-set-key (kbd "C-<return>") 'eshell)
 (global-set-key (kbd "<f5>") 'revert-buffer)
@@ -83,10 +131,16 @@
 (ignore-errors
   (if (> (x-display-pixel-width) 1920)
       (progn
-        (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 18"))
-        (defvar default-font "JetBrainsMono Nerd Font 18")
-        (set-frame-font "JetBrainsMono Nerd Font 18" nil t)
-        (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 180))
+        (if (> (x-display-pixel-width) 2560)
+            (progn
+              (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 11"))
+              (defvar default-font "JetBrainsMono Nerd Font 11")
+              (set-frame-font "JetBrainsMono Nerd Font 11" nil t)
+              (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 110))
+        (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 13"))
+        (defvar default-font "JetBrainsMono Nerd Font 15")
+        (set-frame-font "JetBrainsMono Nerd Font 15" nil t)
+        (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 150)))
     (progn
       (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 11"))
       (defvar default-font "JetBrainsMono Nerd Font 11")
@@ -120,6 +174,10 @@
   :config
   (gcmh-mode 1))
 
+;; Because everyone in my job thinks it's Vim when they touch my keyboard
+;; and they don't know how to use Emacs (debauchery!)
+(use-package evil)
+
 (use-package virtualenvwrapper
   :config
   (venv-initialize-eshell))
@@ -127,7 +185,11 @@
 
 (use-package yasnippet)
 
-(use-package rg)
+(use-package rg
+  :config
+  (setq rg-group-result nil)
+  (rg-enable-default-bindings)
+  (rg-enable-menu))
 (use-package which-key
   :config
   (which-key-mode))
@@ -276,6 +338,7 @@
 (use-package yaml-mode
   :config
   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
+(use-package csproj-mode)
 (use-package markdown-mode)
 (custom-set-variables
  '(markdown-command "/usr/bin/pandoc"))
@@ -346,7 +409,7 @@
   (defun my/consult-fd (&optional include-dotfiles)
     (interactive "P")
     (if include-dotfiles
-        (let ((consult-fd-args "fd --full-path --type f --hidden --color=never"))
+        (let ((consult-fd-args "fd --full-path --type f -I --color=never"))
           (consult-fd))
       (consult-fd)))
 
