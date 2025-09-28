@@ -4,17 +4,17 @@ DOTFILES_PATH="$HOME/.dotfiles"
 
 
 if [[ "`uname -a`" == *"arch"* ]]; then
-    sudo pacman -Syu emacs-nativecomp firefox ttf-dejavu unzip mdbook musl \
+    sudo pacman -Syu emacs firefox ttf-dejavu unzip mdbook musl screen \
          noto-fonts noto-fonts-cjk noto-fonts-emoji nerd-fonts gimp tldr \
          gcc python python-pip zip p7zip wget git curl radare2 r2ghidra bc \
          openbsd-netcat ipython ruby rubygems mpv tmux fish ropper keychain \
-         python-pwntools clang htop bat patchelf perf nasm binwalk \
+         python-pwntools clang htop bat patchelf perf nasm binwalk minicom \
          blender ltrace strace unrar rustup dunst feh acpi python-r2pipe \
          ttf-font-awesome lxappearance wine-staging xclip eza ripgrep dust \
          zsh alacritty gdb make cmake bear bash-completion man man-pages \
          qemu-full jdk-openjdk openjdk-doc openjdk-src tk fastfetch flatpak \
          riscv32-elf-binutils riscv32-elf-gdb riscv32-elf-newlib obs-studio \
-         riscv64-elf-binutils riscv64-elf-gcc riscv64-elf-gdb \
+         riscv64-elf-binutils riscv64-elf-gcc riscv64-elf-gdb openssh \
          riscv64-elf-newlib riscv64-linux-gnu-binutils bash-language-server \
          riscv64-linux-gnu-gcc riscv64-linux-gnu-gdb python-poetry \
          riscv64-linux-gnu-glibc riscv64-linux-gnu-linux-api-headers \
@@ -23,7 +23,8 @@ if [[ "`uname -a`" == *"arch"* ]]; then
          arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-gdb \
          python-virtualenv scrot fd one_gadget pwninit plocate aspell \
          aspell-pl aspell-uk aspell-en rizin rz-ghidra python-rzpipe \
-         qemu-user-static-binfmt qemu-user-static
+         qemu-user-static-binfmt qemu-user-static rofi dmenu arandr \
+         ttf-jetbrains-mono-nerd dotnet-sdk dotnet-runtime dotnet-host
 fi
 
 
@@ -63,7 +64,6 @@ git clone https://github.com/push0ebp/sig-database ~/FOSS/sig-database
 git clone https://github.com/rexim/simpc-mode ~/FOSS/simpc-mode
 git clone https://aur.archlinux.org/paru.git ~/FOSS/paru
 git clone https://github.com/poniponiponiponiponiponiponiponiponi/stuff ~/Projects/stuff
-git clone https://github.com/poniponiponiponiponiponiponiponiponi/private ~/Projects/private
 
 if ! command -v paru; then
     (cd ~/FOSS/paru && makepkg -si)
@@ -87,6 +87,9 @@ git config --global init.defaultBranch main
 git config --global log.decorate full
 git config --global core.pager cat
 git config --global remote.origin.followRemoteHead warn
+git config --global pull.ff only
+git config --global status.submodulesummary 1
+git config --global submodule.recurse true
 
 git config --global alias.co checkout
 git config --global alias.br branch

@@ -27,6 +27,7 @@ export PATH="$PATH:$HOME/.local/share/gem/ruby/3.3.0/bin"
 export PATH="$PATH:$HOME/.dotfiles/scripts"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/usr/lib/rustup/bin"
+export PATH="$PATH:$HOME/.dotnet/tools"
 
 RED="\[\033[0;31m\]"
 GREEN="\[\033[0;32m\]"
@@ -34,7 +35,7 @@ BLUE="\[\033[0;34m\]"
 YELLOW="\[\033[0;33m\]"
 RESET="\[\033[0m\]"
 
-PS1="[${GREEN}\u${RESET}@${BLUE}\h${RESET} ${YELLOW}\w${RESET}] λδ "
+PS1="[${GREEN}\u${RESET}@${BLUE}\h${RESET} ${YELLOW}\w${RESET}] $ "
 
 if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion
