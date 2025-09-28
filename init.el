@@ -128,24 +128,10 @@
 (put 'upcase-region 'disabled nil)
 
 
-(ignore-errors
-  (if (> (x-display-pixel-width) 1920)
-      (progn
-        (if (> (x-display-pixel-width) 2560)
-            (progn
-              (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 11"))
-              (defvar default-font "JetBrainsMono Nerd Font 11")
-              (set-frame-font "JetBrainsMono Nerd Font 11" nil t)
-              (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 110))
-        (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 13"))
-        (defvar default-font "JetBrainsMono Nerd Font 15")
-        (set-frame-font "JetBrainsMono Nerd Font 15" nil t)
-        (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 150)))
-    (progn
-      (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 11"))
-      (defvar default-font "JetBrainsMono Nerd Font 11")
-      (set-frame-font "JetBrainsMono Nerd Font 11" nil t)
-      (set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 110))))
+(add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font 11"))
+(defvar default-font "JetBrainsMono Nerd Font 11")
+(set-frame-font "JetBrainsMono Nerd Font 11" nil t)
+(set-face-attribute 'default nil :family "JetBrainsMono Nerd Font" :height 110)
 
 
 (defun pwn-info-variable (str)
