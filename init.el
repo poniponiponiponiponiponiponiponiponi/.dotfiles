@@ -424,6 +424,7 @@
 (use-package org
   :config
   (setq org-src-window-setup 'current-window)
+  (setq org-agenda-files '("~/org"))
   (setq org-image-actual-width (truncate (* (display-pixel-width) 0.2)))
   ;; (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
   (add-hook 'org-mode-hook '(lambda () (visual-line-mode 1)))
@@ -432,6 +433,20 @@
    '((python . t)
      (C . t)
      (shell . t))))
+(use-package org-roam
+  :config
+  (unless (file-exists-p "~/org")
+    (make-directory org-roam-directory t))
+  (setq org-roam-directory "~/org")
+  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (org-roam-db-autosync-mode)
+  :bind
+  (("C-c n l" . org-roam-buffer-toggle)
+   ("C-c n f" . org-roam-node-find)
+   ("C-c n g" . org-roam-graph)
+   ("C-c n i" . org-roam-node-insert)
+   ("C-c n c" . org-roam-capture)
+   ("C-c n j" . org-roam-dailies-capture-today)))
 (use-package org-download)
 
 (use-package dired
