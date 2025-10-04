@@ -1,11 +1,4 @@
 ;; Blessed are those who code in Emacs, for they shall inherit the flexibility of Lisp;
-;; Thy documentation and Thy community light my way,
-;; Through the complex mazes of nested functions and cryptic errors,
-;; Bringing clarity and wisdom to my coding journey.
-;; Even as I confront the heresy of DRM and the treachery of vendor lock-in,
-;; I will not be led astray, for Emacs is my savior;
-;; Thy keybindings and Thy modes guide my hands and heart,
-;; Keeping me true to the path of free and open-source software.
 
 
 (require 'package)
@@ -17,7 +10,6 @@
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-;; (setq debug-on-error t)
 (server-start)
 
 (global-auto-revert-mode 1)
@@ -151,11 +143,6 @@
 (add-hook 'c-ts-mode-hook
           (lambda () (local-set-key (kbd "M-p") 'kpwn-info-variable)))
 
-(setq gdb-many-windows t
-      gdb-use-separate-io-buffer t)
-(advice-add 'gdb-setup-windows :after
-            (lambda () (set-window-dedicated-p (selected-window) t)))
-
 (use-package gcmh
   :config
   (gcmh-mode 1))
@@ -273,7 +260,6 @@
 ;;   (add-to-list 'eglot-server-programs
 ;;                `(rustic-mode . ("rust-analyzer" :initializationOptions
 ;;                               (:cargo (:features "all"))))))
-(require 'eglot)
 (setq eglot-ignored-server-capabilities
       '(:documentOnTypeFormattingProvider))
 (add-to-list 'eglot-server-programs
@@ -368,12 +354,6 @@
 
   (advice-add 'compilation-filter :around #'my/advice-compilation-filter))
 
-(setq completions-format 'one-column)
-(setq completions-header-format nil)
-(setq completions-max-height 20)
-(setq completion-auto-select nil)
-(define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
-(define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
 (use-package vertico
   :config
   (setq vertico-resize nil)
@@ -462,17 +442,6 @@
   (add-hook 'eshell-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
   (add-hook 'eshell-mode-hook (lambda () (display-line-numbers-mode 0))))
 
-(defun split-eat (str)
-  (interactive "sExecute: ")
-  (split-window-right)
-  (other-window 1)
-  (eshell t)
-  (eshell-return-to-prompt)
-  (insert str)
-  (insert " ; { (progn (kill-this-buffer) (delete-window)) }")
-  (eshell-send-input))
-
-
 (defun alacritty ()
     (interactive)
     (call-process "alacritty" nil 0 nil "--working-directory" (file-truename default-directory)))
@@ -505,10 +474,5 @@
             (eshell/alias "py" "python")))
 
 (define-key eshell-mode-map (kbd "C-r") 'consult-history)
-(setq eshell-save-history-on-exit t)
 (setq eshell-history-size 999999)
 (setq eshell-hist-ignoredups t)
-
-;; (use-package dtrt-indent
-;;   :config
-;;   (dtrt-indent-global-mode))
