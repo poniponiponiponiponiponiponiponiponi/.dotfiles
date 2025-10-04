@@ -10,8 +10,3 @@ family = "JetBrainsMono Nerd Font"
 [font.offset]
 x = 0
 y = 0
-
-[general]
-import = ["/home/poni/.config/solarized_dark.toml"]
-
-
