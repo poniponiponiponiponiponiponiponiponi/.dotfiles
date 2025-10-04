@@ -28,11 +28,11 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (setq vc-follow-symlinks t)
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
-(add-hook 'text-mode-hook #'display-line-numbers-mode)
+(global-display-line-numbers-mode)
 (add-hook 'prog-mode-hook #'whitespace-mode)
 (blink-cursor-mode 0)
 (electric-pair-mode 1)
+(setq dired-kill-when-opening-new-dired-buffer t)
 
 ;; ;; 1) Disable Flymake’s built‑in triggers
 ;; (with-eval-after-load 'flymake
