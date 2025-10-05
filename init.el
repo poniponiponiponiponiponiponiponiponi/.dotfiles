@@ -148,12 +148,14 @@
 
 ;; Because everyone in my job thinks it's Vim when they touch my keyboard
 ;; and they don't know how to use Emacs (debauchery!)
-(use-package evil)
+(use-package evil
+  :defer t)
 
 (use-package virtualenvwrapper
   :config
   (venv-initialize-eshell))
-(use-package cmake-mode)
+(use-package cmake-mode
+  :defer t)
 
 (use-package yasnippet)
 
@@ -291,6 +293,7 @@
 (advice-add 'python-indent-line :around #'my-python-string-indent)
 
 (use-package rustic
+  :defer t
   :ensure t
   :config
   (setq rustic-format-on-save nil)
@@ -298,14 +301,18 @@
   :custom
   (rustic-cargo-use-last-stored-arguments t))
 (use-package yaml-mode
+  :defer t
   :config
   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
-(use-package csproj-mode)
-(use-package markdown-mode)
+(use-package csproj-mode
+  :defer t)
+(use-package markdown-mode
+  :defer t)
 (custom-set-variables
  '(markdown-command "/usr/bin/pandoc"))
 
-(use-package htmlize)
+(use-package htmlize
+  :defer t)
 
 (use-package magit)
 (use-package diff-hl
