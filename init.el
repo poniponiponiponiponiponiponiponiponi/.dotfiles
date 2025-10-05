@@ -163,6 +163,7 @@
   (rg-enable-default-bindings)
   (rg-enable-menu))
 (use-package which-key
+  :ensure nil
   :config
   (which-key-mode))
 (use-package avy
@@ -235,6 +236,7 @@
 
 
 (use-package eglot
+  :ensure nil
   :config
   ;; (fset #'jsonrpc--log-event #'ignore)
   ;; (setq eglot-events-buffer-config '(:size 0 :format full))
