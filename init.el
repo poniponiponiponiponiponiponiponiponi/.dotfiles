@@ -74,7 +74,7 @@
 
 
 (global-set-key (kbd "M-Z") 'zap-up-to-char)
-(global-set-key (kbd "C-<return>") 'eshell)
+(global-set-key (kbd "C-c <return>") 'eshell)
 (global-set-key (kbd "<f5>") 'revert-buffer)
 (global-set-key [remap list-buffers] 'ibuffer)
 (global-set-key (kbd "C-v") (lambda () (interactive) (scroll-up-line 14)))
