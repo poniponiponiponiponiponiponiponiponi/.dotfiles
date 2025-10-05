@@ -1,5 +1,4 @@
-;; Blessed are those who code in Emacs, for they shall inherit the flexibility of Lisp;
-
+;; Blessed are those who code in Emacs, for they shall inherit the flexibility of Lisp
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -235,44 +234,33 @@
      (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
 
-(add-hook 'prog-mode-hook 'eglot-ensure)
-(add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 0)))
-;; (fset #'jsonrpc--log-event #'ignore)
-;; (setq eglot-events-buffer-config '(:size 0 :format full))
-;; (setq eglot-events-buffer-size 0)
-;; (setq eglot-connect-timeout 999)
+(use-package eglot
+  :config
+  ;; (fset #'jsonrpc--log-event #'ignore)
+  ;; (setq eglot-events-buffer-config '(:size 0 :format full))
+  ;; (setq eglot-events-buffer-size 0)
+  ;; (setq eglot-connect-timeout 999)
+  (add-hook 'prog-mode-hook 'eglot-ensure)
+  (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 0)))
+  ;; THIS WAY DOESN'T WORK NO MATTER WHAT I TRY IDK WHY PLS HELP
+  ;; (with-eval-after-load 'eglot
+  ;;   (add-to-list 'eglot-server-programs
+  ;;                `(rustic-mode . ("rust-analyzer" :initializationOptions
+  ;;                               (:cargo (:features "all"))))))
+  (setq eglot-ignored-server-capabilities
+        '(:documentOnTypeFormattingProvider))
+  (add-to-list 'eglot-server-programs
+               '((c-ts-mode c++-ts-mode c-mode c++-mode)
+                 . ("clangd"
+                    "-j=8"
+                    "--log=error"
+                    "--malloc-trim"
+                    "--background-index"
+                    "--clang-tidy"
+                    "--pch-storage=memory"
+                    "--header-insertion=never"
+                    "--header-insertion-decorators=0"))))
 
-;; (use-package eglot
-;;   :config
-;;   (add-to-list 'eglot-server-programs '(c-mode . ("ccls")))
-;;   (add-to-list 'eglot-server-programs '(c++-mode . ("ccls"))))
-(setq-default eglot-workspace-configuration
-              '((:rust-analyzer
-                 . ((cargo
-                     . ((features . "all")))
-                    (diagnostics
-                     . ((experimental
-                         . ((enable . :json-false)))))
-                    (checkOnSave
-                     . t)))))
-;; THIS WAY DOESN'T WORK NO MATTER WHAT I TRY IDK WHY PLS HELP
-;; (with-eval-after-load 'eglot
-;;   (add-to-list 'eglot-server-programs
-;;                `(rustic-mode . ("rust-analyzer" :initializationOptions
-;;                               (:cargo (:features "all"))))))
-(setq eglot-ignored-server-capabilities
-      '(:documentOnTypeFormattingProvider))
-(add-to-list 'eglot-server-programs
-                 '((c-ts-mode c++-ts-mode c-mode c++-mode)
-                   . ("clangd"
-                      "-j=8"
-                      "--log=error"
-                      "--malloc-trim"
-                      "--background-index"
-                      "--clang-tidy"
-                      "--pch-storage=memory"
-                      "--header-insertion=never"
-                      "--header-insertion-decorators=0")))
 
 ;; keep asm programming sane
 (defun my-asm-newline-and-indent ()
