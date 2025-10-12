@@ -24,6 +24,7 @@
 (blink-cursor-mode 0)
 (electric-pair-mode 1)
 (setq dired-kill-when-opening-new-dired-buffer t)
+(setq mode-require-final-newline nil)
 
 ;; ;; 1) Disable Flymake’s built‑in triggers
 ;; (with-eval-after-load 'flymake
