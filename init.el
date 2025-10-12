@@ -114,6 +114,9 @@
 (setq c-basic-offset 4)
 (setq c-ts-mode-indent-offset 4)
 (setq c-ts-mode-indent-style 'bsd)
+(c-set-offset 'arglist-intro '+)
+(c-set-offset 'arglist-cont-nonempty '+)
+(c-set-offset 'arglist-close 0)
 
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
