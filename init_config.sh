@@ -9,14 +9,14 @@ if [[ "`uname -a`" == *"arch"* ]]; then
          gcc python python-pip zip p7zip wget git curl radare2 r2ghidra bc \
          openbsd-netcat ipython ruby rubygems mpv tmux fish ropper keychain \
          python-pwntools clang htop bat patchelf perf nasm binwalk minicom \
-         blender ltrace strace unrar rustup dunst feh acpi python-r2pipe \
+         ltrace strace unrar rustup dunst feh acpi python-r2pipe parallel \
          ttf-font-awesome lxappearance wine-staging xclip eza ripgrep dust \
          zsh alacritty gdb make cmake bear bash-completion man man-pages \
          qemu-full jdk-openjdk openjdk-doc openjdk-src tk fastfetch flatpak \
          riscv32-elf-binutils riscv32-elf-gdb riscv32-elf-newlib obs-studio \
-         riscv64-elf-binutils riscv64-elf-gcc riscv64-elf-gdb openssh \
+         riscv64-elf-binutils riscv64-elf-gcc riscv64-elf-gdb openssh stow \
          riscv64-elf-newlib riscv64-linux-gnu-binutils bash-language-server \
-         riscv64-linux-gnu-gcc riscv64-linux-gnu-gdb python-poetry \
+         riscv64-linux-gnu-gcc riscv64-linux-gnu-gdb python-poetry corectrl \
          riscv64-linux-gnu-glibc riscv64-linux-gnu-linux-api-headers \
          aarch64-linux-gnu-binutils aarch64-linux-gnu-gcc libreoffice-still \
          aarch64-linux-gnu-gdb aarch64-linux-gnu-glibc jedi-language-server \
@@ -24,7 +24,8 @@ if [[ "`uname -a`" == *"arch"* ]]; then
          python-virtualenv scrot fd one_gadget pwninit plocate aspell \
          aspell-pl aspell-uk aspell-en rizin rz-ghidra python-rzpipe \
          qemu-user-static-binfmt qemu-user-static rofi dmenu arandr \
-         ttf-jetbrains-mono-nerd dotnet-sdk dotnet-runtime dotnet-host
+         ttf-jetbrains-mono-nerd dotnet-sdk dotnet-runtime dotnet-host \
+         imagemagick
 fi
 
 
