@@ -308,6 +308,17 @@
   :defer t
   :config
   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
+(use-package typst-ts-mode
+  :custom
+  (typst-ts-watch-options "--open")
+  (typst-ts-mode-grammar-location (expand-file-name "tree-sitter/libtree-sitter-typst.so" user-emacs-directory))
+  (typst-ts-mode-enable-raw-blocks-highlight t)
+  :config
+  (keymap-set typst-ts-mode-map "C-c C-c" #'typst-ts-tmenu))
+(use-package websocket)
+(use-package typst-preview
+  :vc (:url "https://github.com/havarddj/typst-preview.el"
+       :rev :newest))
 (use-package csproj-mode
   :defer t)
 (use-package markdown-mode
@@ -434,6 +445,8 @@
   :ensure nil
   :bind (("C-x C-j" . dired-jump))
   :custom ((dired-listing-switches "-ahgo --group-directories-first")))
+
+(use-package zig-mode)
 
 (use-package eat
   :config
