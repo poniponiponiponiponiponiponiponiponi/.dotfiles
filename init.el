@@ -1,4 +1,4 @@
-;; Blessed are those who code in Emacs, for they shall inherit the flexibility of Lisp
+;; Blessed are those who code in Emacs
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -26,60 +26,9 @@
 (setq dired-kill-when-opening-new-dired-buffer t)
 (setq mode-require-final-newline nil)
 
-;; ;; 1) Disable Flymake’s built‑in triggers
-;; (with-eval-after-load 'flymake
-;;   ;; Never run at startup, idle, or on save automatically
-;;   (setq flymake-start-on-flymake-mode nil
-;;         flymake-no-changes-timeout nil
-;;         flymake-start-on-save-buffer nil))
 
-;; ;; 2) Define overlay‑clearing function
-;; (defun my/flymake-clear-overlays (_beg _end _len)
-;;   "Delete *all* Flymake diagnostic overlays in the current buffer."
-;;   (dolist (ov (overlays-in (point-min) (point-max)))
-;;     (when (overlay-get ov 'flymake-diagnostic)
-;;       (delete-overlay ov))))
-
-;; ;; 3) On entering Flymake mode, yank out *every* Flymake hook/timer,
-;; ;;    then add just our overlay‑clear on-change hook
-;; (defun my/flymake-disable-idle-and-hooks ()
-;;   ;; Remove the legacy and new on-change functions
-;;   (remove-hook 'after-change-functions #'flymake-after-change-function t)
-;;   (when (fboundp 'flymake--on-change)
-;;     (remove-hook 'after-change-functions #'flymake--on-change t))
-;;   ;; Cancel any idle timer Flymake scheduled
-;;   (when (fboundp 'cancel-function-timers)
-;;     (cancel-function-timers #'flymake--post-self-change))
-;;   ;; Now add our own clear‑on‑type
-;;   (add-hook 'after-change-functions
-;;             #'my/flymake-clear-overlays nil t))
-
-;; (add-hook 'flymake-mode-hook #'my/flymake-disable-idle-and-hooks)
-
-;; ;; 4) Only on save: clear old overlays *and* do a fresh Flymake pass
-;; (defun my/flymake-save-and-run ()
-;;   "Clear stale Flymake overlays and then start a new check."
-;;   (when (bound-and-true-p flymake-mode)
-;;     ;; immediately wipe old overlays
-;;     (my/flymake-clear-overlays nil nil nil)
-;;     ;; start Flymake now that the file is saved
-;;     ;; (flymake-start)
-;;     (run-with-timer
-;;      0.3               ;; delay in seconds
-;;      nil               ;; repeat interval (nil = run just once)
-;;      (lambda ()
-;;        ;; your code here
-;;        (flymake-start)))))
-
-;; (add-hook 'after-save-hook #'my/flymake-save-and-run)
-
-
-(global-set-key (kbd "M-Z") 'zap-up-to-char)
 (global-set-key (kbd "C-c RET") 'eshell)
-(global-set-key (kbd "<f5>") 'revert-buffer)
 (global-set-key [remap list-buffers] 'ibuffer)
-(global-set-key (kbd "C-v") (lambda () (interactive) (scroll-up-line 14)))
-(global-set-key (kbd "M-v") (lambda () (interactive) (scroll-down-line 14)))
 
 
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -99,9 +48,9 @@
 
 (setq eldoc-idle-delay 0.25)
 (setq-default display-line-numbers-type 'relative)
-(setq scroll-margin 2)
-(setq max-mini-window-height 11)
-(setq vertico-count 20)
+(setq scroll-margin 7)
+(setq max-mini-window-height 17)
+(setq vertico-count 27)
 (setq password-cache-expiry nil)
 (setq-default project-vc-extra-root-markers '(".project" "Cargo.toml"))
 
@@ -304,6 +253,7 @@
   (setq rustic-lsp-client 'eglot)
   :custom
   (rustic-cargo-use-last-stored-arguments t))
+(use-package zig-mode)
 (use-package yaml-mode
   :defer t
   :config
@@ -315,10 +265,12 @@
   (typst-ts-mode-enable-raw-blocks-highlight t)
   :config
   (keymap-set typst-ts-mode-map "C-c C-c" #'typst-ts-tmenu))
+
 (use-package websocket)
 (use-package typst-preview
   :vc (:url "https://github.com/havarddj/typst-preview.el"
-       :rev :newest))
+            :rev :newest))
+
 (use-package csproj-mode
   :defer t)
 (use-package markdown-mode
@@ -445,8 +397,6 @@
   :ensure nil
   :bind (("C-x C-j" . dired-jump))
   :custom ((dired-listing-switches "-ahgo --group-directories-first")))
-
-(use-package zig-mode)
 
 (use-package eat
   :config
