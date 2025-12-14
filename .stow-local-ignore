@@ -1,0 +1,7 @@
+/.gitignore
+/README.md
+/emacs-no-package.el
+/scripts
+/.git
+/.gitmodules
+/init_config.sh

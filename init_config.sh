@@ -39,32 +39,13 @@ do
     fi
 done
 
-mkdir -p ~/.config
-mkdir -p ~/.config/mpv
-mkdir -p ~/.config/tmux
-mkdir -p ~/.config/i3
-mkdir -p ~/.config/dunst
-mkdir -p ~/.config/snail
 mkdir -p ~/Projects
 mkdir -p ~/FOSS
 mkdir -p ~/.scripts
 mkdir -p ~/org
-mkdir -p ~/.emacs.d
-
-ln -sf "$DOTFILES_PATH/mpv.conf" ~/.config/mpv/mpv.conf
-ln -sf "$DOTFILES_PATH/pwninit_template.py" ~/.config/pwninit_template.py
-ln -sf "$DOTFILES_PATH/tmux.conf" ~/.config/tmux/tmux.conf
-ln -sf "$DOTFILES_PATH/alacritty.toml" ~/.config/alacritty.toml
-ln -sf "$DOTFILES_PATH/init.el" ~/.emacs.d/init.el
-ln -sf "$DOTFILES_PATH/.bashrc" ~/.bashrc
-ln -sf "$DOTFILES_PATH/i3_config" ~/.config/i3/config
-ln -sf "$DOTFILES_PATH/picom.conf" ~/.config/picom.conf
-ln -sf "$DOTFILES_PATH/dunstrc" ~/.config/dunst/dunstrc
-ln -sf "$DOTFILES_PATH/snail_config.py" ~/.config/snail/config.py
 
 git clone https://github.com/pwndbg/pwndbg ~/FOSS/pwndbg
 git clone https://github.com/push0ebp/sig-database ~/FOSS/sig-database
-git clone https://github.com/rexim/simpc-mode ~/FOSS/simpc-mode
 git clone https://aur.archlinux.org/paru.git ~/FOSS/paru
 git clone https://github.com/poniponiponiponiponiponiponiponiponi/stuff ~/Projects/stuff
 
