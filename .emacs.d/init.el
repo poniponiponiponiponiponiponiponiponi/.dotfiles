@@ -25,6 +25,7 @@
 (electric-pair-mode 1)
 (setq dired-kill-when-opening-new-dired-buffer t)
 (setq mode-require-final-newline nil)
+(setq initial-scratch-message nil)
 
 
 (global-set-key (kbd "C-c RET") 'eshell)
