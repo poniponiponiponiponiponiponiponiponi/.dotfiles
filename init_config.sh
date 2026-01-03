@@ -20,12 +20,12 @@ if [[ "`uname -a`" == *"arch"* ]]; then
          riscv64-linux-gnu-glibc riscv64-linux-gnu-linux-api-headers \
          aarch64-linux-gnu-binutils aarch64-linux-gnu-gcc libreoffice-still \
          aarch64-linux-gnu-gdb aarch64-linux-gnu-glibc jedi-language-server \
-         arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-gdb \
+         arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-gdb udiskie \
          python-virtualenv scrot fd one_gadget pwninit plocate aspell \
          aspell-pl aspell-uk aspell-en rizin rz-ghidra python-rzpipe \
          qemu-user-static-binfmt qemu-user-static rofi dmenu arandr \
          ttf-jetbrains-mono-nerd dotnet-sdk dotnet-runtime dotnet-host \
-         imagemagick
+         imagemagick xf86-input-evdev
 fi
 
 
