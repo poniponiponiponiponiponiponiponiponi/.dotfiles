@@ -369,7 +369,7 @@
 (use-package org
   :config
   (setq org-src-window-setup 'current-window)
-  (setq org-agenda-files '("~/org"))
+  (setq org-agenda-files '("~/Notes"))
   (setq org-image-actual-width (truncate (* (display-pixel-width) 0.2)))
   ;; (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
   (add-hook 'org-mode-hook '(lambda () (visual-line-mode 1)))
@@ -380,9 +380,9 @@
      (shell . t))))
 (use-package org-roam
   :config
-  (unless (file-exists-p "~/org")
+  (unless (file-exists-p "~/Notes/roam")
     (make-directory org-roam-directory t))
-  (setq org-roam-directory "~/org")
+  (setq org-roam-directory "~/Notes/roam")
   (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
   (org-roam-db-autosync-mode)
   :bind
