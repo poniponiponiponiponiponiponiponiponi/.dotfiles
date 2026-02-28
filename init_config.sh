@@ -46,14 +46,7 @@ mkdir -p ~/org
 
 git clone https://github.com/pwndbg/pwndbg ~/FOSS/pwndbg
 git clone https://github.com/push0ebp/sig-database ~/FOSS/sig-database
-git clone https://aur.archlinux.org/paru.git ~/FOSS/paru
-git clone https://github.com/poniponiponiponiponiponiponiponiponi/stuff ~/Projects/stuff
-
-if ! command -v paru; then
-    (cd ~/FOSS/paru && makepkg -si)
-fi
-
-paru -S imhex-bin
+#git clone https://github.com/poniponiponiponiponiponiponiponiponi/stuff ~/Projects/stuff
 
 #curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 #source "$HOME/.cargo/env"
@@ -89,12 +82,6 @@ if ! grep -q FONT /etc/vconsole.conf; then
     else
         echo "consolefont not found!"
     fi
-fi
-
-if ! grep -q "disassembly-flavor" ~/.gdbinit; then
-    echo "set disassembly-flavor att" >> ~/.gdbinit
-else
-    echo "disassembly-flavor is already set"
 fi
 
 sudo echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
