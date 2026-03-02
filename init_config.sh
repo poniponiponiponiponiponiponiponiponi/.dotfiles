@@ -150,16 +150,6 @@ sudo pacman -Syu --noconfirm \
     "${wine[@]}" \
     "${random[@]}"
 
-declare -a commands=("git" "gem" "pip" "curl")
-for command in "${commands[@]}"
-do
-    if ! command -v "$command" &> /dev/null; then
-        echo "NO ${command} DETECTED. Please make sure you have everything" \
-            "installed before proceeding."
-        exit 1
-    fi
-done
-
 mkdir -p ~/Projects
 mkdir -p ~/FOSS
 mkdir -p ~/org
