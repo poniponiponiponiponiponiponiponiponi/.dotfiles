@@ -25,7 +25,7 @@ if [[ "`uname -a`" == *"arch"* ]]; then
          aspell-pl aspell-uk aspell-en rizin rz-ghidra python-rzpipe \
          qemu-user-static-binfmt qemu-user-static rofi dmenu arandr \
          ttf-jetbrains-mono-nerd dotnet-sdk dotnet-runtime dotnet-host \
-         imagemagick xf86-input-evdev xorg-xinput
+         imagemagick xf86-input-evdev xorg-xinput i3blocks i3status i3-wm
 fi
 
 
