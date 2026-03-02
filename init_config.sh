@@ -8,137 +8,66 @@ if ! uname -a | grep -q arch; then
 fi
 
 fonts=(
-    ttf-dejavu
-    ttf-font-awesome
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    nerd-fonts
+    ttf-dejavu ttf-font-awesome noto-fonts noto-fonts-cjk noto-fonts-emoji nerd-fonts
     ttf-jetbrains-mono-nerd
 )
 dev=(
-    emacs
-    git
-    gcc
-    gdb
-    clang
-    musl
-    make
-    cmake
-    bear
-    python
-    python-pip
-    python-virtualenv
-    python-uv
-    python-poetry
-    ipython
-    jedi-language-server
-    ruby
-    rubygems
-    nasm
-    dotnet-sdk
-    dotnet-runtime
-    dotnet-host
-    jdk-openjdk
-    openjdk-doc
-    openjdk-src
-    tk
-    rustup
-    bash-completion
-    bash-language-server
+    emacs git gdb rustup
 
-    man
-    man-pages
+    gcc clang musl make cmake bear nasm
 
-    qemu-user-static-binfmt
-    qemu-user-static
-    qemu-full
+    python python-pip python-virtualenv python-uv python-poetry ipython jedi-language-server
 
-    riscv32-elf-binutils
-    riscv32-elf-gdb
-    riscv64-elf-binutils
-    riscv64-elf-gcc
-    riscv64-elf-gdb
-    riscv64-elf-newlib
-    riscv64-linux-gnu-binutils
-    riscv64-linux-gnu-gcc
-    riscv64-linux-gnu-gdb
-    riscv64-linux-gnu-glibc
-    riscv64-linux-gnu-linux-api-headers
-    aarch64-linux-gnu-binutils
-    aarch64-linux-gnu-gcc
-    aarch64-linux-gnu-gdb
-    aarch64-linux-gnu-glibc
-    arm-none-eabi-binutils
-    arm-none-eabi-gcc
-    arm-none-eabi-gdb
+    ruby rubygems
+
+    dotnet-sdk dotnet-runtime dotnet-host
+
+    jdk-openjdk openjdk-doc openjdk-src
+
+    bash-completion bash-language-server
+
+    man man-pages
+
+    qemu-user-static-binfmt qemu-user-static qemu-full
+
+    riscv32-elf-binutils riscv32-elf-gdb
+    riscv64-elf-binutils riscv64-elf-gcc riscv64-elf-gdb riscv64-elf-newlib
+    riscv64-linux-gnu-binutils riscv64-linux-gnu-gcc riscv64-linux-gnu-gdb
+    riscv64-linux-gnu-glibc riscv64-linux-gnu-linux-api-headers
+
+    aarch64-linux-gnu-binutils aarch64-linux-gnu-gcc aarch64-linux-gnu-gdb aarch64-linux-gnu-glibc
+
+    arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-gdb
 )
 utility=(
-    openssh
-    ripgrep
-    fd
-    dust
-    fastfetch
-    stow
-    screen
-    unzip
-    unrar
-    curl
-    htop
-    xclip
-    zip
-    p7zip
-    wget
-    bc
-    tldr
-    parallel
-    perf
-    minicom
-    arandr
-    keychain
-    feh
-    dunst
-    acpi
-    imagemagick
-    openbsd-netcat
-    plocate
-    flatpak
-    udiskie
-    scrot
+    openssh openbsd-netcat
+    ripgrep fd dust
+    unzip unrar zip p7zip
+    imagemagick scrot feh
+    curl wget
+
+    fastfetch stow screen htop xclip bc tldr parallel perf minicom arandr keychain dunst acpi
+    plocate flatpak udiskie
 )
 ctf=(
-    one_gadget
-    patchelf
-    pwninit
+    one_gadget patchelf pwninit ropper python-pwntools
+
+    ltrace strace
+
     binwalk
-    ropper
-    python-pwntools
-    ltrace
-    strace
 )
 gui_apps=(
-    firefox
-    gimp
-    alacritty
-    dmenu
-    mpv
-    obs-studio
-    lxappearance
-    corectrl
+    firefox gimp alacritty mpv obs-studio lxappearance corectrl
 )
 wine=(
     wine-staging
 )
 random=(
-    aspell
-    aspell-pl
-    aspell-uk
-    aspell-en
-    xf86-input-evdev
-    xorg-xinput
-    i3blocks
-    i3status
-    i3-wm
+    aspell aspell-pl aspell-uk aspell-en
+
+    xf86-input-evdev xorg-xinput
+
+    i3blocks i3status i3-wm dmenu i3lock
 )
 
 sudo pacman -Syu --noconfirm \
