@@ -380,9 +380,10 @@
      (shell . t))))
 (use-package org-roam
   :config
-  (unless (file-exists-p "~/Notes/roam")
+  (setq org-roam-directory (expand-file-name "~/Notes/roam"))
+  (unless (file-directory-p org-roam-directory)
     (make-directory org-roam-directory t))
-  (setq org-roam-directory "~/Notes/roam")
+
   (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
   (org-roam-db-autosync-mode)
   :bind

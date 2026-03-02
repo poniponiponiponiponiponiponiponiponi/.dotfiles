@@ -43,6 +43,7 @@ mkdir -p ~/Projects
 mkdir -p ~/FOSS
 mkdir -p ~/.scripts
 mkdir -p ~/org
+mkdir -p ~/Notes
 
 pushd ~/FOSS
 [ -d pwndbg ] || git clone https://github.com/pwndbg/pwndbg
