@@ -41,7 +41,6 @@ done
 
 mkdir -p ~/Projects
 mkdir -p ~/FOSS
-mkdir -p ~/.scripts
 mkdir -p ~/org
 mkdir -p ~/Notes
 
