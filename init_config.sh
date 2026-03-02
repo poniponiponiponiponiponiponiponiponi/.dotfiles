@@ -44,12 +44,12 @@ mkdir -p ~/FOSS
 mkdir -p ~/.scripts
 mkdir -p ~/org
 
-git clone https://github.com/pwndbg/pwndbg ~/FOSS/pwndbg
-git clone https://github.com/push0ebp/sig-database ~/FOSS/sig-database
-#git clone https://github.com/poniponiponiponiponiponiponiponiponi/stuff ~/Projects/stuff
+pushd ~/FOSS
+[ -d pwndbg ] || git clone https://github.com/pwndbg/pwndbg
+[ -d sig-database ] || git clone https://github.com/push0ebp/sig-database
+popd
 
-#curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-#source "$HOME/.cargo/env"
+rustup default stable
 rustup component add rustfmt
 rustup component add clippy
 rustup component add rust-analyzer
@@ -68,21 +68,8 @@ git config --global pull.ff only
 git config --global status.submodulesummary 1
 git config --global submodule.recurse true
 
-git config --global alias.co checkout
-git config --global alias.br branch
-git config --global alias.ci commit
-git config --global alias.st status
-
 sudo localectl set-x11-keymap pl
 sudo localectl set-x11-keymap "" "" "" ctrl:nocaps
-
-if ! grep -q FONT /etc/vconsole.conf; then
-    if [ -e "/usr/share/kbd/consolefonts/eurlatgr.psfu.gz" ]; then
-        echo "FONT=eurlatgr" >> /etc/vconsole.conf
-    else
-        echo "consolefont not found!"
-    fi
-fi
 
 sudo echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
 sudo echo "blacklist snd_pcsp" >> /etc/modprobe.d/nobeep.conf

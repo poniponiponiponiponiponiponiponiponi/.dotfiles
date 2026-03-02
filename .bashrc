@@ -5,13 +5,12 @@ alias nvim="emacsclient"
 alias nano="emacsclient"
 alias py="python"
 alias ipy="ipython"
-alias ls="eza"
-alias ll="eza -lah"
 
 # colors
 alias diff='diff --color=auto'
 alias grep='grep --color=auto'
 alias ip='ip -color=auto'
+alias ls='ls --color=auto'
 export LESS='-R --use-color -Dd+r$Du+b$'
 export MANPAGER="less -R --use-color -Dd+r -Du+b"
 export MANROFFOPT="-P -c"
@@ -23,7 +22,7 @@ export EDITOR=emacsclient
 export SSH_AUTH_SOCK=/run/user/1000/ssh-agent.socket
 
 export PATH="$PATH:$HOME/.cargo/bin"
-export PATH="$PATH:$HOME/.local/share/gem/ruby/3.3.0/bin"
+export PATH="$PATH:$HOME/.local/share/gem/ruby/3.4.0/bin"
 export PATH="$PATH:$HOME/.dotfiles/scripts"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:/usr/lib/rustup/bin"
