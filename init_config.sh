@@ -192,5 +192,5 @@ git config --global submodule.recurse true
 sudo localectl set-x11-keymap pl
 sudo localectl set-x11-keymap "" "" "" ctrl:nocaps
 
-sudo echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
-sudo echo "blacklist snd_pcsp" >> /etc/modprobe.d/nobeep.conf
+echo "blacklist pcspkr" | sudo tee /etc/modprobe.d/nobeep.conf
+echo "blacklist snd_pcsp" | sudo tee -a /etc/modprobe.d/nobeep.conf
