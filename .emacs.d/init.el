@@ -405,7 +405,9 @@
   (add-hook 'eat-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
   (add-hook 'eat-mode-hook (lambda () (display-line-numbers-mode 0)))
   (add-hook 'eshell-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
-  (add-hook 'eshell-mode-hook (lambda () (display-line-numbers-mode 0))))
+  (add-hook 'eshell-mode-hook (lambda () (display-line-numbers-mode 0)))
+  (custom-set-faces
+   '(eat-term-color-bright-blue ((t (:foreground "#5B9EFF"))))))
 
 (defun alacritty ()
     (interactive)
