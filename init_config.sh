@@ -2,32 +2,153 @@
 
 DOTFILES_PATH="$HOME/.dotfiles"
 
-
-if [[ "`uname -a`" == *"arch"* ]]; then
-    sudo pacman -Syu emacs firefox ttf-dejavu unzip mdbook musl screen \
-         noto-fonts noto-fonts-cjk noto-fonts-emoji nerd-fonts gimp tldr \
-         gcc python python-pip zip p7zip wget git curl radare2 r2ghidra bc \
-         openbsd-netcat ipython ruby rubygems mpv tmux fish ropper keychain \
-         python-pwntools clang htop bat patchelf perf nasm binwalk minicom \
-         ltrace strace unrar rustup dunst feh acpi python-r2pipe parallel \
-         ttf-font-awesome lxappearance wine-staging xclip eza ripgrep dust \
-         zsh alacritty gdb make cmake bear bash-completion man man-pages \
-         qemu-full jdk-openjdk openjdk-doc openjdk-src tk fastfetch flatpak \
-         riscv32-elf-binutils riscv32-elf-gdb riscv32-elf-newlib obs-studio \
-         riscv64-elf-binutils riscv64-elf-gcc riscv64-elf-gdb openssh stow \
-         riscv64-elf-newlib riscv64-linux-gnu-binutils bash-language-server \
-         riscv64-linux-gnu-gcc riscv64-linux-gnu-gdb python-poetry corectrl \
-         riscv64-linux-gnu-glibc riscv64-linux-gnu-linux-api-headers \
-         aarch64-linux-gnu-binutils aarch64-linux-gnu-gcc libreoffice-still \
-         aarch64-linux-gnu-gdb aarch64-linux-gnu-glibc jedi-language-server \
-         arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-gdb udiskie \
-         python-virtualenv scrot fd one_gadget pwninit plocate aspell \
-         aspell-pl aspell-uk aspell-en rizin rz-ghidra python-rzpipe \
-         qemu-user-static-binfmt qemu-user-static rofi dmenu arandr \
-         ttf-jetbrains-mono-nerd dotnet-sdk dotnet-runtime dotnet-host \
-         imagemagick xf86-input-evdev xorg-xinput i3blocks i3status i3-wm
+if ! uname -a | grep -q arch; then
+    echo "This is an Arch Linux only household"
+    exit 1
 fi
 
+fonts=(
+    ttf-dejavu
+    ttf-font-awesome
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    nerd-fonts
+    ttf-jetbrains-mono-nerd
+)
+dev=(
+    emacs
+    git
+    gcc
+    gdb
+    clang
+    musl
+    make
+    cmake
+    bear
+    python
+    python-pip
+    python-virtualenv
+    python-uv
+    python-poetry
+    ipython
+    jedi-language-server
+    ruby
+    rubygems
+    nasm
+    dotnet-sdk
+    dotnet-runtime
+    dotnet-host
+    jdk-openjdk
+    openjdk-doc
+    openjdk-src
+    tk
+    rustup
+    bash-completion
+    bash-language-server
+
+    man
+    man-pages
+
+    qemu-user-static-binfmt
+    qemu-user-static
+    qemu-full
+
+    riscv32-elf-binutils
+    riscv32-elf-gdb
+    riscv64-elf-binutils
+    riscv64-elf-gcc
+    riscv64-elf-gdb
+    riscv64-elf-newlib
+    riscv64-linux-gnu-binutils
+    riscv64-linux-gnu-gcc
+    riscv64-linux-gnu-gdb
+    riscv64-linux-gnu-glibc
+    riscv64-linux-gnu-linux-api-headers
+    aarch64-linux-gnu-binutils
+    aarch64-linux-gnu-gcc
+    aarch64-linux-gnu-gdb
+    aarch64-linux-gnu-glibc
+    arm-none-eabi-binutils
+    arm-none-eabi-gcc
+    arm-none-eabi-gdb
+)
+utility=(
+    openssh
+    ripgrep
+    fd
+    dust
+    fastfetch
+    stow
+    screen
+    unzip
+    unrar
+    curl
+    htop
+    xclip
+    zip
+    p7zip
+    wget
+    bc
+    tldr
+    parallel
+    perf
+    minicom
+    arandr
+    keychain
+    feh
+    dunst
+    acpi
+    imagemagick
+    openbsd-netcat
+    plocate
+    flatpak
+    udiskie
+    scrot
+)
+ctf=(
+    one_gadget
+    patchelf
+    pwninit
+    binwalk
+    ropper
+    python-pwntools
+    ltrace
+    strace
+)
+gui_apps=(
+    firefox
+    gimp
+    alacritty
+    dmenu
+    mpv
+    obs-studio
+    lxappearance
+    corectrl
+)
+wine=(
+    wine-staging
+)
+random=(
+    aspell
+    aspell-pl
+    aspell-uk
+    aspell-en
+    xf86-input-evdev
+    xorg-xinput
+    i3blocks
+    i3status
+    i3-wm
+)
+
+sudo pacman -Syu --noconfirm \
+    "${fonts[@]}" \
+    "${dev[@]}" \
+    "${utility[@]}" \
+    "${ctf[@]}" \
+    "${gui_apps[@]}" \
+    "${wine[@]}" \
+    "${random[@]}"
 
 declare -a commands=("git" "gem" "pip" "curl")
 for command in "${commands[@]}"
