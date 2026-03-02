@@ -62,7 +62,7 @@ bindsym $mod+Return exec --no-startup-id $term
 bindsym $mod+q kill
 
 #bindsym $mod+d exec --no-startup-id  fuzzel -b 282828ff -t ffffffff -s 689d68ff -S 1d2021ff -m b16286ff -M b16286ff -B 0 -r 0
-bindsym $mod+d exec --no-startup-id dmenu_run
+bindsym $mod+d exec --no-startup-id dmenu_run -nb "#282828" -nf "#ebdbb2" -sb "#83a598" -sf "#282828" -fn "JetBrainsMono Nerd Font:size=12"
 bindsym $mod+w exec --no-startup-id select_window.sh
 
 bindsym $mod+b focus left
