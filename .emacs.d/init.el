@@ -11,6 +11,7 @@
 
 (server-start)
 
+(delete-selection-mode 1)
 (global-auto-revert-mode 1)
 (column-number-mode 1)
 (global-subword-mode 1)
@@ -282,7 +283,16 @@
 (use-package htmlize
   :defer t)
 
-(use-package magit)
+(use-package magit
+  :config
+  (define-advice magit-push-current-to-upstream (:before (args) query-yes-or-no)
+    "Prompt for confirmation before permitting a push to upstream."
+    (when-let ((branch (magit-get-current-branch)))
+      (unless (yes-or-no-p (format "Push %s branch upstream to %s? "
+                                   branch
+                                   (or (magit-get-upstream-branch branch)
+                                       (magit-get "branch" branch "remote"))))
+        (user-error "Push to upstream aborted by user")))))
 (use-package diff-hl
   :config
   (transient-append-suffix 'magit-clone "-s"
@@ -444,3 +454,4 @@
 (define-key eshell-mode-map (kbd "C-r") 'consult-history)
 (setq eshell-history-size 999999)
 (setq eshell-hist-ignoredups t)
+(put 'dired-find-alternate-file 'disabled nil)
