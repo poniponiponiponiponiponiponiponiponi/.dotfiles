@@ -57,7 +57,7 @@ ctf=(
     binwalk
 )
 gui_apps=(
-    firefox gimp alacritty mpv obs-studio lxappearance corectrl
+    firefox gimp alacritty mpv obs-studio lxappearance corectrl qbittorrent
 )
 wine=(
     wine-staging
