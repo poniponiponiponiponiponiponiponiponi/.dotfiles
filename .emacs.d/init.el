@@ -13,6 +13,7 @@
 
 (delete-selection-mode 1)
 (global-auto-revert-mode 1)
+(setq auto-revert-interval 1)
 (column-number-mode 1)
 (global-subword-mode 1)
 (global-hl-line-mode 1)
@@ -21,7 +22,6 @@
 (scroll-bar-mode -1)
 (setq vc-follow-symlinks t)
 (global-display-line-numbers-mode)
-(add-hook 'prog-mode-hook #'whitespace-mode)
 (blink-cursor-mode 0)
 (electric-pair-mode 1)
 (setq dired-kill-when-opening-new-dired-buffer t)
@@ -38,15 +38,13 @@
   (with-temp-buffer (write-file "~/.emacs.d/custom.el")))
 (setq custom-file "~/.emacs.d/custom.el")
 (load-file custom-file)
-(setq auto-revert-verbose nil)
 (setq make-backup-files nil)
 (setq auto-save-default nil)
-(setq kill-buffer-query-functions nil)
 (setq sentence-end-double-space nil)
 (setq custom-safe-themes t)
 (setq whitespace-style '(face trailing tabs newline tab-mark))
-(setq enable-recursive-minibuffers t)
 (global-whitespace-mode)
+(setq enable-recursive-minibuffers t)
 
 (setq eldoc-idle-delay 0.25)
 (setq-default display-line-numbers-type 'relative)
@@ -120,7 +118,6 @@
   (rg-enable-default-bindings)
   (rg-enable-menu))
 (use-package which-key
-  :ensure nil
   :config
   (which-key-mode))
 (use-package avy
@@ -149,6 +146,8 @@
 (use-package spacemacs-theme
   :config
   (load-theme 'spacemacs-dark))
+(use-package rainbow-mode
+  :defer t)
 
 (set-cursor-color "#d33682")
 (set-face-attribute 'whitespace-trailing nil
@@ -157,10 +156,10 @@
 (custom-set-faces
  '(eglot-highlight-symbol-face ((t (:inherit bold :background "#29422d")))))
 
-(set-face-attribute 'mode-line nil
-                    :box '(:line-width (5 . 1) :color "#5d4d7a" :style nil))
-(set-face-attribute 'mode-line-inactive nil
-                    :box '(:line-width (5 . 1) :color "#5d4d7a" :style nil))
+;; (set-face-attribute 'mode-line nil
+;;                     :box '(:line-width (5 . 1) :color "#5d4d7a" :style nil))
+;; (set-face-attribute 'mode-line-inactive nil
+;;                     :box '(:line-width (5 . 1) :color "#5d4d7a" :style nil))
 
 
 ;; (use-package treesit-auto
@@ -169,28 +168,6 @@
 ;;   :config
 ;;   (treesit-auto-add-to-auto-mode-alist 'all)
 ;;   (global-treesit-auto-mode))
-;; (global-tree-sitter-mode)
-;;(setq major-mode-remap-defaults t)
-(setq treesit-language-source-alist
-   '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-     (cmake "https://github.com/uyha/tree-sitter-cmake")
-     (c "https://github.com/tree-sitter/tree-sitter-c")
-     (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-     (css "https://github.com/tree-sitter/tree-sitter-css")
-     (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-     (go "https://github.com/tree-sitter/tree-sitter-go")
-     (html "https://github.com/tree-sitter/tree-sitter-html")
-     (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-     (json "https://github.com/tree-sitter/tree-sitter-json")
-     (make "https://github.com/alemuller/tree-sitter-make")
-     (rust "https://github.com/tree-sitter/tree-sitter-rust")
-     (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-     (python "https://github.com/tree-sitter/tree-sitter-python")
-     (toml "https://github.com/tree-sitter/tree-sitter-toml")
-     (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-     (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-     (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
-
 
 (use-package eglot
   :ensure nil
@@ -222,30 +199,30 @@
 
 
 ;; keep asm programming sane
-(defun my-asm-newline-and-indent ()
-  (interactive)
-  (newline)
-  (indent-according-to-mode))
-(add-hook 'asm-mode-hook
-          (lambda ()
-            (setq-local comment-start "#")
-            (setq-local comment-add 0)
-            (setq-local comment-end "")
-            (setq-local comment-start-skip "#+\\s-*")
-            (electric-indent-local-mode -1)
-            (local-set-key (kbd "RET") #'my-asm-newline-and-indent)))
-(advice-add #'asm-comment :override #'self-insert-command)
-(setq asm-comment-char ?\#)
+;; (defun my-asm-newline-and-indent ()
+;;   (interactive)
+;;   (newline)
+;;   (indent-according-to-mode))
+;; (add-hook 'asm-mode-hook
+;;           (lambda ()
+;;             (setq-local comment-start "#")
+;;             (setq-local comment-add 0)
+;;             (setq-local comment-end "")
+;;             (setq-local comment-start-skip "#+\\s-*")
+;;             (electric-indent-local-mode -1)
+;;             (local-set-key (kbd "RET") #'my-asm-newline-and-indent)))
+;; (advice-add #'asm-comment :override #'self-insert-command)
+;; (setq asm-comment-char ?\#)
 
 ;; Keep the python indent inside string sane.
 ;; It is not perfect but good enough.
-(defun my-python-string-indent (orig-fun &rest args)
-  (let ((context (python-indent-context)))
-    (if (or (eq (car context) :inside-string)
-            (eq (car context) :inside-docstring))
-        (indent-relative)
-      (apply orig-fun args))))
-(advice-add 'python-indent-line :around #'my-python-string-indent)
+;; (defun my-python-string-indent (orig-fun &rest args)
+;;   (let ((context (python-indent-context)))
+;;     (if (or (eq (car context) :inside-string)
+;;             (eq (car context) :inside-docstring))
+;;         (indent-relative)
+;;       (apply orig-fun args))))
+;; (advice-add 'python-indent-line :around #'my-python-string-indent)
 
 (use-package rustic
   :defer t
