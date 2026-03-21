@@ -60,7 +60,7 @@ bindsym $mod+Return exec --no-startup-id $term
 bindsym $mod+q kill
 
 #bindsym $mod+d exec --no-startup-id  fuzzel -b 282828ff -t ffffffff -s 689d68ff -S 1d2021ff -m b16286ff -M b16286ff -B 0 -r 0
-bindsym $mod+d exec --no-startup-id dmenu_run -nb "#282828" -nf "#ebdbb2" -sb "#83a598" -sf "#282828" -fn "JetBrainsMono Nerd Font:size=12"
+bindsym $mod+d exec --no-startup-id dmenu_run -nb "#212026" -nf "#b2b2b2" -sb "#bc6ec5" -sf "#212026" -fn "JetBrainsMono Nerd Font:size=12"
 bindsym $mod+w exec --no-startup-id select_window.sh
 
 bindsym $mod+b focus left
@@ -140,69 +140,33 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-set $white #ffffff
-# colors from https://github.com/a-schaefers/i3-wm-gruvbox-theme
-# set primary gruvbox colorscheme colors
-set $bg #282828
-set $red #cc241d
-set $green #98971a
-set $yellow #d79921
-set $blue #458588
-set $purple #b16286
-set $aqua #689d68
-set $gray #a89984
-set $darkgray #1d2021
-
+set $white      #b2b2b2
+set $red        #f2241f
+set $green      #67b11d
+set $yellow     #b1951d
+set $blue       #4f97d7
+set $purple     #bc6ec5
+set $aqua       #2aa198
+set $gray       #585858
+set $darkgray   #212026
+set $darkpurple #211e2a
 
 bar {
-    strip_workspace_numbers yes
+        strip_workspace_numbers yes
     status_command i3blocks
-
     colors {
-        background $bg
-        # text color used for blocks that do not have a color specified.
-        statusline $yellow
-        # workspaces section            
-        #                    border  backgr. text
-        focused_workspace    $purple $purple $darkgray
-        inactive_workspace   $darkgray $darkgray $yellow
-        active_workspace     $darkgray $darkgray $yellow
-        urgent_workspace     $red $red $bg
+        background $darkgray
+        statusline $blue
+        #                    border   backgr.  text
+        focused_workspace    $purple   $purple    $darkgray
+        inactive_workspace   $darkgray $darkgray  $blue
+        active_workspace     $darkgray $darkgray  $blue
+        urgent_workspace     $red      $red       $bg
     }
 }
 
-#start of window title bars & borders section
-
-# green gruvbox
-# class                 border|backgr|text|indicator|child_border
-client.focused          $gray $gray $darkgray $purple $darkgray
-client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
-client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
-client.urgent           $red $red $white $red $red
-
-# blue gruvbox
-# class                 border|backgr|text|indicator|child_border
-#client.focused          $blue $blue $darkgray $purple $darkgray
-#client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
-#client.unfocused        $darkgray $darkgray $yellow $purple $darkgray
-#client.urgent           $red $red $white $red $red
-
-#end of window title bars & borders section
-
-# or input <identifier>
-#input "type:keyboard" {
-#    xkb_options ctrl:nocaps
-#}
-#
-#input type:mouse {
-#	accel_profile "flat"
-#	pointer_accel 0
-#	natural_scroll disabled
-#}
-#
-#input type:touchpad {
-#	tap disable
-#	natural_scroll disabled
-#	dwt enabled
-#	middle_emulation enabled
-#}
+# class                 border      backgr.     text    indicator  child_border
+client.focused          $purple     $darkpurple $white  $blue      $purple
+client.focused_inactive $darkgray   $darkgray   $gray   $aqua      $darkgray
+client.unfocused        $darkgray   $darkgray   $gray   $aqua      $darkgray
+client.urgent           $red        $red        $white  $red       $red
