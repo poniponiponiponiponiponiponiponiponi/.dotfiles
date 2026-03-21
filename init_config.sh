@@ -40,14 +40,15 @@ dev=(
     arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-gdb
 )
 utility=(
-    openssh openbsd-netcat
+    openssh openbsd-netcat inetutils
     ripgrep fd dust
     unzip unrar zip p7zip
     imagemagick scrot feh
     curl wget
+    picom
 
     fastfetch stow screen htop xclip bc tldr parallel perf minicom arandr keychain dunst acpi
-    plocate flatpak udiskie
+    plocate flatpak udiskie sysstat texinfo
 )
 ctf=(
     one_gadget patchelf pwninit ropper python-pwntools
@@ -57,7 +58,7 @@ ctf=(
     binwalk
 )
 gui_apps=(
-    firefox gimp alacritty mpv obs-studio lxappearance corectrl qbittorrent
+    firefox gimp alacritty mpv obs-studio lxappearance corectrl qbittorrent pavucontrol
 )
 wine=(
     wine-staging
