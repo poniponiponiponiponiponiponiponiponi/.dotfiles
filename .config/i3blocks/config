@@ -1,0 +1,22 @@
+[battery]
+command=~/.config/i3blocks/battery
+interval=5
+LABEL=BAT 
+
+[cpu_usage]
+command=~/.config/i3blocks/cpu_usage
+interval=3
+LABEL=CPU 
+
+[memory]
+command=~/.config/i3blocks/memory
+interval=1
+LABEL=RAM 
+
+[time]
+command=date '+%F %T '
+interval=1
+
+[idk]
+command=echo idk
+interval=1
