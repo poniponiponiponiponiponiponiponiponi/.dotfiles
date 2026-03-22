@@ -22,7 +22,7 @@ foreground = '#9aa7bd'
 # Colors the cursor will use if `custom_cursor_colors` is true
 [colors.cursor]
 text = '#232936'
-cursor = '#51617d'
+cursor = '#d33682'
 
 # Normal colors
 [colors.normal]
