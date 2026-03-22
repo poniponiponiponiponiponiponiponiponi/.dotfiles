@@ -8,8 +8,15 @@ command=~/.config/i3blocks/cpu_usage
 interval=3
 LABEL=CPU 
 
+[temperature]
+command=~/.config/i3blocks/temperature
+label=TEMP 
+interval=3
+SENSOR_CHIP="coretemp-isa-0000"
+
 [memory]
 command=~/.config/i3blocks/memory
+color=#bc6ec5
 interval=1
 LABEL=RAM 
 
