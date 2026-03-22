@@ -327,7 +327,7 @@
   (defun my/consult-fd (&optional include-dotfiles)
     (interactive "P")
     (if include-dotfiles
-        (let ((consult-fd-args "fd --full-path --type f -I --color=never"))
+        (let ((consult-fd-args "fd --full-path --type f -I --hidden --color=never"))
           (consult-fd))
       (consult-fd)))
 
