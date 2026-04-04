@@ -402,7 +402,10 @@
     (call-process "alacritty" nil 0 nil "--working-directory" (file-truename default-directory)))
 
 (use-package esh-mode
-  :ensure nil)
+  :ensure nil
+  :config
+  (require 'em-tramp)
+  (add-to-list 'eshell-modules-list 'eshell-tramp))
 (use-package eshell-syntax-highlighting
   :config
   (eshell-syntax-highlighting-global-mode +1))
