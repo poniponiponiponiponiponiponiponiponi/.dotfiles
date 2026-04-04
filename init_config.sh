@@ -1,7 +1,5 @@
 #!/bin/bash
 
-DOTFILES_PATH="$HOME/.dotfiles"
-
 if ! uname -a | grep -q arch; then
     echo "This is an Arch Linux only household"
     exit 1
@@ -24,7 +22,7 @@ dev=(
 
     jdk-openjdk openjdk-doc openjdk-src
 
-    bash-completion bash-language-server
+    bash-completion bash-language-server shellcheck
 
     man man-pages
 
@@ -85,10 +83,10 @@ mkdir -p ~/FOSS
 mkdir -p ~/org
 mkdir -p ~/Notes
 
-pushd ~/FOSS
+pushd ~/FOSS || exit
 [ -d pwndbg ] || git clone https://github.com/pwndbg/pwndbg
 [ -d sig-database ] || git clone https://github.com/push0ebp/sig-database
-popd
+popd || exit
 
 rustup default stable
 rustup component add rustfmt
