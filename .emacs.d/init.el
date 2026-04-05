@@ -366,35 +366,6 @@
   ("M-g m" . consult-mark)
   ("M-g k" . consult-global-mark))
 
-(use-package org
-  :config
-  (setq org-src-window-setup 'current-window)
-  (setq org-agenda-files '("~/Notes"))
-  (setq org-image-actual-width (truncate (* (display-pixel-width) 0.2)))
-  ;; (setq org-agenda-files (directory-files-recursively "~/org/" "\\.org$"))
-  (add-hook 'org-mode-hook '(lambda () (visual-line-mode 1)))
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((python . t)
-     (C . t)
-     (shell . t))))
-(use-package org-roam
-  :config
-  (setq org-roam-directory (expand-file-name "~/Notes/roam"))
-  (unless (file-directory-p org-roam-directory)
-    (make-directory org-roam-directory t))
-
-  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
-  (org-roam-db-autosync-mode)
-  :bind
-  (("C-c n l" . org-roam-buffer-toggle)
-   ("C-c n f" . org-roam-node-find)
-   ("C-c n g" . org-roam-graph)
-   ("C-c n i" . org-roam-node-insert)
-   ("C-c n c" . org-roam-capture)
-   ("C-c n j" . org-roam-dailies-capture-today)))
-(use-package org-download)
-
 (use-package dired
   :ensure nil
   :bind (("C-x C-j" . dired-jump))
