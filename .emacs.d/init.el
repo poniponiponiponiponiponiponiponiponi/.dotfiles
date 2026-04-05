@@ -275,6 +275,13 @@
   :init
   (global-corfu-mode))
 
+(use-package cape
+  :bind ("C-c p" . cape-prefix-map)
+  :init
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-elisp-block))
+
 (use-package xterm-color
   :config
   (setq compilation-environment '("TERM=xterm-256color"))
