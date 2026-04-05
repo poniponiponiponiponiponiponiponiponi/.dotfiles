@@ -285,17 +285,30 @@
   (with-eval-after-load 'magit-blame
     (advice-add 'magit-blame-process-sentinel :after #'my/after-magit-blame-process-sentinel)))
 
-(use-package corfu
-  ;; :custom
-  ;; (corfu-auto 1)
-  :init
-  (global-corfu-mode))
 
 (use-package cape
   :config
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible))
 
 (use-package crux)
+(use-package completion-preview
+  :ensure nil
+  :bind
+  ( :map completion-preview-active-mode-map
+    ("M-n" . completion-preview-next-candidate)
+    ("M-p" . completion-preview-prev-candidate)))
+(setq completions-format 'horizontal)
+(setq completions-sort 'historical)
+(setq completions-header-format nil)
+(setq completions-max-height 20)
+(setq completion-auto-select nil)
+;; (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
+;; (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+(define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
+(define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
+(advice-add 'minibuffer-choose-completion :after
+            (lambda (&rest _) (completion-in-region-mode -1)))
+(setq completion-show-help nil)
 
 (use-package xterm-color
   :config
