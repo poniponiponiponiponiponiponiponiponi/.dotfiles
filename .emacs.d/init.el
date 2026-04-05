@@ -299,9 +299,7 @@
 (use-package vertico
   :config
   (setq vertico-resize nil)
-  (vertico-mode 1)
-  (keymap-global-set "<f10>" #'tmm-menubar)
-  (advice-add #'tmm-add-prompt :after #'minibuffer-hide-completions))
+  (vertico-mode 1))
 (use-package marginalia
   :config
   (marginalia-mode 1))
