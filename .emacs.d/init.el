@@ -282,14 +282,19 @@
   (add-hook 'completion-at-point-functions #'cape-file)
   (add-hook 'completion-at-point-functions #'cape-elisp-block))
 
+;; handle colors in compilation mode if they are printed
 (use-package xterm-color
   :config
-  (setq compilation-environment '("TERM=xterm-256color"))
-
   (defun my/advice-compilation-filter (f proc string)
     (funcall f proc (xterm-color-filter string)))
-
   (advice-add 'compilation-filter :around #'my/advice-compilation-filter))
+
+(defun my/compilation-notify (buffer status)
+  (call-process "notify-send" nil nil nil
+                (buffer-name buffer) (string-trim status))
+  (call-process "paplay" nil nil nil
+                "/usr/share/sounds/freedesktop/stereo/bell.oga"))
+(add-hook 'compilation-finish-functions #'my/compilation-notify)
 
 (use-package vertico
   :config
