@@ -384,32 +384,33 @@
   :config
   (require 'em-tramp)
   (add-to-list 'eshell-modules-list 'eshell-tramp))
+
 (use-package eshell-syntax-highlighting
   :config
   (eshell-syntax-highlighting-global-mode +1))
-(defun my-eshell-mode-hook ()
-  (define-key eshell-hist-mode-map (kbd "M-s") nil))
-(add-hook 'eshell-mode-hook 'my-eshell-mode-hook)
 
 (defun my-eshell-prompt ()
-  (let* ((user (user-login-name))
-         (host (system-name))
-         (path (abbreviate-file-name (eshell/pwd))))
+  (let ((user (user-login-name))
+        (host (system-name))
+        (path (abbreviate-file-name (eshell/pwd))))
     (concat "[" user "@" host " " path "] λδ ")))
 
-(setq eshell-banner-message "")
-(setq eshell-prompt-function 'my-eshell-prompt)
-(setq eshell-prompt-regexp "^\\[.* λδ ")
+(setq eshell-banner-message ""
+      eshell-prompt-function 'my-eshell-prompt
+      eshell-prompt-regexp "^\\[.* λδ "
+      eshell-history-size 999999
+      eshell-hist-ignoredups t)
+
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (define-key eshell-mode-map (kbd "C-r") 'consult-history)
+            (define-key eshell-hist-mode-map (kbd "M-s") nil)))
 
 (add-hook 'eshell-first-time-mode-hook
           (lambda ()
-            (eshell/alias "pwninit" (concat
-                                     "pwninit --template-path="
-                                     (getenv "HOME")
-                                     "/.config/pwninit_template.py"))
+            (eshell/alias "pwninit"
+                          (concat "pwninit --template-path="
+                                  (expand-file-name "~/.config/pwninit_template.py")))
             (eshell/alias "py" "python")))
 
-(define-key eshell-mode-map (kbd "C-r") 'consult-history)
-(setq eshell-history-size 999999)
-(setq eshell-hist-ignoredups t)
 (put 'dired-find-alternate-file 'disabled nil)
