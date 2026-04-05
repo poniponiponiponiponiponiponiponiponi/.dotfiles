@@ -285,12 +285,6 @@
   (with-eval-after-load 'magit-blame
     (advice-add 'magit-blame-process-sentinel :after #'my/after-magit-blame-process-sentinel)))
 
-
-(use-package cape
-  :config
-  (advice-add 'eglot-completion-at-point :around #'cape-wrap-noninterruptible))
-
-(use-package crux)
 (use-package completion-preview
   :ensure nil
   :bind
