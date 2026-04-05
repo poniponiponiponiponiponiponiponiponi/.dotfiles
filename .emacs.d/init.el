@@ -99,11 +99,6 @@
   :config
   (gcmh-mode 1))
 
-;; Because everyone in my job thinks it's Vim when they touch my keyboard
-;; and they don't know how to use Emacs (debauchery!)
-(use-package evil
-  :defer t)
-
 (use-package virtualenvwrapper
   :config
   (venv-initialize-eshell))
@@ -120,9 +115,6 @@
 (use-package which-key
   :config
   (which-key-mode))
-(use-package avy
-  :bind
-  ("M-i" . avy-goto-char))
 
 (use-package sudo-edit)
 (use-package dashboard
@@ -155,12 +147,6 @@
                     :background "#212026")
 (custom-set-faces
  '(eglot-highlight-symbol-face ((t (:inherit bold :background "#29422d")))))
-
-;; (set-face-attribute 'mode-line nil
-;;                     :box '(:line-width (5 . 1) :color "#5d4d7a" :style nil))
-;; (set-face-attribute 'mode-line-inactive nil
-;;                     :box '(:line-width (5 . 1) :color "#5d4d7a" :style nil))
-
 
 ;; (use-package treesit-auto
 ;;   :custom
@@ -285,24 +271,9 @@
   (with-eval-after-load 'magit-blame
     (advice-add 'magit-blame-process-sentinel :after #'my/after-magit-blame-process-sentinel)))
 
-(use-package completion-preview
-  :ensure nil
-  :bind
-  ( :map completion-preview-active-mode-map
-    ("M-n" . completion-preview-next-candidate)
-    ("M-p" . completion-preview-prev-candidate)))
-(setq completions-format 'horizontal)
-(setq completions-sort 'historical)
-(setq completions-header-format nil)
-(setq completions-max-height 20)
-(setq completion-auto-select nil)
-;; (define-key minibuffer-mode-map (kbd "C-n") 'minibuffer-next-completion)
-;; (define-key minibuffer-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-(define-key completion-in-region-mode-map (kbd "C-n") 'minibuffer-next-completion)
-(define-key completion-in-region-mode-map (kbd "C-p") 'minibuffer-previous-completion)
-(advice-add 'minibuffer-choose-completion :after
-            (lambda (&rest _) (completion-in-region-mode -1)))
-(setq completion-show-help nil)
+(use-package corfu
+  :init
+  (global-corfu-mode))
 
 (use-package xterm-color
   :config
