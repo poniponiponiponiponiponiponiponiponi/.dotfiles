@@ -10,6 +10,8 @@ fonts=(
     ttf-jetbrains-mono-nerd
 )
 dev=(
+    base-devel
+
     emacs git gdb rustup
 
     gcc clang musl make cmake bear nasm
@@ -66,7 +68,7 @@ wine=(
 random=(
     aspell aspell-pl aspell-uk aspell-en
 
-    xf86-input-evdev xorg-xinput
+    xf86-input-evdev xorg-xinput xorg-apps
 
     i3blocks i3status i3-wm dmenu i3lock
 )
