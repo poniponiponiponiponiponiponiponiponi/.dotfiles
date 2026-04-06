@@ -18,6 +18,8 @@ dev=(
 
     ruby rubygems
 
+    docker
+
     dotnet-sdk dotnet-runtime dotnet-host
 
     jdk-openjdk openjdk-doc openjdk-src
@@ -109,6 +111,8 @@ git config --global submodule.recurse true
 
 sudo localectl set-x11-keymap pl
 sudo localectl set-x11-keymap "" "" "" ctrl:nocaps
+
+sudo systemctl enable docker
 
 echo "blacklist pcspkr" | sudo tee /etc/modprobe.d/nobeep.conf
 echo "blacklist snd_pcsp" | sudo tee -a /etc/modprobe.d/nobeep.conf
