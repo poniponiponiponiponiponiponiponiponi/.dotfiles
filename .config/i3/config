@@ -35,6 +35,8 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86MonBrightnessUp exec brightnessctl set 10%+
 bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
+# Workaround for when there are multiple sources
+bindsym XF86AudioMicMute exec pactl list short sources | awk '{print $2}' | xargs -I{} pactl set-source-mute {} toggle
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
