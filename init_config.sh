@@ -48,6 +48,7 @@ utility=(
     imagemagick scrot feh
     curl wget
     picom
+    brightnessctl
 
     fastfetch stow screen htop xclip bc tldr parallel perf minicom arandr keychain dunst acpi
     plocate flatpak udiskie sysstat texinfo
