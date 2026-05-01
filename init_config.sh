@@ -47,7 +47,7 @@ utility=(
     unzip unrar zip p7zip
     imagemagick scrot feh
     curl wget
-    picom
+    picom wmctrl
     brightnessctl
 
     fastfetch stow screen htop xclip bc tldr parallel perf minicom arandr keychain dunst acpi
