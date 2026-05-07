@@ -20,7 +20,7 @@ dev=(
 
     ruby rubygems
 
-    docker
+    docker docker-compose
 
     dotnet-sdk dotnet-runtime dotnet-host
 
