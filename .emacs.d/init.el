@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; Blessed are those who code in Emacs
 
 (require 'package)
@@ -24,10 +25,11 @@
 (global-display-line-numbers-mode)
 (blink-cursor-mode 0)
 (electric-pair-mode 1)
-(setq dired-kill-when-opening-new-dired-buffer t)
 (setq mode-require-final-newline nil)
 (setq initial-scratch-message nil)
 
+(setq ibuffer-human-readable-size t)
+(setq kill-region-dwim 'emacs-word)
 
 (global-set-key (kbd "C-c RET") 'eshell)
 (global-set-key [remap list-buffers] 'ibuffer)
@@ -105,43 +107,7 @@
 (use-package cmake-mode
   :defer t)
 
-;; (use-package yasnippet)
-;; Configure Tempel
-(use-package tempel
-  :bind (("M-+" . tempel-complete) ;; Alternative tempel-expand
-         ("M-*" . tempel-insert))
-
-  :init
-
-  ;; Setup completion at point
-  (defun tempel-setup-capf ()
-    ;; Add the Tempel Capf to `completion-at-point-functions'.  `tempel-expand'
-    ;; only triggers on exact matches. We add `tempel-expand' *before* the main
-    ;; programming mode Capf, such that it will be tried first.
-    (setq-local completion-at-point-functions
-                (cons #'tempel-expand completion-at-point-functions))
-
-    ;; Alternatively use `tempel-complete' if you want to see all matches.  Use
-    ;; a trigger prefix character in order to prevent Tempel from triggering
-    ;; unexpectly.
-    ;; (setq-local corfu-auto-trigger "/"
-    ;;             completion-at-point-functions
-    ;;             (cons (cape-capf-trigger #'tempel-complete ?/)
-    ;;                   completion-at-point-functions))
-  )
-
-  (add-hook 'conf-mode-hook 'tempel-setup-capf)
-  (add-hook 'prog-mode-hook 'tempel-setup-capf)
-  (add-hook 'text-mode-hook 'tempel-setup-capf)
-
-  ;; Optionally make the Tempel templates available to Abbrev,
-  ;; either locally or globally. `expand-abbrev' is bound to C-x '.
-  ;; (add-hook 'prog-mode-hook #'tempel-abbrev-mode)
-  ;; (global-tempel-abbrev-mode)
-  )
 (use-package org)
-
-
 (use-package rg
   :config
   (setq rg-group-result nil)
@@ -151,21 +117,10 @@
   :config
   (which-key-mode))
 
-(use-package sudo-edit)
 (use-package dashboard
   :config
   (dashboard-setup-startup-hook))
 
-(use-package indent-bars
-  :config
-  (require 'indent-bars-ts)
-  ;; :custom
-  ;; (indent-bars-treesit-support t)
-  ;; (indent-bars-treesit-ignore-blank-lines-types '("module"))
-  :hook ((prog-mode . (lambda ()
-                        (if (derived-mode-p 'prog-mode)
-                            (unless (derived-mode-p 'emacs-lisp-mode)
-                              (indent-bars-mode)))))))
 (use-package rainbow-delimiters
   :config
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
@@ -173,8 +128,6 @@
 (use-package spacemacs-theme
   :config
   (load-theme 'spacemacs-dark))
-(use-package rainbow-mode
-  :defer t)
 
 (set-cursor-color "#d33682")
 (set-face-attribute 'whitespace-trailing nil
@@ -182,13 +135,6 @@
                     :background "#212026")
 (custom-set-faces
  '(eglot-highlight-symbol-face ((t (:inherit bold :background "#29422d")))))
-
-;; (use-package treesit-auto
-;;   :custom
-;;   (treesit-auto-install 'prompt)
-;;   :config
-;;   (treesit-auto-add-to-auto-mode-alist 'all)
-;;   (global-treesit-auto-mode))
 
 (use-package eglot
   :ensure nil
@@ -218,59 +164,6 @@
                     "--header-insertion=never"
                     "--header-insertion-decorators=0"))))
 
-
-;; keep asm programming sane
-;; (defun my-asm-newline-and-indent ()
-;;   (interactive)
-;;   (newline)
-;;   (indent-according-to-mode))
-;; (add-hook 'asm-mode-hook
-;;           (lambda ()
-;;             (setq-local comment-start "#")
-;;             (setq-local comment-add 0)
-;;             (setq-local comment-end "")
-;;             (setq-local comment-start-skip "#+\\s-*")
-;;             (electric-indent-local-mode -1)
-;;             (local-set-key (kbd "RET") #'my-asm-newline-and-indent)))
-;; (advice-add #'asm-comment :override #'self-insert-command)
-;; (setq asm-comment-char ?\#)
-
-;; Keep the python indent inside string sane.
-;; It is not perfect but good enough.
-;; (defun my-python-string-indent (orig-fun &rest args)
-;;   (let ((context (python-indent-context)))
-;;     (if (or (eq (car context) :inside-string)
-;;             (eq (car context) :inside-docstring))
-;;         (indent-relative)
-;;       (apply orig-fun args))))
-;; (advice-add 'python-indent-line :around #'my-python-string-indent)
-
-(use-package rustic
-  :defer t
-  :ensure t
-  :config
-  (setq rustic-format-on-save nil)
-  (setq rustic-lsp-client 'eglot)
-  :custom
-  (rustic-cargo-use-last-stored-arguments t))
-(use-package zig-mode)
-(use-package yaml-mode
-  :defer t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
-(use-package typst-ts-mode
-  :custom
-  (typst-ts-watch-options "--open")
-  (typst-ts-mode-grammar-location (expand-file-name "tree-sitter/libtree-sitter-typst.so" user-emacs-directory))
-  (typst-ts-mode-enable-raw-blocks-highlight t)
-  :config
-  (keymap-set typst-ts-mode-map "C-c C-c" #'typst-ts-tmenu))
-
-(use-package websocket)
-(use-package typst-preview
-  :vc (:url "https://github.com/havarddj/typst-preview.el"
-            :rev :newest))
-
 (use-package csproj-mode
   :defer t)
 (use-package markdown-mode
@@ -278,8 +171,6 @@
 (custom-set-variables
  '(markdown-command "/usr/bin/pandoc"))
 
-(use-package htmlize
-  :defer t)
 
 (use-package magit
   :config
@@ -306,24 +197,6 @@
   (with-eval-after-load 'magit-blame
     (advice-add 'magit-blame-process-sentinel :after #'my/after-magit-blame-process-sentinel)))
 
-(use-package corfu
-  :init
-  (global-corfu-mode))
-
-(use-package cape
-  :bind ("C-c p" . cape-prefix-map)
-  :init
-  (add-hook 'completion-at-point-functions #'cape-dabbrev)
-  (add-hook 'completion-at-point-functions #'cape-file)
-  (add-hook 'completion-at-point-functions #'cape-elisp-block))
-
-;; handle colors in compilation mode if they are printed
-(use-package xterm-color
-  :config
-  (defun my/advice-compilation-filter (f proc string)
-    (funcall f proc (xterm-color-filter string)))
-  (advice-add 'compilation-filter :around #'my/advice-compilation-filter))
-
 (defun my/compilation-notify (buffer status)
   (call-process "notify-send" nil nil nil
                 (buffer-name buffer) (string-trim status))
@@ -331,16 +204,31 @@
                 "/usr/share/sounds/freedesktop/stereo/bell.oga"))
 (add-hook 'compilation-finish-functions #'my/compilation-notify)
 
-(use-package vertico
-  :config
-  (setq vertico-resize nil)
-  (vertico-mode 1))
-(use-package marginalia
-  :config
-  (marginalia-mode 1))
-(use-package orderless
-  :config
-  (setq completion-styles '(orderless basic)))
+(use-package minibuffer
+  :ensure nil
+  :bind (:map minibuffer-visible-completions-up-down-map
+            ("C-n" . minibuffer-next-completion)
+            ("C-p" . minibuffer-previous-completion))
+  :custom
+  (tab-always-indent 'complete)
+  (completion-auto-help t)
+  (completion-auto-select 'second-tab)
+  (completion-eager-update t)
+  (completion-eager-display t)
+  (minibuffer-visible-completions 'up-down)
+  (completion-ignore-case t)
+  (completion-show-help nil)
+  (completion-styles '(partial-completion flex initials))
+  (completions-detailed t)
+  ;; (completions-format 'one-column)
+  (completions-max-height 17)
+  (completions-sort 'historical)
+  (enable-recursive-minibuffers t)
+  (read-buffer-completion-ignore-case t)
+  (read-file-name-completion-ignore-case t))
+(keymap-set minibuffer-visible-completions-up-down-map "C-n"  (minibuffer-visible-completions--bind #'minibuffer-next-completion))
+(keymap-set minibuffer-visible-completions-up-down-map "C-p"  (minibuffer-visible-completions--bind #'minibuffer-previous-completion))
+
 (use-package consult
   :config
   (consult-customize
@@ -362,7 +250,7 @@
       (consult-ripgrep)))
 
   :bind
-  ("C-x b" . consult-buffer)
+  ;; ("C-x b" . consult-buffer)
   ("M-g i" . consult-imenu)
   ("M-g I" . consult-imenu-multi)
   ("M-s d" . my/consult-fd)
@@ -380,26 +268,28 @@
   :ensure nil
   :bind (("C-x C-j" . dired-jump))
   :custom ((dired-listing-switches "-ahgo --group-directories-first")))
-
-(use-package eat
-  :config
-  (eat-eshell-mode)
-  (add-hook 'eat-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
-  (add-hook 'eat-mode-hook (lambda () (display-line-numbers-mode 0)))
-  (add-hook 'eshell-mode-hook (lambda () (setq-local global-hl-line-mode nil)))
-  (add-hook 'eshell-mode-hook (lambda () (display-line-numbers-mode 0)))
-  (custom-set-faces
-   '(eat-term-color-bright-blue ((t (:foreground "#5B9EFF"))))))
+(setq dired-dwim-target t)
 
 (defun alacritty ()
     (interactive)
     (call-process "alacritty" nil 0 nil "--working-directory" (file-truename default-directory)))
+
+;; (setq treesit-auto-install-grammar 'always)
+;; (setq treesit-enabled-modes t)
 
 (use-package esh-mode
   :ensure nil
   :config
   (require 'em-tramp)
   (add-to-list 'eshell-modules-list 'eshell-tramp))
+
+(use-package ghostel
+  :ensure t)
+(require 'ghostel-eshell)
+(add-hook 'eshell-load-hook #'ghostel-eshell-visual-command-mode)
+(require 'ghostel-compile)
+(global-set-key (kbd "C-c c") #'ghostel-compile)
+(ghostel-comint-global-mode 1)
 
 (use-package eshell-syntax-highlighting
   :config
@@ -421,12 +311,5 @@
           (lambda ()
             (define-key eshell-mode-map (kbd "C-r") 'consult-history)
             (define-key eshell-hist-mode-map (kbd "M-s") nil)))
-
-(add-hook 'eshell-first-time-mode-hook
-          (lambda ()
-            (eshell/alias "pwninit"
-                          (concat "pwninit --template-path="
-                                  (expand-file-name "~/.config/pwninit_template.py")))
-            (eshell/alias "py" "python")))
 
 (put 'dired-find-alternate-file 'disabled nil)
