@@ -199,6 +199,7 @@
                                        (magit-get "branch" branch "remote"))))
         (user-error "Push to upstream aborted by user")))))
 (use-package diff-hl
+  :demand t
   :hook ((dired-mode . diff-hl-dired-mode))
   :config
   (transient-append-suffix 'magit-clone "-s"
