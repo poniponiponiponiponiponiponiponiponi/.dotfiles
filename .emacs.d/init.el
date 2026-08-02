@@ -56,6 +56,10 @@
 (setq password-cache-expiry nil)
 (setq-default project-vc-extra-root-markers '(".project" "Cargo.toml"))
 
+(setq magit-diff-fontify-hunk 'all)
+(setq magit-diff-specify-hunk-foreground nil)
+(setq magit-diff-use-indicator-faces t)
+
 ;; indentation
 (setq indent-tabs-mode nil)
 (setq-default indent-tabs-mode nil)
@@ -127,7 +131,19 @@
 
 (use-package spacemacs-theme
   :config
-  (load-theme 'spacemacs-dark))
+  (load-theme 'spacemacs-dark)
+  (custom-theme-set-faces
+   'user
+   '(magit-diff-added             ((t :inherit diff-added   :extend t)))
+   '(magit-diff-removed           ((t :inherit diff-removed :extend t)))
+   '(magit-diff-context           ((t :inherit diff-context :extend t)))
+   '(magit-diff-added-highlight   ((t :inherit diff-refine-added   :extend t)))
+   '(magit-diff-removed-highlight ((t :inherit diff-refine-removed :extend t)))
+   '(magit-diff-context-highlight ((t :inherit diff-context :extend t)))
+   '(magit-diff-hunk-heading      ((t :inherit diff-hunk-header)))
+   '(magit-diff-hunk-heading-highlight ((t :inherit diff-hunk-header :weight bold)))
+   '(magit-diff-file-heading      ((t :inherit diff-file-header)))
+   '(magit-diff-file-heading-highlight ((t :inherit diff-file-header :weight bold)))))
 
 (set-cursor-color "#d33682")
 (set-face-attribute 'whitespace-trailing nil
@@ -183,6 +199,7 @@
                                        (magit-get "branch" branch "remote"))))
         (user-error "Push to upstream aborted by user")))))
 (use-package diff-hl
+  :hook ((dired-mode . diff-hl-dired-mode))
   :config
   (transient-append-suffix 'magit-clone "-s"
     '("-r" "Recurse submodules" "--recurse-submodules"))
@@ -210,7 +227,6 @@
             ("C-n" . minibuffer-next-completion)
             ("C-p" . minibuffer-previous-completion))
   :custom
-  (tab-always-indent 'complete)
   (completion-auto-help t)
   (completion-auto-select 'second-tab)
   (completion-eager-update t)
@@ -218,12 +234,10 @@
   (minibuffer-visible-completions 'up-down)
   (completion-ignore-case t)
   (completion-show-help nil)
-  (completion-styles '(partial-completion flex initials))
+  (completion-styles '(partial-completion flex))
   (completions-detailed t)
-  ;; (completions-format 'one-column)
   (completions-max-height 17)
   (completions-sort 'historical)
-  (enable-recursive-minibuffers t)
   (read-buffer-completion-ignore-case t)
   (read-file-name-completion-ignore-case t))
 (keymap-set minibuffer-visible-completions-up-down-map "C-n"  (minibuffer-visible-completions--bind #'minibuffer-next-completion))
