@@ -151,6 +151,9 @@
                     :background "#212026")
 (custom-set-faces
  '(eglot-highlight-symbol-face ((t (:inherit bold :background "#29422d")))))
+(setq xref-search-program 'ripgrep)
+;; (use-package rg)
+;; (keymap-set project-prefix-map "g" #'rg-project)
 
 (use-package eglot
   :ensure nil
@@ -159,6 +162,7 @@
   ;; (setq eglot-events-buffer-config '(:size 0 :format full))
   ;; (setq eglot-events-buffer-size 0)
   ;; (setq eglot-connect-timeout 999)
+  (setopt eglot-code-action-indications '(margin))
   (add-hook 'prog-mode-hook 'eglot-ensure)
   (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode 0)))
   ;; THIS WAY DOESN'T WORK NO MATTER WHAT I TRY IDK WHY PLS HELP
