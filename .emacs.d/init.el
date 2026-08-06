@@ -34,6 +34,9 @@
 (global-set-key (kbd "C-c RET") 'eshell)
 (global-set-key [remap list-buffers] 'ibuffer)
 
+(setq savehist-additional-variables '(compile-command))
+(setq history-length 9999)
+(savehist-mode 1)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (unless (file-exists-p "~/.emacs.d/custom.el")
