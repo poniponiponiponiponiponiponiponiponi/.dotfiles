@@ -250,6 +250,9 @@
   (read-file-name-completion-ignore-case t))
 (keymap-set minibuffer-visible-completions-up-down-map "C-n"  (minibuffer-visible-completions--bind #'minibuffer-next-completion))
 (keymap-set minibuffer-visible-completions-up-down-map "C-p"  (minibuffer-visible-completions--bind #'minibuffer-previous-completion))
+;; a bug??
+(add-hook 'eshell-mode-hook
+          (lambda () (setq-local completion-eager-display nil)))
 
 (use-package consult
   :config
